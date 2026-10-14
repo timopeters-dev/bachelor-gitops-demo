@@ -59,6 +59,6 @@ spec:
     spec:
       containers:
       - name: web
-        image: nginx:kaputte-version-999
+        image: nginx:1.27-alpine
         ports:
         - containerPort: 80

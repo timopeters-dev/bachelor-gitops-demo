@@ -1,0 +1,19 @@
+name: Klassische Push-Pipeline (Referenzsystem)
+# Ereignisgesteuert: Startet NUR, wenn jemand etwas in Git ändert!
+on:
+  push:
+    branches: ["main"]
+jobs:
+  deploy-to-cluster:
+    runs-on: self-hosted # Läuft auf dem Zielrechner, um den lokalen Kind-Cluster zu erreichen
+    steps:
+      - name: 1. Code aus Git herunterladen
+        uses: actions/checkout@v4
+      - name: 2. Mit Admin-Schlüssel ("God-Mode") von außen in den Cluster pushen
+        env:
+          KUBECONFIG: ../admin-kubeconfig.yaml
+        run: |
+          kubectl apply -f app/manifest.yaml
+          kubectl rollout status deployment/database
+          kubectl rollout status deployment/backend-api
+          kubectl rollout status deployment/frontend

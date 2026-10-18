@@ -1,0 +1,103 @@
+# ==========================================
+# TIER 1: Datenbank (Redis)
+# ==========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  labels:
+    app: bachelor-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: db
+  template:
+    metadata:
+      labels:
+        tier: db
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.2-alpine
+          ports:
+            - containerPort: 6379
+          env:
+            - name: REDIS_AOF_ENABLED
+              value: "no"
+---
+# ==========================================
+# TIER 2: Backend-API (HTTP-Echo)
+# ==========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-api
+  labels:
+    app: bachelor-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: backend
+  template:
+    metadata:
+      labels:
+        tier: backend
+    spec:
+      containers:
+        - name: api
+          image: hashicorp/http-echo:1.0
+          args:
+            - "-text=API-Status: OK (Soll-Zustand)"
+          ports:
+            - containerPort: 5678
+---
+# ==========================================
+# TIER 3: Frontend (Nginx Webserver + Service)
+# ==========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: bachelor-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  labels:
+    app: bachelor-demo
+spec:
+  selector:
+    tier: frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

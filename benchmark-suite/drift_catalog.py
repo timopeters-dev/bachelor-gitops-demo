@@ -44,7 +44,7 @@ DRIFT_PATTERNS = {
     },
     "D8": {
         "name": "Schatten-Ressource eingeschleust (Unautorisierte ConfigMap mit App-Label)",
-        "cmd": "kubectl create configmap rogue-config --from-literal=geheimnis=123",
+        "cmd": "kubectl create configmap rogue-config --from-literal=geheimnis=123 && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite",
     },
     "D9": {
         "name": "Sicherheits-Eskalation (allowPrivilegeEscalation auf true setzen)",

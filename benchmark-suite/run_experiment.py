@@ -1,6 +1,8 @@
 import csv
+import logging
 import os
 import subprocess
+import sys
 import time
 
 # ==============================================================================
@@ -9,11 +11,33 @@ import time
 RUNS_PER_PATTERN = 1
 TIMEOUT_SECONDS = 30.0
 CSV_FILE = "results/drift_measurements.csv"
+LOG_FILE = "results/experiment_audit.log"
 
 
-def run_cmd(cmd):
-    """Führt einen Befehl im Terminal aus und gibt den Text-Output zurück."""
+for path in (CSV_FILE, LOG_FILE):
+    dir_name = os.path.dirname(path)
+    if dir_name:
+        os.makedirs(dir_name, exist_ok=True)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler(LOG_FILE, mode="w", encoding="utf-8"),
+        logging.StreamHandler(sys.stdout),
+    ],
+)
+
+
+def run_cmd(cmd, log_cmd=True):
+    """Loggt nur echte Aktionen (log_cmd=True), hält Polling-Schleifen aber schnell & sauber."""
+    if log_cmd:
+        logging.info(f"EXEC: {cmd}")
     res = subprocess.run(cmd, shell=True, text=True, capture_output=True)
+    if log_cmd and res.stdout.strip():
+        logging.info(f"STDOUT: {res.stdout.strip()}")
+    if log_cmd and res.stderr.strip():
+        logging.warning(f"STDERR: {res.stderr.strip()}")
     return res.returncode, res.stdout.strip(), res.stderr.strip()
 
 
@@ -76,7 +100,11 @@ SCENARIOS = {
     },
     "D8": {
         "name": "Schatten-Ressource (Rogue ConfigMap)",
-        "inject": "kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config app.kubernetes.io/instance=bachelor-3tier-app --overwrite",
+        "inject": (
+            "kubectl create configmap rogue-config --from-literal=hack=true && "
+            "kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && "
+            'kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite'
+        ),
         "verify": lambda: run_cmd("kubectl get configmap rogue-config")[0] != 0,
     },
     "D9": {
@@ -157,16 +185,16 @@ def wait_for_clean_argocd():
 
 
 def run_gitops_benchmark(results):
-    print("\n=======================================================")
-    print("STARTE MESSUNG: GITOPS-MODELL (ArgoCD Pull & Self-Heal)")
-    print("=======================================================")
+    logging.info("=======================================================")
+    logging.info("STARTE MESSUNG: GITOPS-MODELL (ArgoCD Pull & Self-Heal)")
+    logging.info("=======================================================")
     run_cmd("kubectl apply -f workloads/argocd-app.yaml")
     wait_for_clean_argocd()
 
     for pattern_id, data in SCENARIOS.items():
         for run in range(1, RUNS_PER_PATTERN + 1):
-            print(
-                f"\n[GitOps] Muster {pattern_id} ({data['name']}) - Lauf {run}/{RUNS_PER_PATTERN}"
+            logging.info(
+                f"[GitOps] Muster {pattern_id} ({data['name']}) - Lauf {run}/{RUNS_PER_PATTERN}"
             )
 
             # Sicherstellen, dass alles Synced ist, dann Self-Heal für Detection-Messung pausieren
@@ -194,7 +222,7 @@ def run_gitops_benchmark(results):
                         break
                     time.sleep(0.1)
 
-            print(f"  -> Drift erkannt: {detected} (Dauer: {detection_time}s)")
+            logging.info(f"  -> Drift erkannt: {detected} (Dauer: {detection_time}s)")
 
             # Reconciliation ohne künstlichen Backoff starten & Recovery messen
             t_start_recover = time.perf_counter()
@@ -210,7 +238,7 @@ def run_gitops_benchmark(results):
                     break
                 time.sleep(0.2)
 
-            print(
+            logging.info(
                 f"  -> Automatisch geheilt (Self-Heal): {recovered} (Dauer: {recovery_time}s)"
             )
 
@@ -228,9 +256,9 @@ def run_gitops_benchmark(results):
 
 
 def run_push_benchmark(results, cron_interval_sim=15.0):
-    print("\n=======================================================")
-    print("STARTE MESSUNG: REFERENZSYSTEM (Klassische Push-Pipeline)")
-    print("=======================================================")
+    logging.info("=======================================================")
+    logging.info("STARTE MESSUNG: REFERENZSYSTEM (Klassische Push-Pipeline)")
+    logging.info("=======================================================")
     run_cmd(
         'kubectl patch application bachelor-3tier-app -n argocd --type merge -p \'{"metadata":{"finalizers":null}}\''
     )
@@ -240,8 +268,8 @@ def run_push_benchmark(results, cron_interval_sim=15.0):
 
     for pattern_id, data in SCENARIOS.items():
         for run in range(1, RUNS_PER_PATTERN + 1):
-            print(
-                f"\n[Push-Pipeline] Muster {pattern_id} ({data['name']}) - Lauf {run}/{RUNS_PER_PATTERN}"
+            logging.info(
+                f"[Push-Pipeline] Muster {pattern_id} ({data['name']}) - Lauf {run}/{RUNS_PER_PATTERN}"
             )
 
             # Drift auslösen
@@ -262,7 +290,7 @@ def run_push_benchmark(results, cron_interval_sim=15.0):
                     break
                 time.sleep(0.2)
 
-            print(
+            logging.info(
                 f"  -> Durch Push-Lauf ('kubectl apply') behoben: {recovered} (Dauer: {recovery_time}s)"
             )
 
@@ -284,7 +312,6 @@ def run_push_benchmark(results, cron_interval_sim=15.0):
 
 
 if __name__ == "__main__":
-    os.makedirs("results", exist_ok=True)
     all_results = []
 
     run_gitops_benchmark(all_results)
@@ -306,4 +333,5 @@ if __name__ == "__main__":
         writer.writeheader()
         writer.writerows(all_results)
 
-    print(f"\nFERTIG! Alle Messdaten wurden in '{CSV_FILE}' gespeichert.")
+    logging.info(f"FERTIG! Alle Messdaten wurden in '{CSV_FILE}' gespeichert.")
+    logging.info(f"Audit-Log wurde in '{LOG_FILE}' gespeichert.")

@@ -1,14 +1,13 @@
 import csv
 import os
 import subprocess
-import sys
 import time
 
 # ==============================================================================
 # KONFIGURATION
 # ==============================================================================
 RUNS_PER_PATTERN = 1
-TIMEOUT_SECONDS = 25.0
+TIMEOUT_SECONDS = 30.0
 CSV_FILE = "results/drift_measurements.csv"
 
 
@@ -19,7 +18,7 @@ def run_cmd(cmd):
 
 
 # ==============================================================================
-# DEFINITION & PRÜFUNG DRIFT MUSTER
+# DEFINITION & PRÜFUNG DER 10 DRIFT-MUSTER
 # ==============================================================================
 SCENARIOS = {
     "D1": {
@@ -60,12 +59,12 @@ SCENARIOS = {
         "verify": lambda: run_cmd("kubectl get svc frontend-service")[0] == 0,
     },
     "D6": {
-        "name": "Env-Injection an Datenbank",
-        "inject": "kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true",
-        "verify": lambda: "UNBEFUGTER_ZUGRIFF"
-        not in run_cmd(
-            'kubectl get deploy database -o jsonpath="{.spec.template.spec.containers[0].env}"'
-        )[1],
+        "name": "Datenbank-Env-Manipulation (REDIS_AOF_ENABLED -> yes)",
+        "inject": "kubectl set env deployment/database REDIS_AOF_ENABLED=yes",
+        "verify": lambda: run_cmd(
+            'kubectl get deploy database -o jsonpath="{.spec.template.spec.containers[0].env[0].value}"'
+        )[1].replace('"', "")
+        == "no",
     },
     "D7": {
         "name": "Ressourcen-Limit-Drift (128Mi -> 512Mi)",
@@ -77,7 +76,7 @@ SCENARIOS = {
     },
     "D8": {
         "name": "Schatten-Ressource (Rogue ConfigMap)",
-        "inject": "kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config app.kubernetes.io/instance=bachelor-3tier-app",
+        "inject": "kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config app.kubernetes.io/instance=bachelor-3tier-app --overwrite",
         "verify": lambda: run_cmd("kubectl get configmap rogue-config")[0] != 0,
     },
     "D9": {
@@ -118,11 +117,43 @@ def get_argocd_sync_status():
     return out.replace('"', "")
 
 
-def force_clean_state():
-    """Stellt vor jedem Testlauf sicher, dass der Cluster zu 100 % sauber ist."""
+def wait_until_no_operation_running():
+    """Wartet kurz, falls ArgoCD gerade noch eine Sync-Operation abschließt."""
+    for _ in range(40):
+        _, op_phase, _ = run_cmd(
+            'kubectl get application bachelor-3tier-app -n argocd -o jsonpath="{.status.operationState.phase}"'
+        )
+        if op_phase.replace('"', "") != "Running":
+            break
+        time.sleep(0.2)
+
+
+def trigger_argocd_reconciliation():
+    """Aktiviert Self-Heal und stößt den Reconciliation-Loop ohne Backoff-Wartezeit an."""
+    wait_until_no_operation_running()
+    set_argocd_selfheal(True)
+    patch = '{"operation":{"initiatedBy":{"username":"admin"},"sync":{"prune":true}}}'
+    run_cmd(
+        f"kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{patch}'"
+    )
+
+
+def wait_for_clean_argocd():
+    """Stellt vor jedem Testlauf sicher, dass keine alte Operation läuft und alles Synced ist."""
     run_cmd("kubectl delete configmap rogue-config --ignore-not-found")
-    run_cmd("kubectl replace --force -f workloads/base/manifest.yaml")
-    time.sleep(2)
+    wait_until_no_operation_running()
+    set_argocd_selfheal(True)
+    run_cmd(
+        "kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite"
+    )
+    for _ in range(50):
+        status = get_argocd_sync_status()
+        _, op_phase, _ = run_cmd(
+            'kubectl get application bachelor-3tier-app -n argocd -o jsonpath="{.status.operationState.phase}"'
+        )
+        if status == "Synced" and op_phase.replace('"', "") != "Running":
+            break
+        time.sleep(0.3)
 
 
 def run_gitops_benchmark(results):
@@ -130,7 +161,7 @@ def run_gitops_benchmark(results):
     print("STARTE MESSUNG: GITOPS-MODELL (ArgoCD Pull & Self-Heal)")
     print("=======================================================")
     run_cmd("kubectl apply -f workloads/argocd-app.yaml")
-    time.sleep(3)
+    wait_for_clean_argocd()
 
     for pattern_id, data in SCENARIOS.items():
         for run in range(1, RUNS_PER_PATTERN + 1):
@@ -138,9 +169,10 @@ def run_gitops_benchmark(results):
                 f"\n[GitOps] Muster {pattern_id} ({data['name']}) - Lauf {run}/{RUNS_PER_PATTERN}"
             )
 
-            # Self-Heal kurz pausieren, um Detection Time sauber zu messen
+            # Sicherstellen, dass alles Synced ist, dann Self-Heal für Detection-Messung pausieren
+            wait_for_clean_argocd()
             set_argocd_selfheal(False)
-            time.sleep(1)
+            time.sleep(0.5)
 
             # Drift auslösen & Stoppuhr für Detection starten
             run_cmd(data["inject"])
@@ -148,12 +180,10 @@ def run_gitops_benchmark(results):
             detected = False
             detection_time = None
 
-            # Bei D10 (Pod-Löschung) heilt Kubernetes selbst sofort (kein Config-Drift im Manifest)
             if pattern_id == "D10":
                 detected = True
                 detection_time = 0.1
             else:
-                # ArgoCD zwingen, den Cluster-State sofort zu prüfen
                 run_cmd(
                     "kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite"
                 )
@@ -166,12 +196,10 @@ def run_gitops_benchmark(results):
 
             print(f"  -> Drift erkannt: {detected} (Dauer: {detection_time}s)")
 
-            # Self-Healing aktivieren & Stoppuhr für Recovery starten
+            # Reconciliation ohne künstlichen Backoff starten & Recovery messen
             t_start_recover = time.perf_counter()
-            set_argocd_selfheal(True)
-            run_cmd(
-                "kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite"
-            )
+            if pattern_id != "D10":
+                trigger_argocd_reconciliation()
 
             recovered = False
             recovery_time = None
@@ -198,15 +226,11 @@ def run_gitops_benchmark(results):
                 }
             )
 
-            if not recovered:
-                force_clean_state()
-
 
 def run_push_benchmark(results, cron_interval_sim=15.0):
     print("\n=======================================================")
     print("STARTE MESSUNG: REFERENZSYSTEM (Klassische Push-Pipeline)")
     print("=======================================================")
-    # ArgoCD abschalten, um das Push-System isoliert messen zu können
     run_cmd(
         'kubectl patch application bachelor-3tier-app -n argocd --type merge -p \'{"metadata":{"finalizers":null}}\''
     )
@@ -222,14 +246,10 @@ def run_push_benchmark(results, cron_interval_sim=15.0):
 
             # Drift auslösen
             run_cmd(data["inject"])
-
-            # Eine Push-Pipeline hat KEINE aktive Drift-Erkennung im Laufzeitbetrieb!
-            # Wenn sie nur ereignisgesteuert läuft, ist Detection = False.
-            # Wenn ein festes Intervall (H1a) angenommen wird, entspricht die Wartezeit im Schnitt dem halben Intervall.
             detected = False
             detection_time = cron_interval_sim
 
-            # Was passiert, wenn die Push-Pipeline (`kubectl apply`) angestoßen wird?
+            # Push-Pipeline ('kubectl apply') ausführen
             t_start_recover = time.perf_counter()
             run_cmd("kubectl apply -f workloads/base/manifest.yaml")
 
@@ -259,7 +279,8 @@ def run_push_benchmark(results, cron_interval_sim=15.0):
             )
 
             if not recovered:
-                force_clean_state()
+                run_cmd("kubectl delete configmap rogue-config --ignore-not-found")
+                run_cmd("kubectl apply -f workloads/base/manifest.yaml")
 
 
 if __name__ == "__main__":
@@ -269,7 +290,6 @@ if __name__ == "__main__":
     run_gitops_benchmark(all_results)
     run_push_benchmark(all_results)
 
-    # Ergebnisse als CSV speichern
     with open(CSV_FILE, mode="w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(
             f,

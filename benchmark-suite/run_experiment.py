@@ -13,7 +13,6 @@ TIMEOUT_SECONDS = 30.0
 CSV_FILE = "results/drift_measurements.csv"
 LOG_FILE = "results/experiment_audit.log"
 
-
 for path in (CSV_FILE, LOG_FILE):
     dir_name = os.path.dirname(path)
     if dir_name:
@@ -30,7 +29,7 @@ logging.basicConfig(
 
 
 def run_cmd(cmd, log_cmd=True):
-    """Loggt nur echte Aktionen (log_cmd=True), hält Polling-Schleifen aber schnell & sauber."""
+    """Loggt nur echte Aktionen (log_cmd=True), hält Stoppuhr-Schleifen aber schnell & sauber."""
     if log_cmd:
         logging.info(f"EXEC: {cmd}")
     res = subprocess.run(cmd, shell=True, text=True, capture_output=True)
@@ -42,14 +41,15 @@ def run_cmd(cmd, log_cmd=True):
 
 
 # ==============================================================================
-# DEFINITION & PRÜFUNG DER 10 DRIFT-MUSTER
+# DEFINITION & PRÜFUNG DER 10 DRIFT-MUSTER (verify nutzt log_cmd=False)
 # ==============================================================================
 SCENARIOS = {
     "D1": {
         "name": "Replica-Drift (2 -> 5)",
         "inject": "kubectl scale deployment frontend --replicas=5",
         "verify": lambda: run_cmd(
-            'kubectl get deploy frontend -o jsonpath="{.spec.replicas}"'
+            'kubectl get deploy frontend -o jsonpath="{.spec.replicas}"',
+            log_cmd=False,
         )[1].replace('"', "")
         == "2",
     },
@@ -57,7 +57,8 @@ SCENARIOS = {
         "name": "Image-Version-Drift",
         "inject": "kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3",
         "verify": lambda: run_cmd(
-            'kubectl get deploy backend-api -o jsonpath="{.spec.template.spec.containers[0].image}"'
+            'kubectl get deploy backend-api -o jsonpath="{.spec.template.spec.containers[0].image}"',
+            log_cmd=False,
         )[1].replace('"', "")
         == "hashicorp/http-echo:1.0",
     },
@@ -66,27 +67,31 @@ SCENARIOS = {
         "inject": 'kubectl patch deployment backend-api --type=json -p="[{\\"op\\": \\"replace\\", \\"path\\": \\"/spec/template/spec/containers/0/args/0\\", \\"value\\": \\"-text=MANIPULIERT\\"}]"',
         "verify": lambda: "OK (Soll-Zustand)"
         in run_cmd(
-            'kubectl get deploy backend-api -o jsonpath="{.spec.template.spec.containers[0].args[0]}"'
+            'kubectl get deploy backend-api -o jsonpath="{.spec.template.spec.containers[0].args[0]}"',
+            log_cmd=False,
         )[1],
     },
     "D4": {
         "name": "Service-Port-Drift (80 -> 8080)",
         "inject": 'kubectl patch svc frontend-service --type=json -p="[{\\"op\\": \\"replace\\", \\"path\\": \\"/spec/ports/0/targetPort\\", \\"value\\": 8080}]"',
         "verify": lambda: run_cmd(
-            'kubectl get svc frontend-service -o jsonpath="{.spec.ports[0].targetPort}"'
+            'kubectl get svc frontend-service -o jsonpath="{.spec.ports[0].targetPort}"',
+            log_cmd=False,
         )[1].replace('"', "")
         == "80",
     },
     "D5": {
         "name": "Komponenten-Löschung (Service entfernt)",
         "inject": "kubectl delete svc frontend-service",
-        "verify": lambda: run_cmd("kubectl get svc frontend-service")[0] == 0,
+        "verify": lambda: run_cmd("kubectl get svc frontend-service", log_cmd=False)[0]
+        == 0,
     },
     "D6": {
         "name": "Datenbank-Env-Manipulation (REDIS_AOF_ENABLED -> yes)",
         "inject": "kubectl set env deployment/database REDIS_AOF_ENABLED=yes",
         "verify": lambda: run_cmd(
-            'kubectl get deploy database -o jsonpath="{.spec.template.spec.containers[0].env[0].value}"'
+            'kubectl get deploy database -o jsonpath="{.spec.template.spec.containers[0].env[0].value}"',
+            log_cmd=False,
         )[1].replace('"', "")
         == "no",
     },
@@ -94,7 +99,8 @@ SCENARIOS = {
         "name": "Ressourcen-Limit-Drift (128Mi -> 512Mi)",
         "inject": "kubectl set resources deployment/frontend -c=web --limits=memory=512Mi",
         "verify": lambda: run_cmd(
-            'kubectl get deploy frontend -o jsonpath="{.spec.template.spec.containers[0].resources.limits.memory}"'
+            'kubectl get deploy frontend -o jsonpath="{.spec.template.spec.containers[0].resources.limits.memory}"',
+            log_cmd=False,
         )[1].replace('"', "")
         == "128Mi",
     },
@@ -105,13 +111,17 @@ SCENARIOS = {
             "kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && "
             'kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite'
         ),
-        "verify": lambda: run_cmd("kubectl get configmap rogue-config")[0] != 0,
+        "verify": lambda: run_cmd("kubectl get configmap rogue-config", log_cmd=False)[
+            0
+        ]
+        != 0,
     },
     "D9": {
         "name": "SecurityContext-Eskalation",
         "inject": 'kubectl patch deployment frontend --type=json -p="[{\\"op\\": \\"replace\\", \\"path\\": \\"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation\\", \\"value\\": true}]"',
         "verify": lambda: run_cmd(
-            'kubectl get deploy frontend -o jsonpath="{.spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation}"'
+            'kubectl get deploy frontend -o jsonpath="{.spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation}"',
+            log_cmd=False,
         )[1].replace('"', "")
         == "false",
     },
@@ -119,7 +129,8 @@ SCENARIOS = {
         "name": "Pod-Ausfall im Betrieb (Laufzeit-Resilienz)",
         "inject": "kubectl delete pod -l tier=backend --wait=false",
         "verify": lambda: run_cmd(
-            'kubectl get deploy backend-api -o jsonpath="{.status.readyReplicas}"'
+            'kubectl get deploy backend-api -o jsonpath="{.status.readyReplicas}"',
+            log_cmd=False,
         )[1].replace('"', "")
         == "2",
     },
@@ -127,7 +138,6 @@ SCENARIOS = {
 
 
 def set_argocd_selfheal(enabled: bool):
-    """Schaltet Self-Healing in ArgoCD ein oder aus."""
     if enabled:
         patch = '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
     else:
@@ -138,18 +148,18 @@ def set_argocd_selfheal(enabled: bool):
 
 
 def get_argocd_sync_status():
-    """Liest den aktuellen Sync-Status (Synced / OutOfSync) aus ArgoCD aus."""
     _, out, _ = run_cmd(
-        'kubectl get application bachelor-3tier-app -n argocd -o jsonpath="{.status.sync.status}"'
+        'kubectl get application bachelor-3tier-app -n argocd -o jsonpath="{.status.sync.status}"',
+        log_cmd=False,
     )
     return out.replace('"', "")
 
 
 def wait_until_no_operation_running():
-    """Wartet kurz, falls ArgoCD gerade noch eine Sync-Operation abschließt."""
     for _ in range(40):
         _, op_phase, _ = run_cmd(
-            'kubectl get application bachelor-3tier-app -n argocd -o jsonpath="{.status.operationState.phase}"'
+            'kubectl get application bachelor-3tier-app -n argocd -o jsonpath="{.status.operationState.phase}"',
+            log_cmd=False,
         )
         if op_phase.replace('"', "") != "Running":
             break
@@ -157,7 +167,6 @@ def wait_until_no_operation_running():
 
 
 def trigger_argocd_reconciliation():
-    """Aktiviert Self-Heal und stößt den Reconciliation-Loop ohne Backoff-Wartezeit an."""
     wait_until_no_operation_running()
     set_argocd_selfheal(True)
     patch = '{"operation":{"initiatedBy":{"username":"admin"},"sync":{"prune":true}}}'
@@ -167,17 +176,18 @@ def trigger_argocd_reconciliation():
 
 
 def wait_for_clean_argocd():
-    """Stellt vor jedem Testlauf sicher, dass keine alte Operation läuft und alles Synced ist."""
-    run_cmd("kubectl delete configmap rogue-config --ignore-not-found")
+    run_cmd("kubectl delete configmap rogue-config --ignore-not-found", log_cmd=False)
     wait_until_no_operation_running()
     set_argocd_selfheal(True)
     run_cmd(
-        "kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite"
+        "kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite",
+        log_cmd=False,
     )
     for _ in range(50):
         status = get_argocd_sync_status()
         _, op_phase, _ = run_cmd(
-            'kubectl get application bachelor-3tier-app -n argocd -o jsonpath="{.status.operationState.phase}"'
+            'kubectl get application bachelor-3tier-app -n argocd -o jsonpath="{.status.operationState.phase}"',
+            log_cmd=False,
         )
         if status == "Synced" and op_phase.replace('"', "") != "Running":
             break
@@ -197,12 +207,10 @@ def run_gitops_benchmark(results):
                 f"[GitOps] Muster {pattern_id} ({data['name']}) - Lauf {run}/{RUNS_PER_PATTERN}"
             )
 
-            # Sicherstellen, dass alles Synced ist, dann Self-Heal für Detection-Messung pausieren
             wait_for_clean_argocd()
             set_argocd_selfheal(False)
             time.sleep(0.5)
 
-            # Drift auslösen & Stoppuhr für Detection starten
             run_cmd(data["inject"])
             t_start_detect = time.perf_counter()
             detected = False
@@ -224,7 +232,6 @@ def run_gitops_benchmark(results):
 
             logging.info(f"  -> Drift erkannt: {detected} (Dauer: {detection_time}s)")
 
-            # Reconciliation ohne künstlichen Backoff starten & Recovery messen
             t_start_recover = time.perf_counter()
             if pattern_id != "D10":
                 trigger_argocd_reconciliation()
@@ -272,12 +279,10 @@ def run_push_benchmark(results, cron_interval_sim=15.0):
                 f"[Push-Pipeline] Muster {pattern_id} ({data['name']}) - Lauf {run}/{RUNS_PER_PATTERN}"
             )
 
-            # Drift auslösen
             run_cmd(data["inject"])
             detected = False
             detection_time = cron_interval_sim
 
-            # Push-Pipeline ('kubectl apply') ausführen
             t_start_recover = time.perf_counter()
             run_cmd("kubectl apply -f workloads/base/manifest.yaml")
 
@@ -313,7 +318,6 @@ def run_push_benchmark(results, cron_interval_sim=15.0):
 
 if __name__ == "__main__":
     all_results = []
-
     run_gitops_benchmark(all_results)
     run_push_benchmark(all_results)
 

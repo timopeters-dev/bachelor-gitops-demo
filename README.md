@@ -75,7 +75,7 @@ Beide Deployment-Modelle werden auf identischer Infrastruktur anhand einer **3-T
 | **D7** | Ressourcen-Limit-Drift | `kubectl set resources deploy/frontend --limits=memory=512Mi` | Quality-of-Service (QoS) & Noisy-Neighbor-Schutz |
 | **D8** | Schatten-Ressource (*Shadow-IT*) | Einschleusen einer unautorisierten `ConfigMap` (`rogue-config`) | Bereinigung fremder Objekte (*Pruning*) |
 | **D9** | SecurityContext-Eskalation | `allowPrivilegeEscalation: false` $\rightarrow$ `true` | DevSecOps-Compliance & Privilegien-Schutz |
-| **D10** | Pod-Ausfall im Live-Betrieb | `kubectl delete pod -l tier=backend` | Abgrenzung K8s-ReplicaSet vs. GitOps-Operator |
+| **D10** | Service-Selector-Drift (*Routing-Hijacking*) | `kubectl patch svc frontend-service ...` (tier: frontend $\rightarrow$ backend) | Netzwerk- & Routing-Integrität (Traffic-Umleitung) |
 
 ---
 

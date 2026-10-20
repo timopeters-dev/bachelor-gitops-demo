@@ -8,12 +8,11 @@ import seaborn as sns
 from scipy.stats import mannwhitneyu
 
 # ==============================================================================
-# KONFIGURATION & DYNAMISCHE PFADE (Robust gegen Aufruf aus Sub- oder Root-Dir)
+# KONFIGURATION & DYNAMISCHE PFADE
 # ==============================================================================
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 
-# Sucht bevorzugt im Projekt-Root nach 'results', dann im Skriptverzeichnis
 if (PROJECT_ROOT / "results" / "drift_measurements.csv").exists():
     RESULTS_DIR = PROJECT_ROOT / "results"
 elif (SCRIPT_DIR / "results" / "drift_measurements.csv").exists():
@@ -31,7 +30,6 @@ SUMMARY_TXT = RESULTS_DIR / "statistical_summary.txt"
 
 os.makedirs(PLOTS_DIR, exist_ok=True)
 
-# Wissenschaftliches Farb- & Layout-Design (Farbenblind-sicher nach ColorBrewer Dark2)
 sns.set_theme(style="whitegrid", context="paper", font_scale=1.15)
 PALETTE = {"GitOps_ArgoCD": "#1b9e77", "Push_Pipeline": "#d95f02"}
 LABELS = {
@@ -69,6 +67,9 @@ def run_mwu_test(df, col, metric_label, log_lines):
     push = df[df["model"] == "Push_Pipeline"][col].dropna()
 
     if len(gitops) < 1 or len(push) < 1:
+        out = f"\nHypothesentest übersprungen: {metric_label} (Keine ausreichenden Daten in beiden Gruppen)"
+        print(out)
+        log_lines.append(out)
         return
 
     n_git = len(gitops)
@@ -112,27 +113,66 @@ def generate_all_evaluations():
     if os.path.exists(DRIFT_CSV):
         evaluated_modules.append("UF1 (Drift)")
         df_drift = pd.read_csv(DRIFT_CSV)
-        df_drift["model_label"] = df_drift["model"].map(LABELS).fillna(df_drift["model"])
+        df_drift["model_label"] = (
+            df_drift["model"].map(LABELS).fillna(df_drift["model"])
+        )
+
+        df_drift["detection_time_s"] = pd.to_numeric(
+            df_drift["detection_time_s"], errors="coerce"
+        )
+        has_cron_sim = "cron_sim_detection_s" in df_drift.columns
+        if has_cron_sim:
+            df_drift["cron_sim_detection_s"] = pd.to_numeric(
+                df_drift["cron_sim_detection_s"], errors="coerce"
+            )
 
         log_print("\n=================================================================")
         log_print("UF1: DESKRIPTIVE STATISTIK (DRIFT DETECTION & RECOVERY)")
         log_print("=================================================================")
 
-        desc_drift = df_drift.groupby("model").agg(
-            N=("pattern", "count"),
-            Detect_Rate_Pct=("detected", lambda s: round(s.mean() * 100, 1)),
-            Detect_Mean_s=("detection_time_s", lambda s: round(s.mean(), 3)),
-            Detect_Median_s=("detection_time_s", lambda s: round(s.median(), 3)),
-            Detect_Min_s=("detection_time_s", lambda s: round(s.min(), 3)),
-            Detect_Max_s=("detection_time_s", lambda s: round(s.max(), 3)),
-            Detect_Std_s=("detection_time_s", lambda s: round(s.std(), 3)),
-            Recover_Rate_Pct=("recovered", lambda s: round(s.mean() * 100, 1)),
-            Recover_Mean_s=("recovery_time_s", lambda s: round(s.mean(), 3)),
-            Recover_Median_s=("recovery_time_s", lambda s: round(s.median(), 3)),
-            Recover_Min_s=("recovery_time_s", lambda s: round(s.min(), 3)),
-            Recover_Max_s=("recovery_time_s", lambda s: round(s.max(), 3)),
-            Recover_Std_s=("recovery_time_s", lambda s: round(s.std(), 3)),
-        )
+        agg_dict = {
+            "N": ("pattern", "count"),
+            "Detect_Rate_Pct": ("detected", lambda s: round(s.mean() * 100, 1)),
+            "Detect_Mean_s": (
+                "detection_time_s",
+                lambda s: (
+                    round(s.dropna().mean(), 3) if len(s.dropna()) > 0 else np.nan
+                ),
+            ),
+            "Detect_Median_s": (
+                "detection_time_s",
+                lambda s: (
+                    round(s.dropna().median(), 3) if len(s.dropna()) > 0 else np.nan
+                ),
+            ),
+            "Detect_Min_s": (
+                "detection_time_s",
+                lambda s: round(s.dropna().min(), 3) if len(s.dropna()) > 0 else np.nan,
+            ),
+            "Detect_Max_s": (
+                "detection_time_s",
+                lambda s: round(s.dropna().max(), 3) if len(s.dropna()) > 0 else np.nan,
+            ),
+            "Detect_Std_s": (
+                "detection_time_s",
+                lambda s: round(s.dropna().std(), 3) if len(s.dropna()) > 1 else np.nan,
+            ),
+            "Recover_Rate_Pct": ("recovered", lambda s: round(s.mean() * 100, 1)),
+            "Recover_Mean_s": ("recovery_time_s", lambda s: round(s.mean(), 3)),
+            "Recover_Median_s": ("recovery_time_s", lambda s: round(s.median(), 3)),
+            "Recover_Min_s": ("recovery_time_s", lambda s: round(s.min(), 3)),
+            "Recover_Max_s": ("recovery_time_s", lambda s: round(s.max(), 3)),
+            "Recover_Std_s": ("recovery_time_s", lambda s: round(s.std(), 3)),
+        }
+        if has_cron_sim:
+            agg_dict["Cron_Sim_Mean_s"] = (
+                "cron_sim_detection_s",
+                lambda s: (
+                    round(s.dropna().mean(), 3) if len(s.dropna()) > 0 else np.nan
+                ),
+            )
+
+        desc_drift = df_drift.groupby("model").agg(**agg_dict)
         log_print(desc_drift.to_string())
 
         # Statistik nur für erfolgreich geheilte Muster (ohne Timeout-Verzerrung)
@@ -147,12 +187,22 @@ def generate_all_evaluations():
         )
         log_print(rec_only_stats.to_string())
 
-        run_mwu_test(
-            df_drift,
-            "detection_time_s",
-            "UF1 / H1a: Drift Detection Time (s)",
-            log_lines,
-        )
+        # Hypothesentest H1a: Wenn cron_sim_detection_s vorliegt, wird damit H1a getestet (stochastisches U(0,T))
+        if has_cron_sim:
+            run_mwu_test(
+                df_drift,
+                "cron_sim_detection_s",
+                "UF1 / H1a: Drift Detection Time (GitOps Event-Driven vs. Push-Cron T=60s)",
+                log_lines,
+            )
+        else:
+            run_mwu_test(
+                df_drift,
+                "detection_time_s",
+                "UF1 / H1a: Drift Detection Time (s)",
+                log_lines,
+            )
+
         run_mwu_test(
             df_drift,
             "recovery_time_s",
@@ -170,10 +220,17 @@ def generate_all_evaluations():
         # GRAFIK 1: UF1 Übersicht (Boxplot + Balkendiagramm D1-D10)
         # ----------------------------------------------------------------------
         fig, axes = plt.subplots(1, 2, figsize=(14, 5.5))
+        det_col = "cron_sim_detection_s" if has_cron_sim else "detection_time_s"
+        det_title = (
+            "H1a: Drift Detection Time (GitOps In-Cluster vs. Push-Intervall T=60s)"
+            if has_cron_sim
+            else "H1a: Verteilung der Drift Detection Time (s)"
+        )
+
         sns.boxplot(
             data=df_drift,
             x="model_label",
-            y="detection_time_s",
+            y=det_col,
             hue="model_label",
             ax=axes[0],
             palette=LABEL_PALETTE,
@@ -184,16 +241,14 @@ def generate_all_evaluations():
         sns.stripplot(
             data=df_drift,
             x="model_label",
-            y="detection_time_s",
+            y=det_col,
             ax=axes[0],
             color="black",
             size=6,
             jitter=True,
             alpha=0.7,
         )
-        axes[0].set_title(
-            "H1a: Verteilung der Drift Detection Time (s)", fontweight="bold"
-        )
+        axes[0].set_title(det_title, fontweight="bold")
         axes[0].set_xlabel("Deployment-Modell")
         axes[0].set_ylabel("Erkennungszeit (Sekunden)")
 
@@ -291,7 +346,10 @@ def generate_all_evaluations():
         pattern_order = [f"D{i}" for i in range(1, 11)]
         piv_det = (
             df_drift.pivot_table(
-                index="pattern", columns="model", values="detection_time_s", aggfunc="mean"
+                index="pattern",
+                columns="model",
+                values="detection_time_s",
+                aggfunc="mean",
             )
             .reindex(pattern_order)
             .rename(columns=LABELS)
@@ -312,7 +370,10 @@ def generate_all_evaluations():
 
         piv_rec = (
             df_drift.pivot_table(
-                index="pattern", columns="model", values="recovery_time_s", aggfunc="mean"
+                index="pattern",
+                columns="model",
+                values="recovery_time_s",
+                aggfunc="mean",
             )
             .reindex(pattern_order)
             .rename(columns=LABELS)
@@ -341,9 +402,11 @@ def generate_all_evaluations():
         fig, ax = plt.subplots(figsize=(9, 5))
         intervals = [5, 10, 15, 30, 60, 120, 300]
         expected_push_wait = [t / 2.0 for t in intervals]
-        gitops_mean_det = df_drift[df_drift["model"] == "GitOps_ArgoCD"][
-            "detection_time_s"
-        ].mean()
+        gitops_mean_det = (
+            df_drift[df_drift["model"] == "GitOps_ArgoCD"]["detection_time_s"]
+            .dropna()
+            .mean()
+        )
 
         ax.plot(
             intervals,
@@ -407,7 +470,10 @@ def generate_all_evaluations():
             MTTR_Median_s=("mttr_seconds", lambda s: round(s.median(), 3)),
             MTTR_Min_s=("mttr_seconds", lambda s: round(s.min(), 3)),
             MTTR_Max_s=("mttr_seconds", lambda s: round(s.max(), 3)),
-            MTTR_Std_s=("mttr_seconds", lambda s: round(s.std(), 3) if len(s) > 1 else np.nan),
+            MTTR_Std_s=(
+                "mttr_seconds",
+                lambda s: round(s.std(), 3) if len(s) > 1 else np.nan,
+            ),
             Manual_Steps=("manual_steps", "mean"),
         )
         log_print(desc_mttr.to_string())
@@ -429,7 +495,10 @@ def generate_all_evaluations():
             DR_Median_s=("recovery_duration_s", lambda s: round(s.median(), 2)),
             DR_Min_s=("recovery_duration_s", lambda s: round(s.min(), 2)),
             DR_Max_s=("recovery_duration_s", lambda s: round(s.max(), 2)),
-            DR_Std_s=("recovery_duration_s", lambda s: round(s.std(), 2) if len(s) > 1 else np.nan),
+            DR_Std_s=(
+                "recovery_duration_s",
+                lambda s: round(s.std(), 2) if len(s) > 1 else np.nan,
+            ),
             Manual_Steps=("manual_steps", "mean"),
         )
         log_print(desc_dr.to_string())
@@ -474,23 +543,40 @@ def generate_all_evaluations():
                 )
         axes[0].set_ylim(0, max(df_mttr["mttr_seconds"]) * 1.25)
 
-        # Panel 2: DR Phasen
+        # Panel 2: DR Phasen (Echte Messwerte aus CSV oder robuster Fallback)
         dr_models = [LABELS["GitOps_ArgoCD"], LABELS["Push_Pipeline"]]
-        git_dr_mean = df_dr[df_dr["model"] == "GitOps_ArgoCD"]["recovery_duration_s"].mean()
-        push_dr_mean = df_dr[df_dr["model"] == "Push_Pipeline"]["recovery_duration_s"].mean()
+        git_dr = df_dr[df_dr["model"] == "GitOps_ArgoCD"]
+        push_dr = df_dr[df_dr["model"] == "Push_Pipeline"]
 
-        # Dokumentierte Referenzzerlegung für Cluster-Provisioning & Operator-Setup
-        cluster_t = [42.0, 36.6]
-        operator_t = [65.26, 0.0]
-        git_sum_base = cluster_t[0] + operator_t[0]
-        workload_t_git = max(0.0, git_dr_mean - git_sum_base)
-        workload_t_push = max(0.0, push_dr_mean - cluster_t[1])
-        workload_t = [workload_t_git, workload_t_push]
+        if (
+            "phase1_cluster_s" in df_dr.columns
+            and not git_dr["phase1_cluster_s"].isna().all()
+        ):
+            cluster_t = [
+                round(git_dr["phase1_cluster_s"].mean(), 2),
+                round(push_dr["phase1_cluster_s"].mean(), 2),
+            ]
+            operator_t = [
+                round(git_dr["phase2_operator_s"].mean(), 2),
+                round(push_dr["phase2_operator_s"].mean(), 2),
+            ]
+            workload_t = [
+                round(git_dr["phase3_workload_s"].mean(), 2),
+                round(push_dr["phase3_workload_s"].mean(), 2),
+            ]
+        else:
+            # Fallback für historische Messungen
+            cluster_t = [42.0, 36.6]
+            operator_t = [65.26, 0.0]
+            workload_t = [
+                max(0.0, git_dr["recovery_duration_s"].mean() - 107.26),
+                max(0.0, push_dr["recovery_duration_s"].mean() - 36.6),
+            ]
 
         axes[1].bar(
             dr_models,
             cluster_t,
-            label="1. Cluster-Provisioning (Kind)",
+            label="1. Cluster-Provisioning (Terraform)",
             color="#377eb8",
             width=0.5,
         )
@@ -539,10 +625,22 @@ def generate_all_evaluations():
                 "Schritte": [
                     0,
                     1,
-                    int(df_mttr[df_mttr["model"] == "GitOps_ArgoCD"]["manual_steps"].mean()),
-                    int(df_mttr[df_mttr["model"] == "Push_Pipeline"]["manual_steps"].mean()),
-                    int(df_dr[df_dr["model"] == "GitOps_ArgoCD"]["manual_steps"].mean()),
-                    int(df_dr[df_dr["model"] == "Push_Pipeline"]["manual_steps"].mean()),
+                    int(
+                        df_mttr[df_mttr["model"] == "GitOps_ArgoCD"][
+                            "manual_steps"
+                        ].mean()
+                    ),
+                    int(
+                        df_mttr[df_mttr["model"] == "Push_Pipeline"][
+                            "manual_steps"
+                        ].mean()
+                    ),
+                    int(
+                        df_dr[df_dr["model"] == "GitOps_ArgoCD"]["manual_steps"].mean()
+                    ),
+                    int(
+                        df_dr[df_dr["model"] == "Push_Pipeline"]["manual_steps"].mean()
+                    ),
                 ],
             }
         )
@@ -566,7 +664,6 @@ def generate_all_evaluations():
         plt.savefig(f"{PLOTS_DIR}/fig5_uf2_uf3_mttr_dr_steps.png", dpi=300)
         plt.close()
     elif has_mttr:
-        # Fallback Einzelplot für MTTR
         fig, ax = plt.subplots(figsize=(6, 5))
         sns.barplot(
             data=df_mttr,
@@ -595,7 +692,6 @@ def generate_all_evaluations():
         plt.savefig(f"{PLOTS_DIR}/fig5_uf2_mttr_only.png", dpi=300)
         plt.close()
     elif has_dr:
-        # Fallback Einzelplot für DR
         fig, ax = plt.subplots(figsize=(6, 5))
         sns.barplot(
             data=df_dr,
@@ -679,7 +775,11 @@ def generate_all_evaluations():
     with open(SUMMARY_TXT, "w", encoding="utf-8") as f:
         f.write("\n".join(log_lines) + "\n")
 
-    mod_info = ", ".join(evaluated_modules) if evaluated_modules else "KEINE (Keine CSV-Dateien gefunden)"
+    mod_info = (
+        ", ".join(evaluated_modules)
+        if evaluated_modules
+        else "KEINE (Keine CSV-Dateien gefunden)"
+    )
     print(f"\n=================================================================")
     print(f"FERTIG! Evaluierte Module: {mod_info}")
     print(f"Grafiken gespeichert in: '{PLOTS_DIR}/'")

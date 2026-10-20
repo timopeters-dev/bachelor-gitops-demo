@@ -8,7 +8,7 @@ import time
 # ==============================================================================
 # KONFIGURATION FÜR UF2 / HYPOTHESE 2 (MTTR BEI FEHLERHAFTEM RELEASE)
 # ==============================================================================
-RUNS = 1  # Für finales Experiment auf 10 stellen
+RUNS = 1
 CSV_FILE = "results/mttr_measurements.csv"
 LOG_FILE = "results/mttr_audit.log"
 MANIFEST_PATH = "workloads/base/manifest.yaml"

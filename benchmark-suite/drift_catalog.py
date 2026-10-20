@@ -51,8 +51,8 @@ DRIFT_PATTERNS = {
         "cmd": 'kubectl patch deployment frontend --type=json -p="[{\\"op\\": \\"replace\\", \\"path\\": \\"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation\\", \\"value\\": true}]"',
     },
     "D10": {
-        "name": "Direkter Container-Abschuss (Pod-Löschung im Live-Betrieb)",
-        "cmd": "kubectl delete pod -l tier=backend --wait=false",
+        "name": "Service-Selector-Drift (Routing-Hijacking: tier=frontend -> tier=backend)",
+        "cmd": 'kubectl patch svc frontend-service --type=json -p="[{\\"op\\": \\"replace\\", \\"path\\": \\"/spec/selector/tier\\", \\"value\\": \\"backend\\"}]"',
     },
 }
 

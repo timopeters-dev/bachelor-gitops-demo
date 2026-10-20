@@ -4,3 +4,8 @@
 *.tfvars
 
 *kubeconfig*
+
+# Python Virtual Environments & Bytecode
+.venv/
+**/__pycache__/
+*.py[cod]

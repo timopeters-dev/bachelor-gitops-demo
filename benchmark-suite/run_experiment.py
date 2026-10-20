@@ -1,22 +1,31 @@
 import csv
 import logging
 import os
+import random
 import subprocess
 import sys
 import time
+from pathlib import Path
 
 # ==============================================================================
-# KONFIGURATION
+# KONFIGURATION FÜR UF1 (DRIFT DETECTION & RECOVERY)
 # ==============================================================================
 RUNS_PER_PATTERN = 1
 TIMEOUT_SECONDS = 30.0
-CSV_FILE = "results/drift_measurements.csv"
-LOG_FILE = "results/experiment_audit.log"
+PUSH_CRON_INTERVAL_S = 60.0  # Festes Ausführungsintervall T für Hypothese H1a
+RANDOM_SEED = 42  # Fester Seed für 100% reproduzierbare Zufallszeitpunkte
 
-for path in (CSV_FILE, LOG_FILE):
-    dir_name = os.path.dirname(path)
-    if dir_name:
-        os.makedirs(dir_name, exist_ok=True)
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+
+CSV_FILE = PROJECT_ROOT / "results" / "drift_measurements.csv"
+LOG_FILE = PROJECT_ROOT / "results" / "experiment_audit.log"
+MANIFEST_PATH = PROJECT_ROOT / "workloads" / "base" / "manifest.yaml"
+ARGOCD_APP_PATH = PROJECT_ROOT / "workloads" / "argocd-app.yaml"
+
+random.seed(RANDOM_SEED)
+
+os.makedirs(CSV_FILE.parent, exist_ok=True)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -29,7 +38,7 @@ logging.basicConfig(
 
 
 def run_cmd(cmd, log_cmd=True):
-    """Loggt nur echte Aktionen (log_cmd=True), hält Stoppuhr-Schleifen aber schnell & sauber."""
+    """Loggt echte Aktionen (log_cmd=True), hält Stoppuhr-Polls schnell & sauber."""
     if log_cmd:
         logging.info(f"EXEC: {cmd}")
     res = subprocess.run(cmd, shell=True, text=True, capture_output=True)
@@ -41,7 +50,7 @@ def run_cmd(cmd, log_cmd=True):
 
 
 # ==============================================================================
-# DEFINITION & PRÜFUNG DER 10 DRIFT-MUSTER (verify nutzt log_cmd=False)
+# DEFINITION DER DRIFT MUSTER
 # ==============================================================================
 SCENARIOS = {
     "D1": {
@@ -126,13 +135,13 @@ SCENARIOS = {
         == "false",
     },
     "D10": {
-        "name": "Pod-Ausfall im Betrieb (Laufzeit-Resilienz)",
-        "inject": "kubectl delete pod -l tier=backend --wait=false",
+        "name": "Service-Selector-Hijacking (tier=frontend -> tier=backend)",
+        "inject": 'kubectl patch svc frontend-service --type=json -p="[{\\"op\\": \\"replace\\", \\"path\\": \\"/spec/selector/tier\\", \\"value\\": \\"backend\\"}]"',
         "verify": lambda: run_cmd(
-            'kubectl get deploy backend-api -o jsonpath="{.status.readyReplicas}"',
+            'kubectl get svc frontend-service -o jsonpath="{.spec.selector.tier}"',
             log_cmd=False,
         )[1].replace('"', "")
-        == "2",
+        == "frontend",
     },
 }
 
@@ -198,7 +207,7 @@ def run_gitops_benchmark(results):
     logging.info("=======================================================")
     logging.info("STARTE MESSUNG: GITOPS-MODELL (ArgoCD Pull & Self-Heal)")
     logging.info("=======================================================")
-    run_cmd("kubectl apply -f workloads/argocd-app.yaml")
+    run_cmd(f"kubectl apply -f {ARGOCD_APP_PATH}")
     wait_for_clean_argocd()
 
     for pattern_id, data in SCENARIOS.items():
@@ -211,30 +220,27 @@ def run_gitops_benchmark(results):
             set_argocd_selfheal(False)
             time.sleep(0.5)
 
+            # 1. Drift injizieren & echte OutOfSync-Erkennung für ALLE 10 Muster messen
             run_cmd(data["inject"])
             t_start_detect = time.perf_counter()
             detected = False
             detection_time = None
 
-            if pattern_id == "D10":
-                detected = True
-                detection_time = 0.1
-            else:
-                run_cmd(
-                    "kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite"
-                )
-                while (time.perf_counter() - t_start_detect) < TIMEOUT_SECONDS:
-                    if get_argocd_sync_status() == "OutOfSync":
-                        detection_time = round(time.perf_counter() - t_start_detect, 3)
-                        detected = True
-                        break
-                    time.sleep(0.1)
+            run_cmd(
+                "kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite"
+            )
+            while (time.perf_counter() - t_start_detect) < TIMEOUT_SECONDS:
+                if get_argocd_sync_status() == "OutOfSync":
+                    detection_time = round(time.perf_counter() - t_start_detect, 3)
+                    detected = True
+                    break
+                time.sleep(0.1)
 
             logging.info(f"  -> Drift erkannt: {detected} (Dauer: {detection_time}s)")
 
+            # 2. Reconciliation starten & Recovery messen
             t_start_recover = time.perf_counter()
-            if pattern_id != "D10":
-                trigger_argocd_reconciliation()
+            trigger_argocd_reconciliation()
 
             recovered = False
             recovery_time = None
@@ -256,21 +262,24 @@ def run_gitops_benchmark(results):
                     "run": run,
                     "detected": 1 if detected else 0,
                     "detection_time_s": detection_time if detected else TIMEOUT_SECONDS,
+                    "cron_sim_detection_s": (
+                        detection_time if detected else TIMEOUT_SECONDS
+                    ),
                     "recovered": 1 if recovered else 0,
                     "recovery_time_s": recovery_time if recovered else TIMEOUT_SECONDS,
                 }
             )
 
 
-def run_push_benchmark(results, cron_interval_sim=15.0):
+def run_push_benchmark(results):
     logging.info("=======================================================")
     logging.info("STARTE MESSUNG: REFERENZSYSTEM (Klassische Push-Pipeline)")
     logging.info("=======================================================")
     run_cmd(
         'kubectl patch application bachelor-3tier-app -n argocd --type merge -p \'{"metadata":{"finalizers":null}}\''
     )
-    run_cmd("kubectl delete -f workloads/argocd-app.yaml --ignore-not-found")
-    run_cmd("kubectl apply -f workloads/base/manifest.yaml")
+    run_cmd(f"kubectl delete -f {ARGOCD_APP_PATH} --ignore-not-found")
+    run_cmd(f"kubectl apply -f {MANIFEST_PATH}")
     time.sleep(3)
 
     for pattern_id, data in SCENARIOS.items():
@@ -280,11 +289,17 @@ def run_push_benchmark(results, cron_interval_sim=15.0):
             )
 
             run_cmd(data["inject"])
+
+            # Ereignisgesteuerte Push-Pipeline hat KEINE aktive Laufzeit-Erkennung (0%, NaN)
             detected = False
-            detection_time = cron_interval_sim
+            detection_time = ""  # NaN in CSV für rein ereignisgesteuerte Push-Pipeline
+
+            # Für H1a (Push-Pipeline mit festem Ausführungsintervall T=60s):
+            # Zufälliger Eintrittszeitpunkt U(0.5, T) im Intervall
+            cron_wait_s = round(random.uniform(0.5, PUSH_CRON_INTERVAL_S), 3)
 
             t_start_recover = time.perf_counter()
-            run_cmd("kubectl apply -f workloads/base/manifest.yaml")
+            run_cmd(f"kubectl apply -f {MANIFEST_PATH}")
 
             recovered = False
             recovery_time = None
@@ -304,16 +319,20 @@ def run_push_benchmark(results, cron_interval_sim=15.0):
                     "model": "Push_Pipeline",
                     "pattern": pattern_id,
                     "run": run,
-                    "detected": 1 if detected else 0,
+                    "detected": 0,
                     "detection_time_s": detection_time,
+                    "cron_sim_detection_s": cron_wait_s,
                     "recovered": 1 if recovered else 0,
                     "recovery_time_s": recovery_time if recovered else TIMEOUT_SECONDS,
                 }
             )
 
             if not recovered:
-                run_cmd("kubectl delete configmap rogue-config --ignore-not-found")
-                run_cmd("kubectl apply -f workloads/base/manifest.yaml")
+                run_cmd(
+                    "kubectl delete configmap rogue-config --ignore-not-found",
+                    log_cmd=False,
+                )
+                run_cmd(f"kubectl apply -f {MANIFEST_PATH}", log_cmd=False)
 
 
 if __name__ == "__main__":
@@ -330,6 +349,7 @@ if __name__ == "__main__":
                 "run",
                 "detected",
                 "detection_time_s",
+                "cron_sim_detection_s",
                 "recovered",
                 "recovery_time_s",
             ],

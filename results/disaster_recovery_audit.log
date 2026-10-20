@@ -1,11 +1,69 @@
-2026-10-20 09:57:50,454 [INFO] =======================================================
-2026-10-20 09:57:50,454 [INFO] STARTE UF3-MESSUNG: GITOPS DISASTER RECOVERY (Terraform + ArgoCD)
-2026-10-20 09:57:50,454 [INFO] =======================================================
-2026-10-20 09:57:50,454 [INFO] 
-[GitOps DR] Simuliere Totalausfall (Lauf 1/1)...
-2026-10-20 09:57:57,359 [INFO]   -> Cluster komplett zerstört. Starte Wiederaufbau (Stoppuhr läuft)...
-2026-10-20 09:57:57,359 [INFO] EXEC: terraform -chdir=infrastructure apply -auto-approve
-2026-10-20 09:59:38,737 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+2026-10-20 17:36:07,427 [INFO] =======================================================
+2026-10-20 17:36:07,427 [INFO] STARTE UF3-MESSUNG: GITOPS DISASTER RECOVERY (Terraform + ArgoCD)
+2026-10-20 17:36:07,427 [INFO] =======================================================
+2026-10-20 17:36:07,427 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 1/10)...
+2026-10-20 17:36:15,091 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:36:15,091 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:36:52,071 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 36s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:36:52,072 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 36.98s
+2026-10-20 17:36:52,072 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:37:43,813 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
 plan. Resource actions are indicated with the following symbols:
   [32m+[0m create[0m
 
@@ -45,6 +103,31 @@ Terraform will perform the following actions:
       [32m+[0m[0m wait_for_jobs              = false
     }
 
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.argocd: Creating...[0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Creation complete after 48s [id=argocd][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:37:43,814 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 51.74s
+2026-10-20 17:37:43,814 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:37:44,006 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:37:44,007 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:38:01,596 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 17.78s
+2026-10-20 17:38:01,596 [INFO]   => GitOps Gesamtdauer: 106.51s
+2026-10-20 17:38:01,596 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 2/10)...
+2026-10-20 17:38:08,561 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:38:08,561 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:38:46,101 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
 [1m  # kind_cluster.bachelor_cluster[0m will be created
 [0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
       [32m+[0m[0m client_certificate     = (known after apply)
@@ -60,74 +143,1821 @@ Terraform will perform the following actions:
       [32m+[0m[0m wait_for_ready         = true
     }
 
-[1mPlan:[0m [0m2 to add, 0 to change, 0 to destroy.
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
 [0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
 [0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
 [0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
 [0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
-[0m[1mkind_cluster.bachelor_cluster: Creation complete after 40s [id=bachelor-demo-][0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 37s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:38:46,102 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 37.54s
+2026-10-20 17:38:46,102 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:39:38,651 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.argocd[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "argocd" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "argo-cd"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "argocd"
+      [32m+[0m[0m namespace                  = "argocd"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://argoproj.github.io/argo-helm"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "7.7.12"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.argocd: Creating...[0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Creation complete after 49s [id=argocd][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:39:38,652 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 52.55s
+2026-10-20 17:39:38,652 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:39:38,835 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:39:38,836 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:39:57,184 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 18.53s
+2026-10-20 17:39:57,184 [INFO]   => GitOps Gesamtdauer: 108.62s
+2026-10-20 17:39:57,184 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 3/10)...
+2026-10-20 17:40:04,163 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:40:04,164 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:40:43,762 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 39s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:40:43,762 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 39.6s
+2026-10-20 17:40:43,762 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:41:39,728 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.argocd[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "argocd" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "argo-cd"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "argocd"
+      [32m+[0m[0m namespace                  = "argocd"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://argoproj.github.io/argo-helm"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "7.7.12"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
 [0m[1mhelm_release.argocd: Creating...[0m[0m
 [0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
 [0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
 [0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
 [0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
 [0m[1mhelm_release.argocd: Still creating... [00m50s elapsed][0m[0m
-[0m[1mhelm_release.argocd: Creation complete after 59s [id=argocd][0m
+[0m[1mhelm_release.argocd: Creation complete after 52s [id=argocd][0m
 [0m[1m[32m
-Apply complete! Resources: 2 added, 0 changed, 0 destroyed.[0m
-2026-10-20 09:59:38,738 [INFO] EXEC: kubectl apply -f workloads/argocd-app.yaml
-2026-10-20 09:59:38,927 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
-2026-10-20 09:59:38,928 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
-2026-10-20 09:59:58,975 [INFO]   -> GitOps Umgebung vollständig wiederhergestellt in 121.62s!
-2026-10-20 09:59:58,975 [INFO] 
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:41:39,728 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 55.97s
+2026-10-20 17:41:39,729 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:41:39,928 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:41:39,928 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:41:56,646 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 16.92s
+2026-10-20 17:41:56,646 [INFO]   => GitOps Gesamtdauer: 112.48s
+2026-10-20 17:41:56,646 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 4/10)...
+2026-10-20 17:42:03,527 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:42:03,527 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:42:40,898 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 37s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:42:40,899 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 37.37s
+2026-10-20 17:42:40,900 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:43:35,633 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.argocd[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "argocd" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "argo-cd"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "argocd"
+      [32m+[0m[0m namespace                  = "argocd"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://argoproj.github.io/argo-helm"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "7.7.12"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.argocd: Creating...[0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m50s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Creation complete after 51s [id=argocd][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:43:35,633 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 54.73s
+2026-10-20 17:43:35,633 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:43:35,833 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:43:35,833 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:43:52,672 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 17.04s
+2026-10-20 17:43:52,672 [INFO]   => GitOps Gesamtdauer: 109.14s
+2026-10-20 17:43:52,672 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 5/10)...
+2026-10-20 17:43:59,560 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:43:59,561 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:44:39,188 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 39s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:44:39,188 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 39.63s
+2026-10-20 17:44:39,188 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:45:32,656 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.argocd[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "argocd" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "argo-cd"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "argocd"
+      [32m+[0m[0m namespace                  = "argocd"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://argoproj.github.io/argo-helm"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "7.7.12"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.argocd: Creating...[0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Creation complete after 49s [id=argocd][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:45:32,656 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 53.47s
+2026-10-20 17:45:32,656 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:45:32,832 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:45:32,832 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:45:51,340 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 18.68s
+2026-10-20 17:45:51,340 [INFO]   => GitOps Gesamtdauer: 111.78s
+2026-10-20 17:45:51,340 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 6/10)...
+2026-10-20 17:45:58,986 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:45:58,986 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:46:38,326 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 38s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:46:38,326 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 39.34s
+2026-10-20 17:46:38,326 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:47:33,947 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.argocd[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "argocd" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "argo-cd"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "argocd"
+      [32m+[0m[0m namespace                  = "argocd"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://argoproj.github.io/argo-helm"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "7.7.12"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.argocd: Creating...[0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m50s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Creation complete after 52s [id=argocd][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:47:33,947 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 55.62s
+2026-10-20 17:47:33,947 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:47:34,134 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:47:34,134 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:47:51,743 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 17.8s
+2026-10-20 17:47:51,743 [INFO]   => GitOps Gesamtdauer: 112.76s
+2026-10-20 17:47:51,743 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 7/10)...
+2026-10-20 17:47:59,072 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:47:59,072 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:48:36,406 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 36s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:48:36,407 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 37.33s
+2026-10-20 17:48:36,407 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:49:35,400 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.argocd[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "argocd" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "argo-cd"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "argocd"
+      [32m+[0m[0m namespace                  = "argocd"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://argoproj.github.io/argo-helm"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "7.7.12"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.argocd: Creating...[0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m50s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Creation complete after 55s [id=argocd][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:49:35,400 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 58.99s
+2026-10-20 17:49:35,400 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:49:35,615 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:49:35,616 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:49:53,274 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 17.87s
+2026-10-20 17:49:53,274 [INFO]   => GitOps Gesamtdauer: 114.2s
+2026-10-20 17:49:53,274 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 8/10)...
+2026-10-20 17:50:00,237 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:50:00,237 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:50:37,006 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 36s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:50:37,006 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 36.77s
+2026-10-20 17:50:37,006 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:51:32,795 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.argocd[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "argocd" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "argo-cd"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "argocd"
+      [32m+[0m[0m namespace                  = "argocd"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://argoproj.github.io/argo-helm"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "7.7.12"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.argocd: Creating...[0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m50s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Creation complete after 53s [id=argocd][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:51:32,795 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 55.79s
+2026-10-20 17:51:32,795 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:51:33,037 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:51:33,037 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:51:51,819 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 19.02s
+2026-10-20 17:51:51,819 [INFO]   => GitOps Gesamtdauer: 111.58s
+2026-10-20 17:51:51,819 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 9/10)...
+2026-10-20 17:51:58,383 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:51:58,383 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:52:35,986 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 37s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:52:35,987 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 37.6s
+2026-10-20 17:52:35,987 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:53:30,992 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.argocd[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "argocd" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "argo-cd"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "argocd"
+      [32m+[0m[0m namespace                  = "argocd"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://argoproj.github.io/argo-helm"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "7.7.12"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.argocd: Creating...[0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m50s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Creation complete after 51s [id=argocd][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:53:30,992 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 55.01s
+2026-10-20 17:53:30,992 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:53:31,177 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:53:31,178 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:53:49,025 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 18.03s
+2026-10-20 17:53:49,025 [INFO]   => GitOps Gesamtdauer: 110.64s
+2026-10-20 17:53:49,025 [INFO] 
+[GitOps DR] Simuliere Totalausfall (Lauf 10/10)...
+2026-10-20 17:53:55,679 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (GitOps)...
+2026-10-20 17:53:55,680 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:54:32,565 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 37s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:54:32,566 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 36.89s
+2026-10-20 17:54:32,566 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-10-20 17:55:28,543 [INFO] STDOUT: [0m[1mkind_cluster.bachelor_cluster: Refreshing state... [id=bachelor-demo-][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.argocd[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "argocd" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "argo-cd"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = true
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "argocd"
+      [32m+[0m[0m namespace                  = "argocd"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m repository                 = "https://argoproj.github.io/argo-helm"
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 300
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "7.7.12"
+      [32m+[0m[0m wait                       = true
+      [32m+[0m[0m wait_for_jobs              = false
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.argocd: Creating...[0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m10s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m20s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m30s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m40s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Still creating... [00m50s elapsed][0m[0m
+[0m[1mhelm_release.argocd: Creation complete after 52s [id=argocd][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:55:28,543 [INFO]   -> Phase 2 (Operator-Bootstrapping ArgoCD): 55.98s
+2026-10-20 17:55:28,543 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-10-20 17:55:28,763 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:55:28,763 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:55:48,719 [INFO]   -> Phase 3 (Workload-Sync 3-Tier-App): 20.18s
+2026-10-20 17:55:48,719 [INFO]   => GitOps Gesamtdauer: 113.04s
+2026-10-20 17:55:48,719 [INFO] 
 =======================================================
-2026-10-20 09:59:58,975 [INFO] STARTE UF3-MESSUNG: PUSH-MODELL DISASTER RECOVERY (Sequenziell)
-2026-10-20 09:59:58,975 [INFO] =======================================================
-2026-10-20 09:59:58,975 [INFO] 
-[Push DR] Simuliere Totalausfall (Lauf 1/1)...
-2026-10-20 09:59:58,976 [INFO] EXEC: kind delete cluster --name bachelor-demo
-2026-10-20 10:00:00,833 [WARNING] STDERR: Deleting cluster "bachelor-demo" ...
-Deleted nodes: ["bachelor-demo-control-plane"]
-2026-10-20 10:00:00,833 [INFO]   -> Cluster komplett zerstört. Starte sequenziellen Wiederaufbau (Stoppuhr)...
-2026-10-20 10:00:00,833 [INFO] EXEC: kind create cluster --name bachelor-demo --wait 60s
-2026-10-20 10:00:34,299 [WARNING] STDERR: Creating cluster "bachelor-demo" ...
- • Ensuring node image (kindest/node:v1.37.0) 🖼️  ...
- ✓ Ensuring node image (kindest/node:v1.37.0) 🖼️
- • Preparing nodes 📦   ...
- ✓ Preparing nodes 📦 
- • Writing configuration 📜  ...
- ✓ Writing configuration 📜
- • Starting control-plane 🕹️  ...
- ✓ Starting control-plane 🕹️
- • Installing CNI 🔌  ...
- ✓ Installing CNI 🔌
- • Installing StorageClass 💾  ...
- ✓ Installing StorageClass 💾
- • Waiting ≤ 1m0s for control-plane = Ready ⏳  ...
- ✓ Waiting ≤ 1m0s for control-plane = Ready ⏳
- • Ready after 16s 💚
-Set kubectl context to "kind-bachelor-demo"
-You can now use your cluster with:
+2026-10-20 17:55:48,719 [INFO] STARTE UF3-MESSUNG: PUSH-MODELL DISASTER RECOVERY (Sequenziell)
+2026-10-20 17:55:48,720 [INFO] =======================================================
+2026-10-20 17:55:48,720 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 1/10)...
+2026-10-20 17:55:55,871 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 17:55:55,871 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:56:33,106 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
 
-kubectl cluster-info --context kind-bachelor-demo
+Terraform will perform the following actions:
 
-Have a question, bug, or feature request? Let us know! https://kind.sigs.k8s.io/#community 🙂
-2026-10-20 10:00:34,299 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > admin-kubeconfig.yaml
-2026-10-20 10:00:34,752 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
-2026-10-20 10:00:35,264 [INFO] STDOUT: deployment.apps/database created
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 37s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:56:33,106 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 37.24s
+2026-10-20 17:56:33,107 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 17:56:33,453 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 17:56:33,784 [INFO] STDOUT: deployment.apps/database created
 deployment.apps/backend-api created
 deployment.apps/frontend created
 service/frontend-service created
-2026-10-20 10:00:35,264 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deploy/database
-2026-10-20 10:00:43,776 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+2026-10-20 17:56:33,784 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 17:56:43,218 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
 deployment "database" successfully rolled out
-2026-10-20 10:00:43,776 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deploy/backend-api
-2026-10-20 10:00:47,931 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
+2026-10-20 17:56:43,218 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 17:56:46,188 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
 Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
 deployment "backend-api" successfully rolled out
-2026-10-20 10:00:47,932 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deploy/frontend
-2026-10-20 10:00:55,396 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
+2026-10-20 17:56:46,189 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 17:56:52,219 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
 Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
 deployment "frontend" successfully rolled out
-2026-10-20 10:00:55,713 [INFO]   -> Push-Umgebung wiederhergestellt in 54.88s!
-2026-10-20 10:00:55,714 [INFO] FERTIG! Disaster-Recovery-Daten gespeichert in 'results/disaster_recovery_measurements.csv'.
+2026-10-20 17:56:52,505 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 19.4s
+2026-10-20 17:56:52,505 [INFO]   => Push-Pipeline Gesamtdauer: 56.63s
+2026-10-20 17:56:52,505 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 2/10)...
+2026-10-20 17:56:56,382 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 17:56:56,382 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:57:33,787 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 37s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:57:33,787 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 37.41s
+2026-10-20 17:57:33,787 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 17:57:34,137 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 17:57:34,474 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-10-20 17:57:34,475 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 17:57:42,873 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+deployment "database" successfully rolled out
+2026-10-20 17:57:42,873 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 17:57:43,874 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
+deployment "backend-api" successfully rolled out
+2026-10-20 17:57:43,874 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 17:57:48,921 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
+deployment "frontend" successfully rolled out
+2026-10-20 17:57:49,183 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 15.4s
+2026-10-20 17:57:49,183 [INFO]   => Push-Pipeline Gesamtdauer: 52.8s
+2026-10-20 17:57:49,183 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 3/10)...
+2026-10-20 17:57:52,953 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 17:57:52,953 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:58:32,001 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 38s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:58:32,001 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 39.05s
+2026-10-20 17:58:32,001 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 17:58:32,362 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 17:58:32,797 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-10-20 17:58:32,797 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 17:58:39,058 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+deployment "database" successfully rolled out
+2026-10-20 17:58:39,059 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 17:58:42,057 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
+deployment "backend-api" successfully rolled out
+2026-10-20 17:58:42,057 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 17:58:48,100 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
+deployment "frontend" successfully rolled out
+2026-10-20 17:58:48,359 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 16.36s
+2026-10-20 17:58:48,359 [INFO]   => Push-Pipeline Gesamtdauer: 55.41s
+2026-10-20 17:58:48,359 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 4/10)...
+2026-10-20 17:58:52,440 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 17:58:52,440 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 17:59:28,458 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 35s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 17:59:28,459 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 36.02s
+2026-10-20 17:59:28,459 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 17:59:28,817 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 17:59:29,197 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-10-20 17:59:29,197 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 17:59:33,953 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+deployment "database" successfully rolled out
+2026-10-20 17:59:33,953 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 17:59:37,961 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
+deployment "backend-api" successfully rolled out
+2026-10-20 17:59:37,961 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 17:59:42,987 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
+deployment "frontend" successfully rolled out
+2026-10-20 17:59:43,292 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 14.83s
+2026-10-20 17:59:43,292 [INFO]   => Push-Pipeline Gesamtdauer: 50.85s
+2026-10-20 17:59:43,292 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 5/10)...
+2026-10-20 17:59:47,426 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 17:59:47,426 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 18:00:26,656 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 39s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 18:00:26,656 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 39.23s
+2026-10-20 18:00:26,656 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 18:00:27,012 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 18:00:27,356 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-10-20 18:00:27,356 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 18:00:34,028 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+deployment "database" successfully rolled out
+2026-10-20 18:00:34,028 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 18:00:38,042 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
+deployment "backend-api" successfully rolled out
+2026-10-20 18:00:38,042 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 18:00:43,064 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
+deployment "frontend" successfully rolled out
+2026-10-20 18:00:43,329 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 16.67s
+2026-10-20 18:00:43,329 [INFO]   => Push-Pipeline Gesamtdauer: 55.9s
+2026-10-20 18:00:43,329 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 6/10)...
+2026-10-20 18:00:46,979 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 18:00:46,979 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 18:01:26,168 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 38s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 18:01:26,168 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 39.19s
+2026-10-20 18:01:26,168 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 18:01:26,518 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 18:01:26,959 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-10-20 18:01:26,959 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 18:01:33,018 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+deployment "database" successfully rolled out
+2026-10-20 18:01:33,018 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 18:01:41,086 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
+deployment "backend-api" successfully rolled out
+2026-10-20 18:01:41,086 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 18:01:42,065 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
+deployment "frontend" successfully rolled out
+2026-10-20 18:01:42,345 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 16.18s
+2026-10-20 18:01:42,345 [INFO]   => Push-Pipeline Gesamtdauer: 55.37s
+2026-10-20 18:01:42,345 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 7/10)...
+2026-10-20 18:01:46,307 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 18:01:46,307 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 18:02:23,144 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 36s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 18:02:23,145 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 36.84s
+2026-10-20 18:02:23,145 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 18:02:23,479 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 18:02:23,801 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-10-20 18:02:23,801 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 18:02:29,886 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+deployment "database" successfully rolled out
+2026-10-20 18:02:29,887 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 18:02:32,928 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
+deployment "backend-api" successfully rolled out
+2026-10-20 18:02:32,928 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 18:02:38,949 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
+deployment "frontend" successfully rolled out
+2026-10-20 18:02:39,222 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 16.08s
+2026-10-20 18:02:39,222 [INFO]   => Push-Pipeline Gesamtdauer: 52.92s
+2026-10-20 18:02:39,223 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 8/10)...
+2026-10-20 18:02:43,473 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 18:02:43,473 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 18:03:21,836 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 38s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 18:03:21,837 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 38.36s
+2026-10-20 18:03:21,837 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 18:03:22,160 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 18:03:22,561 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-10-20 18:03:22,561 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 18:03:28,629 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+deployment "database" successfully rolled out
+2026-10-20 18:03:28,630 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 18:03:32,647 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
+deployment "backend-api" successfully rolled out
+2026-10-20 18:03:32,647 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 18:03:37,684 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
+deployment "frontend" successfully rolled out
+2026-10-20 18:03:37,955 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 16.12s
+2026-10-20 18:03:37,955 [INFO]   => Push-Pipeline Gesamtdauer: 54.48s
+2026-10-20 18:03:37,955 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 9/10)...
+2026-10-20 18:03:42,515 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 18:03:42,515 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 18:04:20,067 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 37s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 18:04:20,067 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 37.55s
+2026-10-20 18:04:20,067 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 18:04:20,444 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 18:04:20,826 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-10-20 18:04:20,826 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 18:04:26,637 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+deployment "database" successfully rolled out
+2026-10-20 18:04:26,637 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 18:04:30,662 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
+deployment "backend-api" successfully rolled out
+2026-10-20 18:04:30,662 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 18:04:35,684 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
+deployment "frontend" successfully rolled out
+2026-10-20 18:04:35,961 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 15.89s
+2026-10-20 18:04:35,961 [INFO]   => Push-Pipeline Gesamtdauer: 53.45s
+2026-10-20 18:04:35,961 [INFO] 
+[Push DR] Simuliere Totalausfall (Lauf 10/10)...
+2026-10-20 18:04:40,161 [INFO]   -> Cluster zerstört. Starte 3-Phasen-Messung (Push-Modell)...
+2026-10-20 18:04:40,161 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-10-20 18:05:17,978 [INFO] STDOUT: Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # kind_cluster.bachelor_cluster[0m will be created
+[0m  [32m+[0m[0m resource "kind_cluster" "bachelor_cluster" {
+      [32m+[0m[0m client_certificate     = (known after apply)
+      [32m+[0m[0m client_key             = (known after apply)
+      [32m+[0m[0m cluster_ca_certificate = (known after apply)
+      [32m+[0m[0m completed              = (known after apply)
+      [32m+[0m[0m endpoint               = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m kubeconfig             = (known after apply)
+      [32m+[0m[0m kubeconfig_path        = "/home/goofy/.kube/config"
+      [32m+[0m[0m name                   = "bachelor-demo"
+      [32m+[0m[0m node_image             = (known after apply)
+      [32m+[0m[0m wait_for_ready         = true
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mkind_cluster.bachelor_cluster: Creating...[0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m10s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m20s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Still creating... [00m30s elapsed][0m[0m
+[0m[1mkind_cluster.bachelor_cluster: Creation complete after 37s [id=bachelor-demo-][0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mResource targeting is in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mYou are creating a plan with the -target option, which means that the
+[33m│[0m [0mresult of this plan may not represent all of the changes requested by the
+[33m│[0m [0mcurrent configuration.
+[33m│[0m [0m
+[33m│[0m [0mThe -target option is not for routine use, and is provided only for
+[33m│[0m [0mexceptional situations such as recovering from errors or mistakes, or when
+[33m│[0m [0mTerraform specifically suggests to use it as part of an error message.
+[33m╵[0m[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mApplied changes may be incomplete[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe plan was created with the -target option in effect, so some changes
+[33m│[0m [0mrequested in the configuration may have been ignored and the output values
+[33m│[0m [0mmay not be fully updated. Run the following command to verify that no other
+[33m│[0m [0mchanges are pending:
+[33m│[0m [0m    terraform plan
+[33m│[0m [0m
+[33m│[0m [0mNote that the -target option is not suitable for routine use, and is
+[33m│[0m [0mprovided only for exceptional situations such as recovering from errors or
+[33m│[0m [0mmistakes, or when Terraform specifically suggests to use it as part of an
+[33m│[0m [0merror message.
+[33m╵[0m[0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+2026-10-20 18:05:17,978 [INFO]   -> Phase 1 (Cluster-Provisioning via Terraform): 37.82s
+2026-10-20 18:05:17,978 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml
+2026-10-20 18:05:18,320 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-10-20 18:05:18,661 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-10-20 18:05:18,661 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/database
+2026-10-20 18:05:27,350 [INFO] STDOUT: Waiting for deployment "database" rollout to finish: 0 of 1 updated replicas are available...
+deployment "database" successfully rolled out
+2026-10-20 18:05:27,350 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/backend-api
+2026-10-20 18:05:30,371 [INFO] STDOUT: Waiting for deployment "backend-api" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "backend-api" rollout to finish: 1 of 2 updated replicas are available...
+deployment "backend-api" successfully rolled out
+2026-10-20 18:05:30,372 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/admin-kubeconfig.yaml rollout status deploy/frontend
+2026-10-20 18:05:35,415 [INFO] STDOUT: Waiting for deployment "frontend" rollout to finish: 0 of 2 updated replicas are available...
+Waiting for deployment "frontend" rollout to finish: 1 of 2 updated replicas are available...
+deployment "frontend" successfully rolled out
+2026-10-20 18:05:35,673 [INFO]   -> Phase 3 (Secret-Export & Push-Rollout): 17.7s
+2026-10-20 18:05:35,674 [INFO]   => Push-Pipeline Gesamtdauer: 55.51s
+2026-10-20 18:05:35,674 [INFO] FERTIG! 3-Phasen-DR-Daten gespeichert in '/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/results/disaster_recovery_measurements.csv'.

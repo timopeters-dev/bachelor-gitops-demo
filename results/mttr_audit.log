@@ -1,55 +1,371 @@
-2026-10-20 09:57:06,039 [INFO] =======================================================
-2026-10-20 09:57:06,040 [INFO] STARTE UF2-MESSUNG: GITOPS ROLLBACK (git revert -> ArgoCD)
-2026-10-20 09:57:06,040 [INFO] =======================================================
-2026-10-20 09:57:06,040 [INFO] EXEC: kubectl apply -f workloads/argocd-app.yaml
-2026-10-20 09:57:06,469 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app unchanged
-2026-10-20 09:57:09,470 [INFO] 
-[GitOps MTTR] Durchlauf 1/1
-2026-10-20 09:57:09,471 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 1" && git push
-2026-10-20 09:57:11,536 [INFO] STDOUT: [main 20b1aa5] Faulty release run 1
+2026-10-20 17:34:06,926 [INFO] =======================================================
+2026-10-20 17:34:06,926 [INFO] STARTE UF2-MESSUNG: GITOPS ROLLBACK (git revert -> ArgoCD)
+2026-10-20 17:34:06,926 [INFO] =======================================================
+2026-10-20 17:34:06,926 [INFO] EXEC: kubectl apply -f workloads/argocd-app.yaml
+2026-10-20 17:34:07,113 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-10-20 17:34:07,113 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-10-20 17:34:10,114 [INFO] 
+[GitOps MTTR] Durchlauf 1/10
+2026-10-20 17:34:10,114 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 1" && git push
+2026-10-20 17:34:12,136 [INFO] STDOUT: [main d7c45ea] Faulty release run 1
  1 file changed, 1 insertion(+), 1 deletion(-)
-2026-10-20 09:57:11,537 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
-   6134d6c..20b1aa5  main -> main
-2026-10-20 09:57:11,537 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
-2026-10-20 09:57:11,644 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
-2026-10-20 09:57:13,771 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
-2026-10-20 09:57:13,772 [INFO] EXEC: git revert HEAD --no-edit && git push
-2026-10-20 09:57:15,750 [INFO] STDOUT: [main ea7ad7f] Revert "Faulty release run 1"
- Date: Tue Oct 20 09:57:13 2026 +0200
+2026-10-20 17:34:12,136 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   90bcc8d..d7c45ea  main -> main
+2026-10-20 17:34:12,136 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:12,246 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:13,982 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:34:13,983 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:34:15,802 [INFO] STDOUT: [main bb2af40] Revert "Faulty release run 1"
+ Date: Tue Oct 20 17:34:13 2026 +0200
  1 file changed, 1 insertion(+), 1 deletion(-)
-2026-10-20 09:57:15,750 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
-   20b1aa5..ea7ad7f  main -> main
-2026-10-20 09:57:15,750 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
-2026-10-20 09:57:15,866 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
-2026-10-20 09:57:17,962 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 4.19s
-2026-10-20 09:57:17,962 [INFO] 
+2026-10-20 17:34:15,803 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   d7c45ea..bb2af40  main -> main
+2026-10-20 17:34:15,803 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:15,921 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:17,831 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 3.848s
+2026-10-20 17:34:17,831 [INFO] 
+[GitOps MTTR] Durchlauf 2/10
+2026-10-20 17:34:17,832 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 2" && git push
+2026-10-20 17:34:19,867 [INFO] STDOUT: [main 5aa97a0] Faulty release run 2
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:19,867 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   bb2af40..5aa97a0  main -> main
+2026-10-20 17:34:19,867 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:19,983 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:21,711 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:34:21,712 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:34:23,756 [INFO] STDOUT: [main 4296259] Revert "Faulty release run 2"
+ Date: Tue Oct 20 17:34:21 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:23,756 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   5aa97a0..4296259  main -> main
+2026-10-20 17:34:23,756 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:23,875 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:26,635 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 4.923s
+2026-10-20 17:34:26,635 [INFO] 
+[GitOps MTTR] Durchlauf 3/10
+2026-10-20 17:34:26,635 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 3" && git push
+2026-10-20 17:34:28,901 [INFO] STDOUT: [main d0cade9] Faulty release run 3
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:28,901 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   4296259..d0cade9  main -> main
+2026-10-20 17:34:28,902 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:29,029 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:30,724 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:34:30,724 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:34:32,588 [INFO] STDOUT: [main ff36129] Revert "Faulty release run 3"
+ Date: Tue Oct 20 17:34:30 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:32,588 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   d0cade9..ff36129  main -> main
+2026-10-20 17:34:32,589 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:32,712 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:34,282 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 3.558s
+2026-10-20 17:34:34,282 [INFO] 
+[GitOps MTTR] Durchlauf 4/10
+2026-10-20 17:34:34,283 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 4" && git push
+2026-10-20 17:34:36,206 [INFO] STDOUT: [main 8ca65cc] Faulty release run 4
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:36,206 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   ff36129..8ca65cc  main -> main
+2026-10-20 17:34:36,206 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:36,343 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:38,056 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:34:38,056 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:34:40,346 [INFO] STDOUT: [main 4aa7887] Revert "Faulty release run 4"
+ Date: Tue Oct 20 17:34:38 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:40,346 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   8ca65cc..4aa7887  main -> main
+2026-10-20 17:34:40,346 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:40,478 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:42,486 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 4.429s
+2026-10-20 17:34:42,486 [INFO] 
+[GitOps MTTR] Durchlauf 5/10
+2026-10-20 17:34:42,487 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 5" && git push
+2026-10-20 17:34:44,398 [INFO] STDOUT: [main 662f83d] Faulty release run 5
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:44,398 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   4aa7887..662f83d  main -> main
+2026-10-20 17:34:44,398 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:44,519 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:46,625 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:34:46,625 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:34:48,836 [INFO] STDOUT: [main 6fffa12] Revert "Faulty release run 5"
+ Date: Tue Oct 20 17:34:46 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:48,836 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   662f83d..6fffa12  main -> main
+2026-10-20 17:34:48,837 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:48,953 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:50,872 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 4.247s
+2026-10-20 17:34:50,872 [INFO] 
+[GitOps MTTR] Durchlauf 6/10
+2026-10-20 17:34:50,873 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 6" && git push
+2026-10-20 17:34:53,556 [INFO] STDOUT: [main f44585f] Faulty release run 6
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:53,556 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   6fffa12..f44585f  main -> main
+2026-10-20 17:34:53,556 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:53,677 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:34:55,764 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:34:55,764 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:34:58,164 [INFO] STDOUT: [main 312791c] Revert "Faulty release run 6"
+ Date: Tue Oct 20 17:34:55 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:34:58,164 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   f44585f..312791c  main -> main
+2026-10-20 17:34:58,164 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:34:58,290 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:35:00,213 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 4.448s
+2026-10-20 17:35:00,213 [INFO] 
+[GitOps MTTR] Durchlauf 7/10
+2026-10-20 17:35:00,213 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 7" && git push
+2026-10-20 17:35:02,077 [INFO] STDOUT: [main 50429ba] Faulty release run 7
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:35:02,078 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   312791c..50429ba  main -> main
+2026-10-20 17:35:02,078 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:35:02,219 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:35:03,933 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:35:03,933 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:35:05,842 [INFO] STDOUT: [main 229d822] Revert "Faulty release run 7"
+ Date: Tue Oct 20 17:35:03 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:35:05,843 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   50429ba..229d822  main -> main
+2026-10-20 17:35:05,843 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:35:05,957 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:35:07,866 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 3.933s
+2026-10-20 17:35:07,866 [INFO] 
+[GitOps MTTR] Durchlauf 8/10
+2026-10-20 17:35:07,867 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 8" && git push
+2026-10-20 17:35:10,145 [INFO] STDOUT: [main 572ee92] Faulty release run 8
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:35:10,145 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   229d822..572ee92  main -> main
+2026-10-20 17:35:10,145 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:35:10,275 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:35:11,976 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:35:11,976 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:35:13,880 [INFO] STDOUT: [main f3711d7] Revert "Faulty release run 8"
+ Date: Tue Oct 20 17:35:11 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:35:13,881 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   572ee92..f3711d7  main -> main
+2026-10-20 17:35:13,881 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:35:13,992 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:35:15,949 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 3.973s
+2026-10-20 17:35:15,949 [INFO] 
+[GitOps MTTR] Durchlauf 9/10
+2026-10-20 17:35:15,949 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 9" && git push
+2026-10-20 17:35:18,130 [INFO] STDOUT: [main 6db9a73] Faulty release run 9
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:35:18,130 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   f3711d7..6db9a73  main -> main
+2026-10-20 17:35:18,130 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:35:18,251 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:35:19,953 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:35:19,954 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:35:21,979 [INFO] STDOUT: [main c011f88] Revert "Faulty release run 9"
+ Date: Tue Oct 20 17:35:19 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:35:21,980 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   6db9a73..c011f88  main -> main
+2026-10-20 17:35:21,980 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:35:22,100 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:35:24,028 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 4.074s
+2026-10-20 17:35:24,028 [INFO] 
+[GitOps MTTR] Durchlauf 10/10
+2026-10-20 17:35:24,029 [INFO] EXEC: git add workloads/base/manifest.yaml && git commit -m "Faulty release run 10" && git push
+2026-10-20 17:35:26,426 [INFO] STDOUT: [main 215dc8c] Faulty release run 10
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:35:26,426 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   c011f88..215dc8c  main -> main
+2026-10-20 17:35:26,427 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:35:26,549 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:35:28,247 [INFO]   -> Fehlerhaftes Release ist im Cluster aktiv. Starte Git-Rollback (MTTR-Stoppuhr)...
+2026-10-20 17:35:28,247 [INFO] EXEC: git revert HEAD --no-edit && git push
+2026-10-20 17:35:30,125 [INFO] STDOUT: [main 63f1223] Revert "Faulty release run 10"
+ Date: Tue Oct 20 17:35:28 2026 +0200
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-10-20 17:35:30,125 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   215dc8c..63f1223  main -> main
+2026-10-20 17:35:30,125 [INFO] EXEC: kubectl annotate application bachelor-3tier-app -n argocd argocd.argoproj.io/refresh=normal --overwrite
+2026-10-20 17:35:30,287 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app annotated
+2026-10-20 17:35:32,210 [INFO]   -> GitOps Rollback erfolgreich! MTTR: 3.962s
+2026-10-20 17:35:32,210 [INFO] 
 =======================================================
-2026-10-20 09:57:17,963 [INFO] STARTE UF2-MESSUNG: PUSH-PIPELINE ROLLBACK (Redeploy Vorversion)
-2026-10-20 09:57:17,963 [INFO] =======================================================
-2026-10-20 09:57:17,963 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"metadata":{"finalizers":null}}'
-2026-10-20 09:57:18,095 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched
-2026-10-20 09:57:18,096 [INFO] EXEC: kubectl delete -f workloads/argocd-app.yaml --ignore-not-found
-2026-10-20 09:57:18,192 [INFO] STDOUT: application.argoproj.io "bachelor-3tier-app" deleted from argocd namespace
-2026-10-20 09:57:18,194 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > admin-kubeconfig.yaml
-2026-10-20 09:57:18,588 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
-2026-10-20 09:57:19,172 [INFO] STDOUT: deployment.apps/database configured
+2026-10-20 17:35:32,210 [INFO] STARTE UF2-MESSUNG: PUSH-PIPELINE ROLLBACK (Redeploy Vorversion)
+2026-10-20 17:35:32,210 [INFO] =======================================================
+2026-10-20 17:35:32,210 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"metadata":{"finalizers":null}}'
+2026-10-20 17:35:32,329 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched
+2026-10-20 17:35:32,329 [INFO] EXEC: kubectl delete -f workloads/argocd-app.yaml --ignore-not-found
+2026-10-20 17:35:32,422 [INFO] STDOUT: application.argoproj.io "bachelor-3tier-app" deleted from argocd namespace
+2026-10-20 17:35:32,423 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > admin-kubeconfig.yaml
+2026-10-20 17:35:32,814 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:35:33,438 [INFO] STDOUT: deployment.apps/database configured
 deployment.apps/backend-api configured
 deployment.apps/frontend configured
 service/frontend-service configured
-2026-10-20 09:57:22,172 [INFO] 
-[Push-Pipeline MTTR] Durchlauf 1/1
-2026-10-20 09:57:22,173 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
-2026-10-20 09:57:22,285 [INFO] STDOUT: deployment.apps/frontend image updated
-2026-10-20 09:57:22,401 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
-2026-10-20 09:57:22,401 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
-2026-10-20 09:57:24,378 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+2026-10-20 17:35:36,439 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 1/10
+2026-10-20 17:35:36,439 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:35:36,553 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:35:36,658 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:35:36,658 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:35:38,612 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
  * branch            main       -> FETCH_HEAD
-2026-10-20 09:57:24,378 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
-2026-10-20 09:57:24,948 [INFO] STDOUT: deployment.apps/database unchanged
+2026-10-20 17:35:38,612 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:35:39,267 [INFO] STDOUT: deployment.apps/database unchanged
 deployment.apps/backend-api unchanged
 deployment.apps/frontend configured
 service/frontend-service unchanged
-2026-10-20 09:57:24,948 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
-2026-10-20 09:57:25,056 [INFO] STDOUT: deployment "frontend" successfully rolled out
-2026-10-20 09:57:25,325 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 2.924s
-2026-10-20 09:57:25,325 [INFO] FERTIG! MTTR-Messergebnisse gespeichert in 'results/mttr_measurements.csv'.
+2026-10-20 17:35:39,267 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:35:39,384 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:35:39,673 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 3.015s
+2026-10-20 17:35:39,674 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 2/10
+2026-10-20 17:35:39,674 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:35:39,803 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:35:39,911 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:35:39,912 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:35:41,688 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-10-20 17:35:41,688 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:35:42,289 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-10-20 17:35:42,290 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:35:42,396 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:35:42,682 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 2.771s
+2026-10-20 17:35:42,683 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 3/10
+2026-10-20 17:35:42,683 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:35:42,795 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:35:42,903 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:35:42,903 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:35:44,765 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-10-20 17:35:44,765 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:35:45,376 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-10-20 17:35:45,376 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:35:45,478 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:35:45,752 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 2.849s
+2026-10-20 17:35:45,752 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 4/10
+2026-10-20 17:35:45,753 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:35:45,871 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:35:45,982 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:35:45,982 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:35:47,855 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-10-20 17:35:47,855 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:35:48,468 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-10-20 17:35:48,468 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:35:48,579 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:35:48,851 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 2.869s
+2026-10-20 17:35:48,851 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 5/10
+2026-10-20 17:35:48,851 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:35:48,988 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:35:49,108 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:35:49,108 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:35:51,179 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-10-20 17:35:51,179 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:35:51,722 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-10-20 17:35:51,722 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:35:51,844 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:35:52,137 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 3.029s
+2026-10-20 17:35:52,137 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 6/10
+2026-10-20 17:35:52,138 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:35:52,265 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:35:52,390 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:35:52,390 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:35:54,391 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-10-20 17:35:54,391 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:35:54,997 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-10-20 17:35:54,997 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:35:55,113 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:35:55,416 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 3.026s
+2026-10-20 17:35:55,416 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 7/10
+2026-10-20 17:35:55,416 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:35:55,526 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:35:55,636 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:35:55,637 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:35:57,277 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-10-20 17:35:57,277 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:35:57,935 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-10-20 17:35:57,936 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:35:58,042 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:35:58,310 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 2.674s
+2026-10-20 17:35:58,311 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 8/10
+2026-10-20 17:35:58,311 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:35:58,428 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:35:58,540 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:35:58,540 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:36:00,289 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-10-20 17:36:00,290 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:36:00,871 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-10-20 17:36:00,871 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:36:00,980 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:36:01,254 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 2.714s
+2026-10-20 17:36:01,254 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 9/10
+2026-10-20 17:36:01,254 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:36:01,367 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:36:01,496 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:36:01,496 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:36:03,095 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-10-20 17:36:03,095 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:36:03,691 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-10-20 17:36:03,692 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:36:03,803 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:36:04,084 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 2.588s
+2026-10-20 17:36:04,084 [INFO] 
+[Push-Pipeline MTTR] Durchlauf 10/10
+2026-10-20 17:36:04,085 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml set image deployment/frontend web=nginx:broken-release-999
+2026-10-20 17:36:04,218 [INFO] STDOUT: deployment.apps/frontend image updated
+2026-10-20 17:36:04,323 [INFO]   -> Fehlerhaftes Release ist aktiv. Starte Pipeline-Redeployment (MTTR-Stoppuhr)...
+2026-10-20 17:36:04,324 [INFO] EXEC: git fetch origin main && git checkout origin/main -- workloads/base/manifest.yaml
+2026-10-20 17:36:06,291 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-10-20 17:36:06,292 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-10-20 17:36:06,941 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-10-20 17:36:06,941 [INFO] EXEC: kubectl --kubeconfig=admin-kubeconfig.yaml rollout status deployment/frontend --timeout=30s
+2026-10-20 17:36:07,049 [INFO] STDOUT: deployment "frontend" successfully rolled out
+2026-10-20 17:36:07,320 [INFO]   -> Push-Pipeline Rollback erfolgreich! MTTR: 2.996s
+2026-10-20 17:36:07,320 [INFO] FERTIG! MTTR-Messergebnisse gespeichert in 'results/mttr_measurements.csv'.

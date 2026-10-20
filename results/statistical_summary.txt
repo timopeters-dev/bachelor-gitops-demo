@@ -3,56 +3,54 @@ Auswertungsbasis: '/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-dem
 =================================================================
 UF1: DESKRIPTIVE STATISTIK (DRIFT DETECTION & RECOVERY)
 =================================================================
-                N  Detect_Rate_Pct  Detect_Mean_s  Detect_Median_s  Detect_Min_s  Detect_Max_s  Detect_Std_s  Recover_Rate_Pct  Recover_Mean_s  Recover_Median_s  Recover_Min_s  Recover_Max_s  Recover_Std_s
-model                                                                                                                                                                                                        
-GitOps_ArgoCD  10            100.0          0.291            0.312           0.1         0.367         0.076             100.0           1.416             1.289          1.030           2.25          0.370
-Push_Pipeline  10              0.0         15.000           15.000          15.0        15.000         0.000              90.0           3.860             0.892          0.681          30.00          9.189
+                 N  Detect_Rate_Pct  Detect_Mean_s  Detect_Median_s  Detect_Min_s  Detect_Max_s  Detect_Std_s  Recover_Rate_Pct  Recover_Mean_s  Recover_Median_s  Recover_Min_s  Recover_Max_s  Recover_Std_s  Cron_Sim_Mean_s
+model                                                                                                                                                                                                                          
+GitOps_ArgoCD  100            100.0          0.257            0.247           0.2         0.465         0.045             100.0           1.245             1.176          0.910          1.776          0.179            0.257
+Push_Pipeline  100              0.0            NaN              NaN           NaN           NaN           NaN              90.0           3.635             0.698          0.501         30.000          8.833           29.034
 
 --- Reine Heilungsdauer (nur erfolgreich geheilte Läufe, recovered == 1) ---
                count   mean  median    min    max    std
 model                                                   
-GitOps_ArgoCD     10  1.416   1.289  1.030  2.250  0.370
-Push_Pipeline      9  0.956   0.889  0.681  1.678  0.291
+GitOps_ArgoCD    100  1.245   1.176  0.910  1.776  0.179
+Push_Pipeline     90  0.706   0.694  0.501  1.011  0.096
 
-Hypothesentest: UF1 / H1a: Drift Detection Time (s)
-  -> Stichprobe: N_GitOps = 10, N_Push = 10
-  -> Mann-Whitney-U = 0.00, p-Wert = 0.000064 [SIGNIFIKANT (p < 0.05)]
+Hypothesentest: UF1 / H1a: Drift Detection Time (GitOps Event-Driven vs. Push-Cron T=60s)
+  -> Stichprobe: N_GitOps = 100, N_Push = 100
+  -> Mann-Whitney-U = 0.00, p-Wert = 0.000000 [SIGNIFIKANT (p < 0.05)]
   -> Effektstärke Cliff's Delta = -1.0 (groß (large))
 
 Hypothesentest: UF1 / H1b: Drift Recovery Time (alle Muster)
-  -> Stichprobe: N_GitOps = 10, N_Push = 10
-  -> Mann-Whitney-U = 81.00, p-Wert = 0.021134 [SIGNIFIKANT (p < 0.05)]
-  -> Effektstärke Cliff's Delta = 0.62 (groß (large))
+  -> Stichprobe: N_GitOps = 100, N_Push = 100
+  -> Mann-Whitney-U = 8993.00, p-Wert = 0.000000 [SIGNIFIKANT (p < 0.05)]
+  -> Effektstärke Cliff's Delta = 0.7986 (groß (large))
 
 Hypothesentest: UF1: Reine Recovery Time (nur geheilte Muster)
-  -> Stichprobe: N_GitOps = 10, N_Push = 9
-  -> Mann-Whitney-U = 81.00, p-Wert = 0.003749 [SIGNIFIKANT (p < 0.05)]
-  -> Effektstärke Cliff's Delta = 0.8 (groß (large))
+  -> Stichprobe: N_GitOps = 100, N_Push = 90
+  -> Mann-Whitney-U = 8993.00, p-Wert = 0.000000 [SIGNIFIKANT (p < 0.05)]
+  -> Effektstärke Cliff's Delta = 0.9984 (groß (large))
 
 =================================================================
 UF2: DESKRIPTIVE STATISTIK (MEAN TIME TO RECOVERY / ROLLBACK)
 =================================================================
-               N  MTTR_Mean_s  MTTR_Median_s  MTTR_Min_s  MTTR_Max_s  MTTR_Std_s  Manual_Steps
-model                                                                                         
-GitOps_ArgoCD  1        4.190          4.190       4.190       4.190         NaN           1.0
-Push_Pipeline  1        2.924          2.924       2.924       2.924         NaN           2.0
+                N  MTTR_Mean_s  MTTR_Median_s  MTTR_Min_s  MTTR_Max_s  MTTR_Std_s  Manual_Steps
+model                                                                                          
+GitOps_ArgoCD  10        4.140          4.024       3.558       4.923       0.385           1.0
+Push_Pipeline  10        2.853          2.859       2.588       3.029       0.162           2.0
 
 Hypothesentest: UF2 / H2: Rollback MTTR (s)
-  -> Stichprobe: N_GitOps = 1, N_Push = 1
-  -> Mann-Whitney-U = 1.00, p-Wert = 1.000000 [NICHT signifikant (p >= 0.05)]
+  -> Stichprobe: N_GitOps = 10, N_Push = 10
+  -> Mann-Whitney-U = 100.00, p-Wert = 0.000183 [SIGNIFIKANT (p < 0.05)]
   -> Effektstärke Cliff's Delta = 1.0 (groß (large))
-  -> [!] HINWEIS: Sehr kleine Stichprobe (N_Git=1, N_Push=1). Für belastbare Hypothesentests werden N >= 5 bis 10 Läufe empfohlen.
 
 =================================================================
 UF3: DESKRIPTIVE STATISTIK (DISASTER RECOVERY & RE-INITIALISIERUNG)
 =================================================================
-               N  DR_Mean_s  DR_Median_s  DR_Min_s  DR_Max_s  DR_Std_s  Manual_Steps
-model                                                                               
-GitOps_ArgoCD  1     121.62       121.62    121.62    121.62       NaN           1.0
-Push_Pipeline  1      54.88        54.88     54.88     54.88       NaN           4.0
+                N  DR_Mean_s  DR_Median_s  DR_Min_s  DR_Max_s  DR_Std_s  Manual_Steps
+model                                                                                
+GitOps_ArgoCD  10     111.08       111.68    106.51    114.20      2.36           1.0
+Push_Pipeline  10      54.33        54.92     50.85     56.63      1.78           4.0
 
 Hypothesentest: UF3 / H3b: Disaster Recovery Duration (s)
-  -> Stichprobe: N_GitOps = 1, N_Push = 1
-  -> Mann-Whitney-U = 1.00, p-Wert = 1.000000 [NICHT signifikant (p >= 0.05)]
+  -> Stichprobe: N_GitOps = 10, N_Push = 10
+  -> Mann-Whitney-U = 100.00, p-Wert = 0.000183 [SIGNIFIKANT (p < 0.05)]
   -> Effektstärke Cliff's Delta = 1.0 (groß (large))
-  -> [!] HINWEIS: Sehr kleine Stichprobe (N_Git=1, N_Push=1). Für belastbare Hypothesentests werden N >= 5 bis 10 Läufe empfohlen.

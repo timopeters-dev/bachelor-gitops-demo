@@ -9,7 +9,7 @@ from pathlib import Path
 # ==============================================================================
 # KONFIGURATION FÜR UF3
 # ==============================================================================
-RUNS = 1
+RUNS = 10
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent

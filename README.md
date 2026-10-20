@@ -56,11 +56,11 @@ flowchart TB
 
 ## 3. Untersuchungsdesign & Die 10 Drift-Muster (D1–D10)
 
-Beide Deployment-Modelle werden auf identischer Infrastruktur anhand einer **3-Tier-Referenzapplikation** (*Nginx-Frontend*, *HTTP-Echo Backend-API*, *Redis-Datenbank*) in drei experimentellen Szenarien verglichen:
+Beide Deployment-Modelle werden auf identischer Infrastruktur anhand einer **3-Tier-Referenzapplikation** (*Nginx-Frontend*, *HTTP-Echo Backend-API*, *Redis-Datenbank*) in drei experimentellen Szenarien mit statistisch belastbaren Stichprobengrößen verglichen:
 
-* **UF1 (Drift & Konsistenz):** Automatisierte Injektion von 10 definierten Konfigurationsdrifts (`D1`–`D10`) zur Messung der *Drift Detection Time (s)* und *Drift Recovery Rate (%)*.
-* **UF2 (Resilienz & Rollback):** Messung der *Mean Time to Recovery (MTTR in s)* nach dem Ausrollen eines fehlerhaften Container-Releases (`git revert` vs. Pipeline-Redeployment der Vorversion).
-* **UF3 (Disaster Recovery & Betriebsaufwand):** Messung der *Disaster Recovery Duration (s)* und der *Anzahl manueller Prozessschritte* bei einem kompletten Cluster-Totalausfall (`terraform destroy`).
+* **UF1 (Drift & Konsistenz, N = 200):** Automatisierte Injektion von 10 definierten Konfigurationsdrifts (`D1`–`D10`) über jeweils 10 vollständige Zyklen ($N = 100$ je Modell) zur Messung der *Drift Detection Time (s)* und *Drift Recovery Rate (%)*.
+* **UF2 (Resilienz & Rollback, N = 20):** Messung der *Mean Time to Recovery (MTTR in s)* nach dem Ausrollen eines fehlerhaften Container-Releases über 10 Durchläufe (`git revert` vs. Pipeline-Redeployment der Vorversion).
+* **UF3 (Disaster Recovery & Betriebsaufwand, N = 20):** Messung der *Disaster Recovery Duration (s)* und der *Anzahl manueller Prozessschritte* bei einem kompletten Cluster-Totalausfall über 10 Zyklen (`terraform destroy` gefolgt von automatisiertem Wiederaufbau).
 
 ### Katalog der injizierten Drift-Muster (`benchmark-suite/run_experiment.py`)
 
@@ -81,10 +81,12 @@ Beide Deployment-Modelle werden auf identischer Infrastruktur anhand einer **3-T
 
 ## 4. Zentrale Ergebnisse & Visualisierungen
 
-Die Auswertung erfolgt deskriptiv (Mittelwert, Median, Standardabweichung) sowie inferenzstatistisch mittels **Mann-Whitney-U-Test** ($\alpha = 0,05$) und der nicht-parametrischen Effektstärke **Cliff's Delta** (`benchmark-suite/evaluate_stats.py`).
+Die Auswertung erfolgt deskriptiv (Mittelwert, Median, Standardabweichung) sowie inferenzstatistisch mittels **Mann-Whitney-U-Test** ($\alpha = 0,05$) und der nicht-parametrischen Effektstärke **Cliff's Delta** (`benchmark-suite/evaluate_stats.py`). Alle Messreihen wurden in einer isolierten Laborumgebung (dedizierte Ubuntu 24.04 VM, 4 vCPUs, 8 GB RAM) durchgeführt ($N = 100$ je Modell für UF1, $N = 10$ für UF2, $N = 10$ für UF3).
 
-### 4.1 Drift Detection & Automated Self-Healing (UF1)
-Während eine klassische, ereignisgesteuerte Push-Pipeline im Laufzeitbetrieb architektonisch keine eigenständige Drift-Erkennung besitzt (**0 % Detection Rate**), erkennt der In-Cluster-Operator ArgoCD alle 10 Drift-Muster im Sub-Sekundenbereich (**Mittelwert: 0,36 s**, Median: 0,39 s, $p < 0,001$, Cliff's Delta = $-1,00$). Zudem behebt ArgoCD dank aktivem `prune: true` und `selfHeal: true` **100 % aller Drifts** (Mittelwert: **1,58 s**), während ein klassisches `kubectl apply` im Push-Modell an eingeschleusten Schatten-Ressourcen (**D8**) scheitert (**90 % Recovery Rate**).
+### 4.1 Drift Detection & Automated Self-Healing (UF1, N = 200)
+Während eine klassische, ereignisgesteuerte Push-Pipeline im Laufzeitbetrieb architektonisch keine eigenständige Drift-Erkennung besitzt (**0 % Detection Rate**, `NaN`), erkennt der In-Cluster-Operator ArgoCD alle 10 Drift-Muster im Sub-Sekundenbereich (**Mittelwert: 0,26 s**, Median: 0,25 s, Std: 0,05 s, $p < 0,001$, Cliff's Delta = $-1,00$). Gegenüber einer periodischen Push-Pipeline mit festem Ausführungsintervall ($T = 60\text{ s}$, Mittelwert: **29,03 s**, Erwartungswert $\mathbb{E} \approx T/2$) belegt GitOps einen hochsignifikanten Zeitvorteil (**H1a bestätigt**).
+
+Zudem behebt ArgoCD dank aktivem `prune: true` und `selfHeal: true` autonom **100 % aller Drifts** (Mittelwert: **1,25 s**, Median: 1,18 s, Std: 0,18 s), während ein klassisches `kubectl apply` im Push-Modell an unautorisiert eingeschleusten Schatten-Ressourcen (**D8**) bauartbedingt scheitert (**90 % Recovery Rate**, $p < 0,001$, **H1b bestätigt**). Bei den 9 standardmäßig beherrschten Manifesten weist Push mit **0,71 s** ($\pm 0,10\text{ s}$) eine minimal geringere Latenz als ArgoCD (**1,25 s**) auf, da ArgoCDs Reconciliation-Loop zusätzliche Sicherheits- und Konsistenzprüfungen durchführt.
 
 ![UF1 Übersicht](results/plots/fig1_uf1_drift_overview.png)
 ![UF1 Verteilungen und ECDF](results/plots/fig2_uf1_distributions_ecdf.png)
@@ -96,7 +98,19 @@ Selbst gegenüber einer periodisch per Cron-Timer ausgeführten Push-Pipeline ($
 ![H1a Sensitivitätsanalyse](results/plots/fig4_h1a_sensitivity_analysis.png)
 
 ### 4.3 Release-Rollback (UF2) & Disaster Recovery Phasen-Zerlegung (UF3)
-Die Phasen-Zerlegung beim kompletten Cluster-Neuaufbau (**UF3**) zeigt einen zentralen architektonischen Trade-off: Während GitOps die notwendigen manuellen Eingriffe auf **einen einzigen deklarativen Schritt** reduziert (H3a bestätigt), führt das initiale Bootstrapping der 7 ArgoCD-Systemkomponenten via Helm zu einem fixen Zeit-Overhead von **~65 Sekunden** gegenüber einem nackten Push-Cluster (H3b differenziert widerlegt):
+
+* **UF2 (Release-Rollback & MTTR, N = 20):** Beim Rollback eines fehlerhaften Releases ist die Push-Pipeline mit **2,85 s** ($\pm 0,16\text{ s}$) schneller als GitOps mit **4,14 s** ($\pm 0,39\text{ s}$, $p < 0,001$, Cliff's Delta = $1,0$). Allerdings erfordert Push hierfür **2 imperative Schritte** (CI-Job manuell anstoßen & Rollout überwachen), während GitOps mit **einem einzigen deklarativen Schritt** (`git revert && git push`) auskommt und einen lückenlosen Git-Audit-Trail wahrt.
+* **UF3 (Disaster Recovery & Tooling-Fairness, N = 20):** Der Totalausfall-Neuaufbau via Terraform offenbart die exakte architektonische Zerlegung beider Ansätze:
+
+| Phase | GitOps (ArgoCD) | Push-Pipeline (Referenz) | Differenz $\Delta$ / Wissenschaftlicher Befund |
+| :--- | :---: | :---: | :--- |
+| **1. Cluster-Provisioning (Terraform)** | **37,90 s** ($\pm 1,15$) | **37,87 s** ($\pm 1,08$) | **$\Delta = 0,03\text{ s}$ (100 % Tooling-Fairness)** |
+| **2. Operator-Bootstrapping (ArgoCD Helm)** | **54,98 s** ($\pm 2,05$) | **0,00 s** | Initialer Operator-Overhead von ArgoCD |
+| **3. Workload-Sync (3-Tier-App)** | **18,18 s** ($\pm 0,96$) | **16,46 s** ($\pm 1,25$) | **$\Delta = 1,72\text{ s}$ (nahezu identische Sync-Dauer)** |
+| **Gesamtdauer ($t_\text{total}$)** | **111,08 s** ($\pm 2,36$) | **54,33 s** ($\pm 1,78$) | $p < 0,001$, Cliff's Delta = $1,0$ |
+| **Manuelle Prozessschritte** | **1 Schritt** | **4 Schritte** | **75 % weniger manuelle Eingriffe (H3a bestätigt)** |
+
+Die Daten beweisen empirisch: Clusterbau und Workload-Rollout sind in beiden Systemen identisch schnell. Der Mehraufwand von GitOps bei DR resultiert ausschließlich aus dem Bootstrapping des In-Cluster-Operators (~55 s), welcher im Gegenzug vollständige funktionale Autonomie und minimale manuelle Eingriffe (1 vs. 4 Schritte) ermöglicht.
 
 ![UF2 und UF3 Analyse](results/plots/fig5_uf2_uf3_mttr_dr_steps.png)
 

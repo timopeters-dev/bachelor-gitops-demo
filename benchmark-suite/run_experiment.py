@@ -10,7 +10,7 @@ from pathlib import Path
 # ==============================================================================
 # KONFIGURATION FÜR UF1 (DRIFT DETECTION & RECOVERY)
 # ==============================================================================
-RUNS_PER_PATTERN = 1
+RUNS_PER_PATTERN = 10
 TIMEOUT_SECONDS = 30.0
 PUSH_CRON_INTERVAL_S = 60.0  # Festes Ausführungsintervall T für Hypothese H1a
 RANDOM_SEED = 42  # Fester Seed für 100% reproduzierbare Zufallszeitpunkte

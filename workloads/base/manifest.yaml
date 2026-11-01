@@ -74,7 +74,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: nginx:1.27-alpine
+          image: nginx:broken-release-999
           ports:
             - containerPort: 80
           resources:

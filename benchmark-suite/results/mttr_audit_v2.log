@@ -1,0 +1,568 @@
+2026-11-01 12:55:41,908 [INFO] git HEAD: 51e1d64642aa8ad5c4ffbd735a56b24af0361611
+2026-11-01 12:55:41,968 [INFO] kubectl: Client Version: v1.37.1
+Kustomize Version: v5.8.1
+2026-11-01 12:55:42,062 [INFO] argocd-controller image: quay.io/argoproj/argocd:v2.13.2
+2026-11-01 12:55:42,150 [INFO] argocd-cmd-params-cm: {"application.namespaces":"","applicationsetcontroller.enable.leader.election":"false","applicationsetcontroller.enable.progressive.syncs":"false","applicationsetcontroller.log.format":"text","applicationsetcontroller.log.level":"info","applicationsetcontroller.namespaces":"","applicationsetcontroller.policy":"sync","controller.ignore.normalizer.jq.timeout":"1s","controller.log.format":"text","controller.log.level":"info","controller.operation.processors":"10","controller.repo.server.timeout.seconds":"60","controller.self.heal.backoff.timeout.seconds":"0","controller.self.heal.timeout.seconds":"5","controller.status.processors":"20","otlp.address":"","redis.server":"argocd-redis:6379","repo.server":"argocd-repo-server:8081","reposerver.log.format":"text","reposerver.log.level":"info","reposerver.parallelism.limit":"0","server.basehref":"/","server.dex.server":"https://argocd-dex-server:5556","server.dex.server.strict.tls":"false","server.disable.auth":"false","server.enable.gzip":"true","server.enable.proxy.extension":"false","server.insecure":"false","server.log.format":"text","server.log.level":"info","server.repo.server.strict.tls":"false","server.rootpath":"","server.staticassets":"/shared/app","server.x.frame.options":"sameorigin"}
+2026-11-01 12:55:42,151 [INFO] === Warm-up (nicht gespeichert) ===
+2026-11-01 12:55:42,151 [INFO] [GitOps_ArgoCD] Lauf 0 (Position 0)
+2026-11-01 12:55:42,152 [INFO] --- Wechsel in den GitOps-Modus ---
+2026-11-01 12:55:42,152 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 12:55:42,397 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 12:55:42,397 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 12:55:42,397 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+2026-11-01 12:55:42,489 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched (no change)
+2026-11-01 12:55:44,470 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 0'
+2026-11-01 12:55:44,487 [INFO] STDOUT: [main fbd434a] UF2 faulty release GitOps_ArgoCD run 0
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:55:44,487 [INFO] EXEC: git push
+2026-11-01 12:55:47,553 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   51e1d64..fbd434a  main -> main
+2026-11-01 12:55:49,886 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:55:49,886 [INFO] EXEC: git revert fbd434a0ef414c6b6e01259efcd13696fbd504b2 --no-edit
+2026-11-01 12:55:49,896 [INFO] STDOUT: [main 33eb80d] Revert "UF2 faulty release GitOps_ArgoCD run 0"
+ Date: Sun Nov 1 12:55:49 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:55:49,897 [INFO] EXEC: git push
+2026-11-01 12:55:52,714 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   fbd434a..33eb80d  main -> main
+2026-11-01 12:55:54,948 [INFO]   -> Rollback abgeschlossen: MTTR 5.062 s (2 Befehle)
+2026-11-01 12:55:57,973 [INFO] [Push_Pipeline] Lauf 0 (Position 0)
+2026-11-01 12:55:57,973 [INFO] --- Wechsel in den Push-Modus ---
+2026-11-01 12:55:58,289 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 12:55:59,563 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 0'
+2026-11-01 12:55:59,574 [INFO] STDOUT: [main f8386c5] UF2 faulty release Push_Pipeline run 0
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:55:59,575 [INFO] EXEC: git push
+2026-11-01 12:56:01,623 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   33eb80d..f8386c5  main -> main
+2026-11-01 12:56:01,627 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:56:02,286 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:56:02,372 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:56:02,372 [INFO] EXEC: git fetch origin main
+2026-11-01 12:56:05,007 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 12:56:05,007 [INFO] EXEC: git checkout 33eb80deef9edc9199a2284608c750c64a69b4fb -- workloads/base/manifest.yaml
+2026-11-01 12:56:05,018 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:56:05,610 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:56:05,974 [INFO]   -> Rollback abgeschlossen: MTTR 3.602 s (3 Befehle)
+2026-11-01 12:56:05,983 [INFO] EXEC: git revert f8386c5ad506154aac0068e6bfcd6102b0e806ee --no-edit
+2026-11-01 12:56:05,995 [INFO] STDOUT: [main a5bcc4c] Revert "UF2 faulty release Push_Pipeline run 0"
+ Date: Sun Nov 1 12:56:05 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:56:05,995 [INFO] EXEC: git push
+2026-11-01 12:56:08,636 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   f8386c5..a5bcc4c  main -> main
+2026-11-01 12:56:11,655 [INFO] === Hauptmessung (Reihenfolge wechselt je Lauf) ===
+2026-11-01 12:56:11,661 [INFO] [GitOps_ArgoCD] Lauf 1 (Position 1)
+2026-11-01 12:56:11,661 [INFO] --- Wechsel in den GitOps-Modus ---
+2026-11-01 12:56:11,662 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 12:56:11,882 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 12:56:11,882 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 12:56:11,883 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+2026-11-01 12:56:11,988 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched (no change)
+2026-11-01 12:56:15,902 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 1'
+2026-11-01 12:56:15,914 [INFO] STDOUT: [main 05bef67] UF2 faulty release GitOps_ArgoCD run 1
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:56:15,915 [INFO] EXEC: git push
+2026-11-01 12:56:18,110 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   a5bcc4c..05bef67  main -> main
+2026-11-01 12:56:20,403 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:56:20,403 [INFO] EXEC: git revert 05bef67bd71c27e6e1d667ab2f0f06ea3be501d4 --no-edit
+2026-11-01 12:56:20,413 [INFO] STDOUT: [main 40a5491] Revert "UF2 faulty release GitOps_ArgoCD run 1"
+ Date: Sun Nov 1 12:56:20 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:56:20,414 [INFO] EXEC: git push
+2026-11-01 12:56:22,842 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   05bef67..40a5491  main -> main
+2026-11-01 12:56:25,098 [INFO]   -> Rollback abgeschlossen: MTTR 4.695 s (2 Befehle)
+2026-11-01 12:56:28,114 [INFO] [Push_Pipeline] Lauf 1 (Position 2)
+2026-11-01 12:56:28,114 [INFO] --- Wechsel in den Push-Modus ---
+2026-11-01 12:56:28,442 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 12:56:29,643 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 1'
+2026-11-01 12:56:29,653 [INFO] STDOUT: [main f86a17e] UF2 faulty release Push_Pipeline run 1
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:56:29,654 [INFO] EXEC: git push
+2026-11-01 12:56:33,061 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   40a5491..f86a17e  main -> main
+2026-11-01 12:56:33,069 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:56:33,629 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:56:33,715 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:56:33,715 [INFO] EXEC: git fetch origin main
+2026-11-01 12:56:36,342 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 12:56:36,343 [INFO] EXEC: git checkout 40a549164c1cc2148494ae3c6f3dcb3e6765f137 -- workloads/base/manifest.yaml
+2026-11-01 12:56:36,354 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:56:36,867 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:56:37,230 [INFO]   -> Rollback abgeschlossen: MTTR 3.514 s (3 Befehle)
+2026-11-01 12:56:37,240 [INFO] EXEC: git revert f86a17e5267340f4dab4c56a35560ef89ddfa11d --no-edit
+2026-11-01 12:56:37,248 [INFO] STDOUT: [main 6f2895b] Revert "UF2 faulty release Push_Pipeline run 1"
+ Date: Sun Nov 1 12:56:37 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:56:37,248 [INFO] EXEC: git push
+2026-11-01 12:56:40,023 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   f86a17e..6f2895b  main -> main
+2026-11-01 12:56:43,044 [INFO] [Push_Pipeline] Lauf 2 (Position 1)
+2026-11-01 12:56:43,887 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 2'
+2026-11-01 12:56:43,901 [INFO] STDOUT: [main ac3d8c7] UF2 faulty release Push_Pipeline run 2
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:56:43,901 [INFO] EXEC: git push
+2026-11-01 12:56:47,805 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   6f2895b..ac3d8c7  main -> main
+2026-11-01 12:56:47,814 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:56:48,492 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:56:48,575 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:56:48,575 [INFO] EXEC: git fetch origin main
+2026-11-01 12:56:51,089 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 12:56:51,089 [INFO] EXEC: git checkout 6f2895bef4417bcf50edb3d1f57efddc3719bb34 -- workloads/base/manifest.yaml
+2026-11-01 12:56:51,100 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:56:51,751 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:56:52,131 [INFO]   -> Rollback abgeschlossen: MTTR 3.556 s (3 Befehle)
+2026-11-01 12:56:52,138 [INFO] EXEC: git revert ac3d8c789c4795f952e29059e3ed1b637278a5a7 --no-edit
+2026-11-01 12:56:52,145 [INFO] STDOUT: [main b746a48] Revert "UF2 faulty release Push_Pipeline run 2"
+ Date: Sun Nov 1 12:56:52 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:56:52,146 [INFO] EXEC: git push
+2026-11-01 12:56:55,180 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   ac3d8c7..b746a48  main -> main
+2026-11-01 12:56:58,202 [INFO] [GitOps_ArgoCD] Lauf 2 (Position 2)
+2026-11-01 12:56:58,202 [INFO] --- Wechsel in den GitOps-Modus ---
+2026-11-01 12:56:58,202 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 12:56:58,382 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 12:56:58,382 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 12:56:58,382 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+2026-11-01 12:56:58,481 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched (no change)
+2026-11-01 12:57:01,917 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 2'
+2026-11-01 12:57:01,928 [INFO] STDOUT: [main 1ec30d4] UF2 faulty release GitOps_ArgoCD run 2
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:57:01,928 [INFO] EXEC: git push
+2026-11-01 12:57:04,805 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   b746a48..1ec30d4  main -> main
+2026-11-01 12:57:06,767 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:57:06,767 [INFO] EXEC: git revert 1ec30d41e58c79e966c5524161153dc3e84966de --no-edit
+2026-11-01 12:57:06,779 [INFO] STDOUT: [main 247155e] Revert "UF2 faulty release GitOps_ArgoCD run 2"
+ Date: Sun Nov 1 12:57:06 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:57:06,779 [INFO] EXEC: git push
+2026-11-01 12:57:09,092 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   1ec30d4..247155e  main -> main
+2026-11-01 12:57:11,011 [INFO]   -> Rollback abgeschlossen: MTTR 4.243 s (2 Befehle)
+2026-11-01 12:57:14,022 [INFO] [GitOps_ArgoCD] Lauf 3 (Position 1)
+2026-11-01 12:57:14,703 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 3'
+2026-11-01 12:57:14,717 [INFO] STDOUT: [main 9cdf84e] UF2 faulty release GitOps_ArgoCD run 3
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:57:14,717 [INFO] EXEC: git push
+2026-11-01 12:57:17,298 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   247155e..9cdf84e  main -> main
+2026-11-01 12:57:20,040 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:57:20,040 [INFO] EXEC: git revert 9cdf84e6be437adae0b44fbe7d7cf53951d988c6 --no-edit
+2026-11-01 12:57:20,048 [INFO] STDOUT: [main 769bb35] Revert "UF2 faulty release GitOps_ArgoCD run 3"
+ Date: Sun Nov 1 12:57:20 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:57:20,048 [INFO] EXEC: git push
+2026-11-01 12:57:23,351 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   9cdf84e..769bb35  main -> main
+2026-11-01 12:57:25,620 [INFO]   -> Rollback abgeschlossen: MTTR 5.58 s (2 Befehle)
+2026-11-01 12:57:28,635 [INFO] [Push_Pipeline] Lauf 3 (Position 2)
+2026-11-01 12:57:28,635 [INFO] --- Wechsel in den Push-Modus ---
+2026-11-01 12:57:28,933 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 12:57:30,163 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 3'
+2026-11-01 12:57:30,174 [INFO] STDOUT: [main d28ffb9] UF2 faulty release Push_Pipeline run 3
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:57:30,174 [INFO] EXEC: git push
+2026-11-01 12:57:33,987 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   769bb35..d28ffb9  main -> main
+2026-11-01 12:57:33,993 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:57:34,591 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:57:34,679 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:57:34,679 [INFO] EXEC: git fetch origin main
+2026-11-01 12:57:37,271 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 12:57:37,272 [INFO] EXEC: git checkout 769bb351cf5fc6577161f00f39115b0fa57f1b01 -- workloads/base/manifest.yaml
+2026-11-01 12:57:37,277 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:57:37,852 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:57:38,215 [INFO]   -> Rollback abgeschlossen: MTTR 3.536 s (3 Befehle)
+2026-11-01 12:57:38,232 [INFO] EXEC: git revert d28ffb978aaa1a25680820d15474da800435299a --no-edit
+2026-11-01 12:57:38,244 [INFO] STDOUT: [main 67617b1] Revert "UF2 faulty release Push_Pipeline run 3"
+ Date: Sun Nov 1 12:57:38 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:57:38,244 [INFO] EXEC: git push
+2026-11-01 12:57:40,747 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   d28ffb9..67617b1  main -> main
+2026-11-01 12:57:43,764 [INFO] [Push_Pipeline] Lauf 4 (Position 1)
+2026-11-01 12:57:44,635 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 4'
+2026-11-01 12:57:44,647 [INFO] STDOUT: [main d57da70] UF2 faulty release Push_Pipeline run 4
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:57:44,647 [INFO] EXEC: git push
+2026-11-01 12:57:52,466 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   67617b1..d57da70  main -> main
+2026-11-01 12:57:52,471 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:57:53,059 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:57:53,151 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:57:53,151 [INFO] EXEC: git fetch origin main
+2026-11-01 12:57:55,294 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 12:57:55,294 [INFO] EXEC: git checkout 67617b1735f4010e9aacf052ca4ee39a5a7d3e2f -- workloads/base/manifest.yaml
+2026-11-01 12:57:55,304 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:57:55,941 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:57:56,301 [INFO]   -> Rollback abgeschlossen: MTTR 3.15 s (3 Befehle)
+2026-11-01 12:57:56,306 [INFO] EXEC: git revert d57da70cc00926baf3db4a92abfd0be6e4e23ddf --no-edit
+2026-11-01 12:57:56,316 [INFO] STDOUT: [main 19b59dd] Revert "UF2 faulty release Push_Pipeline run 4"
+ Date: Sun Nov 1 12:57:56 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:57:56,316 [INFO] EXEC: git push
+2026-11-01 12:57:58,360 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   d57da70..19b59dd  main -> main
+2026-11-01 12:58:01,380 [INFO] [GitOps_ArgoCD] Lauf 4 (Position 2)
+2026-11-01 12:58:01,380 [INFO] --- Wechsel in den GitOps-Modus ---
+2026-11-01 12:58:01,381 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 12:58:01,567 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 12:58:01,567 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 12:58:01,567 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+2026-11-01 12:58:01,655 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched (no change)
+2026-11-01 12:58:04,749 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 4'
+2026-11-01 12:58:04,760 [INFO] STDOUT: [main 4c6dc35] UF2 faulty release GitOps_ArgoCD run 4
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:58:04,761 [INFO] EXEC: git push
+2026-11-01 12:58:07,562 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   19b59dd..4c6dc35  main -> main
+2026-11-01 12:58:10,052 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:58:10,053 [INFO] EXEC: git revert 4c6dc359de8484e6361b040f97d8e34a0f9d6e73 --no-edit
+2026-11-01 12:58:10,061 [INFO] STDOUT: [main 0eee302] Revert "UF2 faulty release GitOps_ArgoCD run 4"
+ Date: Sun Nov 1 12:58:10 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:58:10,061 [INFO] EXEC: git push
+2026-11-01 12:58:12,147 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   4c6dc35..0eee302  main -> main
+2026-11-01 12:58:14,067 [INFO]   -> Rollback abgeschlossen: MTTR 4.015 s (2 Befehle)
+2026-11-01 12:58:17,078 [INFO] [GitOps_ArgoCD] Lauf 5 (Position 1)
+2026-11-01 12:58:17,740 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 5'
+2026-11-01 12:58:17,752 [INFO] STDOUT: [main b04e90f] UF2 faulty release GitOps_ArgoCD run 5
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:58:17,753 [INFO] EXEC: git push
+2026-11-01 12:58:20,684 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   0eee302..b04e90f  main -> main
+2026-11-01 12:58:23,048 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:58:23,049 [INFO] EXEC: git revert b04e90fdf8541eb2b3933218f8ce5031e2e6a271 --no-edit
+2026-11-01 12:58:23,057 [INFO] STDOUT: [main c0aeaa9] Revert "UF2 faulty release GitOps_ArgoCD run 5"
+ Date: Sun Nov 1 12:58:23 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:58:23,057 [INFO] EXEC: git push
+2026-11-01 12:58:25,610 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   b04e90f..c0aeaa9  main -> main
+2026-11-01 12:58:27,565 [INFO]   -> Rollback abgeschlossen: MTTR 4.516 s (2 Befehle)
+2026-11-01 12:58:30,577 [INFO] [Push_Pipeline] Lauf 5 (Position 2)
+2026-11-01 12:58:30,577 [INFO] --- Wechsel in den Push-Modus ---
+2026-11-01 12:58:30,900 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 12:58:32,185 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 5'
+2026-11-01 12:58:32,195 [INFO] STDOUT: [main b6efd34] UF2 faulty release Push_Pipeline run 5
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:58:32,195 [INFO] EXEC: git push
+2026-11-01 12:58:35,531 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   c0aeaa9..b6efd34  main -> main
+2026-11-01 12:58:35,536 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:58:36,104 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:58:36,197 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:58:36,198 [INFO] EXEC: git fetch origin main
+2026-11-01 12:58:38,636 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 12:58:38,637 [INFO] EXEC: git checkout c0aeaa9c4f3454ef3c5a3e96086b20a8af69605a -- workloads/base/manifest.yaml
+2026-11-01 12:58:38,647 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:58:39,241 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:58:39,627 [INFO]   -> Rollback abgeschlossen: MTTR 3.43 s (3 Befehle)
+2026-11-01 12:58:39,634 [INFO] EXEC: git revert b6efd34b0fe246f3d1548a4a26cc5c03284e14ab --no-edit
+2026-11-01 12:58:39,647 [INFO] STDOUT: [main 4ad2aae] Revert "UF2 faulty release Push_Pipeline run 5"
+ Date: Sun Nov 1 12:58:39 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:58:39,648 [INFO] EXEC: git push
+2026-11-01 12:58:42,188 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   b6efd34..4ad2aae  main -> main
+2026-11-01 12:58:45,210 [INFO] [Push_Pipeline] Lauf 6 (Position 1)
+2026-11-01 12:58:46,059 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 6'
+2026-11-01 12:58:46,070 [INFO] STDOUT: [main 19136b0] UF2 faulty release Push_Pipeline run 6
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:58:46,070 [INFO] EXEC: git push
+2026-11-01 12:58:49,062 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   4ad2aae..19136b0  main -> main
+2026-11-01 12:58:49,066 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:58:49,650 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:58:49,733 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:58:49,733 [INFO] EXEC: git fetch origin main
+2026-11-01 12:58:52,225 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 12:58:52,226 [INFO] EXEC: git checkout 4ad2aae96351701bcbedf5022f20eadb504ad8c1 -- workloads/base/manifest.yaml
+2026-11-01 12:58:52,237 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:58:52,869 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:58:53,231 [INFO]   -> Rollback abgeschlossen: MTTR 3.498 s (3 Befehle)
+2026-11-01 12:58:53,239 [INFO] EXEC: git revert 19136b0f731bc7284493d614e8843beb79fa7383 --no-edit
+2026-11-01 12:58:53,247 [INFO] STDOUT: [main a61ebad] Revert "UF2 faulty release Push_Pipeline run 6"
+ Date: Sun Nov 1 12:58:53 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:58:53,247 [INFO] EXEC: git push
+2026-11-01 12:58:56,099 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   19136b0..a61ebad  main -> main
+2026-11-01 12:58:59,117 [INFO] [GitOps_ArgoCD] Lauf 6 (Position 2)
+2026-11-01 12:58:59,118 [INFO] --- Wechsel in den GitOps-Modus ---
+2026-11-01 12:58:59,118 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 12:58:59,304 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 12:58:59,304 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 12:58:59,304 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+2026-11-01 12:58:59,407 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched (no change)
+2026-11-01 12:59:02,621 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 6'
+2026-11-01 12:59:02,633 [INFO] STDOUT: [main da9bd2c] UF2 faulty release GitOps_ArgoCD run 6
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:59:02,634 [INFO] EXEC: git push
+2026-11-01 12:59:06,150 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   a61ebad..da9bd2c  main -> main
+2026-11-01 12:59:08,715 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:59:08,716 [INFO] EXEC: git revert da9bd2cacebd69e9b7d39d99b4f8c16bb93b2028 --no-edit
+2026-11-01 12:59:08,725 [INFO] STDOUT: [main 207ba89] Revert "UF2 faulty release GitOps_ArgoCD run 6"
+ Date: Sun Nov 1 12:59:08 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:59:08,725 [INFO] EXEC: git push
+2026-11-01 12:59:11,269 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   da9bd2c..207ba89  main -> main
+2026-11-01 12:59:13,215 [INFO]   -> Rollback abgeschlossen: MTTR 4.499 s (2 Befehle)
+2026-11-01 12:59:16,227 [INFO] [GitOps_ArgoCD] Lauf 7 (Position 1)
+2026-11-01 12:59:16,944 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 7'
+2026-11-01 12:59:16,963 [INFO] STDOUT: [main 3b02f56] UF2 faulty release GitOps_ArgoCD run 7
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:59:16,964 [INFO] EXEC: git push
+2026-11-01 12:59:20,077 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   207ba89..3b02f56  main -> main
+2026-11-01 12:59:22,218 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:59:22,219 [INFO] EXEC: git revert 3b02f56526aca5fdbb0e556f67231fe4d4301f4d --no-edit
+2026-11-01 12:59:22,240 [INFO] STDOUT: [main 193c8c0] Revert "UF2 faulty release GitOps_ArgoCD run 7"
+ Date: Sun Nov 1 12:59:22 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:59:22,240 [INFO] EXEC: git push
+2026-11-01 12:59:25,401 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   3b02f56..193c8c0  main -> main
+2026-11-01 12:59:27,682 [INFO]   -> Rollback abgeschlossen: MTTR 5.463 s (2 Befehle)
+2026-11-01 12:59:30,707 [INFO] [Push_Pipeline] Lauf 7 (Position 2)
+2026-11-01 12:59:30,707 [INFO] --- Wechsel in den Push-Modus ---
+2026-11-01 12:59:31,029 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 12:59:32,291 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 7'
+2026-11-01 12:59:32,302 [INFO] STDOUT: [main 12c3d4a] UF2 faulty release Push_Pipeline run 7
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:59:32,303 [INFO] EXEC: git push
+2026-11-01 12:59:35,233 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   193c8c0..12c3d4a  main -> main
+2026-11-01 12:59:35,240 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:59:35,898 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:59:35,986 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:59:35,986 [INFO] EXEC: git fetch origin main
+2026-11-01 12:59:38,513 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 12:59:38,513 [INFO] EXEC: git checkout 193c8c04ab077f950335d06a15be6fec9f33f6ba -- workloads/base/manifest.yaml
+2026-11-01 12:59:38,522 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:59:39,147 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:59:39,513 [INFO]   -> Rollback abgeschlossen: MTTR 3.526 s (3 Befehle)
+2026-11-01 12:59:39,520 [INFO] EXEC: git revert 12c3d4a557bb48c560d4d6e3b83e5bea73324bb1 --no-edit
+2026-11-01 12:59:39,528 [INFO] STDOUT: [main 86639b5] Revert "UF2 faulty release Push_Pipeline run 7"
+ Date: Sun Nov 1 12:59:39 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:59:39,529 [INFO] EXEC: git push
+2026-11-01 12:59:42,605 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   12c3d4a..86639b5  main -> main
+2026-11-01 12:59:45,617 [INFO] [Push_Pipeline] Lauf 8 (Position 1)
+2026-11-01 12:59:46,512 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 8'
+2026-11-01 12:59:46,526 [INFO] STDOUT: [main d62ce8d] UF2 faulty release Push_Pipeline run 8
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:59:46,526 [INFO] EXEC: git push
+2026-11-01 12:59:49,517 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   86639b5..d62ce8d  main -> main
+2026-11-01 12:59:49,522 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:59:50,165 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:59:50,259 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 12:59:50,259 [INFO] EXEC: git fetch origin main
+2026-11-01 12:59:53,259 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 12:59:53,259 [INFO] EXEC: git checkout 86639b53d156703176ee93c0359cdd9c1ef2ad6f -- workloads/base/manifest.yaml
+2026-11-01 12:59:53,268 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 12:59:53,844 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:59:54,231 [INFO]   -> Rollback abgeschlossen: MTTR 3.971 s (3 Befehle)
+2026-11-01 12:59:54,238 [INFO] EXEC: git revert d62ce8d708aa8c07a82658b511fe4c5f50319002 --no-edit
+2026-11-01 12:59:54,248 [INFO] STDOUT: [main 2818420] Revert "UF2 faulty release Push_Pipeline run 8"
+ Date: Sun Nov 1 12:59:54 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 12:59:54,248 [INFO] EXEC: git push
+2026-11-01 12:59:56,531 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   d62ce8d..2818420  main -> main
+2026-11-01 12:59:59,546 [INFO] [GitOps_ArgoCD] Lauf 8 (Position 2)
+2026-11-01 12:59:59,546 [INFO] --- Wechsel in den GitOps-Modus ---
+2026-11-01 12:59:59,546 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 12:59:59,719 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 12:59:59,719 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 12:59:59,719 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+2026-11-01 12:59:59,806 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched (no change)
+2026-11-01 13:00:03,389 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 8'
+2026-11-01 13:00:03,401 [INFO] STDOUT: [main 7e8ca5a] UF2 faulty release GitOps_ArgoCD run 8
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:00:03,402 [INFO] EXEC: git push
+2026-11-01 13:00:06,567 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   2818420..7e8ca5a  main -> main
+2026-11-01 13:00:08,927 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 13:00:08,928 [INFO] EXEC: git revert 7e8ca5ac495b32676f66cfcb82b8727e966e6242 --no-edit
+2026-11-01 13:00:08,937 [INFO] STDOUT: [main ad1e186] Revert "UF2 faulty release GitOps_ArgoCD run 8"
+ Date: Sun Nov 1 13:00:08 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:00:08,937 [INFO] EXEC: git push
+2026-11-01 13:00:10,958 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   7e8ca5a..ad1e186  main -> main
+2026-11-01 13:00:12,861 [INFO]   -> Rollback abgeschlossen: MTTR 3.933 s (2 Befehle)
+2026-11-01 13:00:15,875 [INFO] [GitOps_ArgoCD] Lauf 9 (Position 1)
+2026-11-01 13:00:16,583 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 9'
+2026-11-01 13:00:16,594 [INFO] STDOUT: [main 448caeb] UF2 faulty release GitOps_ArgoCD run 9
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:00:16,594 [INFO] EXEC: git push
+2026-11-01 13:00:19,530 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   ad1e186..448caeb  main -> main
+2026-11-01 13:00:21,857 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 13:00:21,857 [INFO] EXEC: git revert 448caeb34899cd3e3e9d8da8a2580efd84eb4d0c --no-edit
+2026-11-01 13:00:21,870 [INFO] STDOUT: [main 56eb07d] Revert "UF2 faulty release GitOps_ArgoCD run 9"
+ Date: Sun Nov 1 13:00:21 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:00:21,870 [INFO] EXEC: git push
+2026-11-01 13:00:23,827 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   448caeb..56eb07d  main -> main
+2026-11-01 13:00:25,812 [INFO]   -> Rollback abgeschlossen: MTTR 3.955 s (2 Befehle)
+2026-11-01 13:00:28,826 [INFO] [Push_Pipeline] Lauf 9 (Position 2)
+2026-11-01 13:00:28,826 [INFO] --- Wechsel in den Push-Modus ---
+2026-11-01 13:00:29,139 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:00:30,391 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 9'
+2026-11-01 13:00:30,402 [INFO] STDOUT: [main f07a7d6] UF2 faulty release Push_Pipeline run 9
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:00:30,402 [INFO] EXEC: git push
+2026-11-01 13:00:38,515 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   56eb07d..f07a7d6  main -> main
+2026-11-01 13:00:38,523 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 13:00:39,192 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 13:00:39,278 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 13:00:39,279 [INFO] EXEC: git fetch origin main
+2026-11-01 13:00:41,684 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 13:00:41,685 [INFO] EXEC: git checkout 56eb07dba0d02d5c1ceb045666a973000126c5d3 -- workloads/base/manifest.yaml
+2026-11-01 13:00:41,690 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 13:00:42,225 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 13:00:42,596 [INFO]   -> Rollback abgeschlossen: MTTR 3.318 s (3 Befehle)
+2026-11-01 13:00:42,605 [INFO] EXEC: git revert f07a7d65e678c2604b6a86d9c790aef16ce3cd4f --no-edit
+2026-11-01 13:00:42,615 [INFO] STDOUT: [main 88a6e5d] Revert "UF2 faulty release Push_Pipeline run 9"
+ Date: Sun Nov 1 13:00:42 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:00:42,615 [INFO] EXEC: git push
+2026-11-01 13:00:45,068 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   f07a7d6..88a6e5d  main -> main
+2026-11-01 13:00:48,083 [INFO] [Push_Pipeline] Lauf 10 (Position 1)
+2026-11-01 13:00:49,080 [INFO] EXEC: git commit -m 'UF2 faulty release Push_Pipeline run 10'
+2026-11-01 13:00:49,092 [INFO] STDOUT: [main b352f81] UF2 faulty release Push_Pipeline run 10
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:00:49,093 [INFO] EXEC: git push
+2026-11-01 13:00:53,190 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   88a6e5d..b352f81  main -> main
+2026-11-01 13:00:53,195 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 13:00:53,830 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 13:00:53,921 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 13:00:53,921 [INFO] EXEC: git fetch origin main
+2026-11-01 13:00:56,338 [WARNING] STDERR: From github.com:timopeters-dev/bachelor-gitops-demo
+ * branch            main       -> FETCH_HEAD
+2026-11-01 13:00:56,338 [INFO] EXEC: git checkout 88a6e5d092db54dbb721bd0ea8f95df516f41476 -- workloads/base/manifest.yaml
+2026-11-01 13:00:56,350 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f workloads/base/manifest.yaml
+2026-11-01 13:00:56,966 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 13:00:57,358 [INFO]   -> Rollback abgeschlossen: MTTR 3.437 s (3 Befehle)
+2026-11-01 13:00:57,366 [INFO] EXEC: git revert b352f8124cff233a348f336c7d028764b695baf1 --no-edit
+2026-11-01 13:00:57,382 [INFO] STDOUT: [main 9a17de7] Revert "UF2 faulty release Push_Pipeline run 10"
+ Date: Sun Nov 1 13:00:57 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:00:57,383 [INFO] EXEC: git push
+2026-11-01 13:01:00,175 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   b352f81..9a17de7  main -> main
+2026-11-01 13:01:03,197 [INFO] [GitOps_ArgoCD] Lauf 10 (Position 2)
+2026-11-01 13:01:03,197 [INFO] --- Wechsel in den GitOps-Modus ---
+2026-11-01 13:01:03,197 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:01:03,440 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:01:03,440 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:01:03,441 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+2026-11-01 13:01:03,546 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched (no change)
+2026-11-01 13:01:06,513 [INFO] EXEC: git commit -m 'UF2 faulty release GitOps_ArgoCD run 10'
+2026-11-01 13:01:06,524 [INFO] STDOUT: [main afd6495] UF2 faulty release GitOps_ArgoCD run 10
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:01:06,524 [INFO] EXEC: git push
+2026-11-01 13:01:09,441 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   9a17de7..afd6495  main -> main
+2026-11-01 13:01:11,806 [INFO]   -> Fehlerhafter Release aktiv. Starte Rollback (Timer).
+2026-11-01 13:01:11,807 [INFO] EXEC: git revert afd64951d2953f899fd285b3e626ec7854a765c5 --no-edit
+2026-11-01 13:01:11,816 [INFO] STDOUT: [main b9fed1c] Revert "UF2 faulty release GitOps_ArgoCD run 10"
+ Date: Sun Nov 1 13:01:11 2026 +0100
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+2026-11-01 13:01:11,816 [INFO] EXEC: git push
+2026-11-01 13:01:14,970 [WARNING] STDERR: To github.com:timopeters-dev/bachelor-gitops-demo.git
+   afd6495..b9fed1c  main -> main
+2026-11-01 13:01:17,296 [INFO]   -> Rollback abgeschlossen: MTTR 5.489 s (2 Befehle)
+2026-11-01 13:01:20,329 [INFO] FERTIG. Ergebnisse in '/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/results/mttr_measurements_v2.csv', Log in '/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/results/mttr_audit_v2.log'.

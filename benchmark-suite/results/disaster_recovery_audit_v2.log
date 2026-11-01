@@ -1,0 +1,337 @@
+2026-11-01 13:01:20,693 [INFO] terraform: Terraform v1.16.6
+2026-11-01 13:01:20,703 [INFO] kind: kind v0.33.0 go1.27.2 linux/amd64
+2026-11-01 13:01:20,764 [INFO] kubectl: Client Version: v1.37.1
+2026-11-01 13:01:20,768 [INFO] git HEAD: b9fed1cf197bad38d97d547f2d3ef98467d4cb35
+2026-11-01 13:01:20,769 [INFO] === Warm-up (nicht gespeichert) ===
+2026-11-01 13:01:20,769 [INFO] [GitOps_ArgoCD] Lauf 0 (Position 0): simuliere Totalausfall ...
+2026-11-01 13:01:20,769 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:01:36,648 [INFO]   rc=0
+2026-11-01 13:01:36,649 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:01:36,710 [INFO]   rc=0
+2026-11-01 13:01:36,767 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:02:18,062 [INFO]   rc=0
+2026-11-01 13:02:18,063 [INFO]   -> Phase 1: 41.3 s
+2026-11-01 13:02:18,063 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:03:47,387 [INFO]   rc=0
+2026-11-01 13:03:47,387 [INFO]   -> Phase 2: 89.32 s
+2026-11-01 13:03:47,388 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:03:47,598 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:03:47,598 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:04:14,662 [INFO]   -> Phase 3: 27.27 s | Gesamt: 157.89 s | Befehle: 3
+2026-11-01 13:04:14,662 [INFO] [Push_Pipeline] Lauf 0 (Position 0): simuliere Totalausfall ...
+2026-11-01 13:04:14,663 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:04:23,458 [INFO]   rc=0
+2026-11-01 13:04:23,458 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:04:23,514 [INFO]   rc=0
+2026-11-01 13:04:23,563 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:05:11,176 [INFO]   rc=0
+2026-11-01 13:05:11,176 [INFO]   -> Phase 1: 47.61 s
+2026-11-01 13:05:11,176 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:05:11,506 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:05:11,857 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:05:39,445 [INFO]   -> Phase 3: 28.27 s | Gesamt: 75.88 s | Befehle: 3
+2026-11-01 13:05:39,445 [INFO] === Hauptmessung (Reihenfolge wechselt je Lauf) ===
+2026-11-01 13:05:39,445 [INFO] [GitOps_ArgoCD] Lauf 1 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:05:39,445 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:05:45,147 [INFO]   rc=0
+2026-11-01 13:05:45,147 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:05:45,206 [INFO]   rc=0
+2026-11-01 13:05:45,270 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:06:32,926 [INFO]   rc=0
+2026-11-01 13:06:32,926 [INFO]   -> Phase 1: 47.66 s
+2026-11-01 13:06:32,926 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:08:08,158 [INFO]   rc=0
+2026-11-01 13:08:08,158 [INFO]   -> Phase 2: 95.23 s
+2026-11-01 13:08:08,159 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:08:08,360 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:08:08,360 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:08:36,313 [INFO]   -> Phase 3: 28.15 s | Gesamt: 171.04 s | Befehle: 3
+2026-11-01 13:08:36,313 [INFO] [Push_Pipeline] Lauf 1 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:08:36,313 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:08:45,496 [INFO]   rc=0
+2026-11-01 13:08:45,496 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:08:45,556 [INFO]   rc=0
+2026-11-01 13:08:45,608 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:09:25,149 [INFO]   rc=0
+2026-11-01 13:09:25,150 [INFO]   -> Phase 1: 39.54 s
+2026-11-01 13:09:25,150 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:09:25,475 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:09:25,848 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:09:50,510 [INFO]   -> Phase 3: 25.36 s | Gesamt: 64.9 s | Befehle: 3
+2026-11-01 13:09:50,510 [INFO] [Push_Pipeline] Lauf 2 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:09:50,510 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:09:56,884 [INFO]   rc=0
+2026-11-01 13:09:56,884 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:09:56,938 [INFO]   rc=0
+2026-11-01 13:09:56,991 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:10:36,996 [INFO]   rc=0
+2026-11-01 13:10:36,996 [INFO]   -> Phase 1: 40.01 s
+2026-11-01 13:10:36,997 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:10:37,357 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:10:37,721 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:11:03,543 [INFO]   -> Phase 3: 26.55 s | Gesamt: 66.55 s | Befehle: 3
+2026-11-01 13:11:03,543 [INFO] [GitOps_ArgoCD] Lauf 2 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:11:03,544 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:11:09,184 [INFO]   rc=0
+2026-11-01 13:11:09,184 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:11:09,240 [INFO]   rc=0
+2026-11-01 13:11:09,304 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:11:56,050 [INFO]   rc=0
+2026-11-01 13:11:56,050 [INFO]   -> Phase 1: 46.75 s
+2026-11-01 13:11:56,051 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:13:21,390 [INFO]   rc=0
+2026-11-01 13:13:21,391 [INFO]   -> Phase 2: 85.34 s
+2026-11-01 13:13:21,391 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:13:21,594 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:13:21,594 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:13:48,577 [INFO]   -> Phase 3: 27.19 s | Gesamt: 159.27 s | Befehle: 3
+2026-11-01 13:13:48,577 [INFO] [GitOps_ArgoCD] Lauf 3 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:13:48,577 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:13:58,004 [INFO]   rc=0
+2026-11-01 13:13:58,005 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:13:58,056 [INFO]   rc=0
+2026-11-01 13:13:58,109 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:14:39,357 [INFO]   rc=0
+2026-11-01 13:14:39,357 [INFO]   -> Phase 1: 41.25 s
+2026-11-01 13:14:39,357 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:16:10,420 [INFO]   rc=0
+2026-11-01 13:16:10,420 [INFO]   -> Phase 2: 91.06 s
+2026-11-01 13:16:10,420 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:16:10,619 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:16:10,619 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:16:37,536 [INFO]   -> Phase 3: 27.12 s | Gesamt: 159.43 s | Befehle: 3
+2026-11-01 13:16:37,536 [INFO] [Push_Pipeline] Lauf 3 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:16:37,536 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:16:47,004 [INFO]   rc=0
+2026-11-01 13:16:47,004 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:16:47,062 [INFO]   rc=0
+2026-11-01 13:16:47,116 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:17:28,144 [INFO]   rc=0
+2026-11-01 13:17:28,145 [INFO]   -> Phase 1: 41.03 s
+2026-11-01 13:17:28,145 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:17:28,478 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:17:28,847 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:17:56,132 [INFO]   -> Phase 3: 27.99 s | Gesamt: 69.02 s | Befehle: 3
+2026-11-01 13:17:56,133 [INFO] [Push_Pipeline] Lauf 4 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:17:56,133 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:18:02,999 [INFO]   rc=0
+2026-11-01 13:18:02,999 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:18:03,057 [INFO]   rc=0
+2026-11-01 13:18:03,112 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:18:45,118 [INFO]   rc=0
+2026-11-01 13:18:45,119 [INFO]   -> Phase 1: 42.01 s
+2026-11-01 13:18:45,119 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:18:45,468 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:18:45,804 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:19:18,705 [INFO]   -> Phase 3: 33.59 s | Gesamt: 75.59 s | Befehle: 3
+2026-11-01 13:19:18,706 [INFO] [GitOps_ArgoCD] Lauf 4 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:19:18,706 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:19:23,426 [INFO]   rc=0
+2026-11-01 13:19:23,427 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:19:23,482 [INFO]   rc=0
+2026-11-01 13:19:23,535 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:20:04,479 [INFO]   rc=0
+2026-11-01 13:20:04,479 [INFO]   -> Phase 1: 40.94 s
+2026-11-01 13:20:04,479 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:21:31,343 [INFO]   rc=0
+2026-11-01 13:21:31,343 [INFO]   -> Phase 2: 86.86 s
+2026-11-01 13:21:31,343 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:21:31,572 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:21:31,572 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:22:02,538 [INFO]   -> Phase 3: 31.19 s | Gesamt: 159.0 s | Befehle: 3
+2026-11-01 13:22:02,538 [INFO] [GitOps_ArgoCD] Lauf 5 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:22:02,539 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:22:11,890 [INFO]   rc=0
+2026-11-01 13:22:11,890 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:22:11,950 [INFO]   rc=0
+2026-11-01 13:22:12,000 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:22:57,898 [INFO]   rc=0
+2026-11-01 13:22:57,898 [INFO]   -> Phase 1: 45.9 s
+2026-11-01 13:22:57,898 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:24:35,978 [INFO]   rc=0
+2026-11-01 13:24:35,978 [INFO]   -> Phase 2: 98.08 s
+2026-11-01 13:24:35,978 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:24:36,216 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:24:36,216 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:25:03,584 [INFO]   -> Phase 3: 27.61 s | Gesamt: 171.58 s | Befehle: 3
+2026-11-01 13:25:03,585 [INFO] [Push_Pipeline] Lauf 5 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:25:03,585 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:25:13,522 [INFO]   rc=0
+2026-11-01 13:25:13,522 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:25:13,579 [INFO]   rc=0
+2026-11-01 13:25:13,633 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:26:01,404 [INFO]   rc=0
+2026-11-01 13:26:01,405 [INFO]   -> Phase 1: 47.77 s
+2026-11-01 13:26:01,405 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:26:01,731 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:26:02,128 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:26:33,864 [INFO]   -> Phase 3: 32.46 s | Gesamt: 80.23 s | Befehle: 3
+2026-11-01 13:26:33,865 [INFO] [Push_Pipeline] Lauf 6 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:26:33,865 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:26:38,941 [INFO]   rc=0
+2026-11-01 13:26:38,941 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:26:39,001 [INFO]   rc=0
+2026-11-01 13:26:39,049 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:27:21,326 [INFO]   rc=0
+2026-11-01 13:27:21,326 [INFO]   -> Phase 1: 42.28 s
+2026-11-01 13:27:21,326 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:27:21,683 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:27:22,134 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:27:52,844 [INFO]   -> Phase 3: 31.52 s | Gesamt: 73.8 s | Befehle: 3
+2026-11-01 13:27:52,845 [INFO] [GitOps_ArgoCD] Lauf 6 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:27:52,845 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:27:57,812 [INFO]   rc=0
+2026-11-01 13:27:57,812 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:27:57,886 [INFO]   rc=0
+2026-11-01 13:27:57,941 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:28:40,486 [INFO]   rc=0
+2026-11-01 13:28:40,486 [INFO]   -> Phase 1: 42.54 s
+2026-11-01 13:28:40,486 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:30:13,765 [INFO]   rc=0
+2026-11-01 13:30:13,765 [INFO]   -> Phase 2: 93.28 s
+2026-11-01 13:30:13,765 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:30:13,979 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:30:13,979 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:30:41,075 [INFO]   -> Phase 3: 27.31 s | Gesamt: 163.13 s | Befehle: 3
+2026-11-01 13:30:41,075 [INFO] [GitOps_ArgoCD] Lauf 7 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:30:41,075 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:30:49,901 [INFO]   rc=0
+2026-11-01 13:30:49,902 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:30:49,977 [INFO]   rc=0
+2026-11-01 13:30:50,024 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:31:29,883 [INFO]   rc=0
+2026-11-01 13:31:29,883 [INFO]   -> Phase 1: 39.86 s
+2026-11-01 13:31:29,883 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:33:00,706 [INFO]   rc=0
+2026-11-01 13:33:00,706 [INFO]   -> Phase 2: 90.82 s
+2026-11-01 13:33:00,707 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:33:00,945 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:33:00,946 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:33:28,089 [INFO]   -> Phase 3: 27.38 s | Gesamt: 158.06 s | Befehle: 3
+2026-11-01 13:33:28,089 [INFO] [Push_Pipeline] Lauf 7 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:33:28,089 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:33:36,055 [INFO]   rc=0
+2026-11-01 13:33:36,056 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:33:36,117 [INFO]   rc=0
+2026-11-01 13:33:36,164 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:34:17,449 [INFO]   rc=0
+2026-11-01 13:34:17,449 [INFO]   -> Phase 1: 41.29 s
+2026-11-01 13:34:17,450 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:34:17,797 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:34:18,137 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:34:48,834 [INFO]   -> Phase 3: 31.38 s | Gesamt: 72.67 s | Befehle: 3
+2026-11-01 13:34:48,834 [INFO] [Push_Pipeline] Lauf 8 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:34:48,834 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:34:54,741 [INFO]   rc=0
+2026-11-01 13:34:54,741 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:34:54,801 [INFO]   rc=0
+2026-11-01 13:34:54,856 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:35:42,735 [INFO]   rc=0
+2026-11-01 13:35:42,735 [INFO]   -> Phase 1: 47.88 s
+2026-11-01 13:35:42,735 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:35:43,105 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:35:43,613 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:36:08,271 [INFO]   -> Phase 3: 25.54 s | Gesamt: 73.42 s | Befehle: 3
+2026-11-01 13:36:08,271 [INFO] [GitOps_ArgoCD] Lauf 8 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:36:08,271 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:36:16,089 [INFO]   rc=0
+2026-11-01 13:36:16,090 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:36:16,146 [INFO]   rc=0
+2026-11-01 13:36:16,200 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:36:57,909 [INFO]   rc=0
+2026-11-01 13:36:57,909 [INFO]   -> Phase 1: 41.71 s
+2026-11-01 13:36:57,909 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:38:31,163 [INFO]   rc=0
+2026-11-01 13:38:31,163 [INFO]   -> Phase 2: 93.25 s
+2026-11-01 13:38:31,163 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:38:31,371 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:38:31,371 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:39:00,276 [INFO]   -> Phase 3: 29.11 s | Gesamt: 164.08 s | Befehle: 3
+2026-11-01 13:39:00,276 [INFO] [GitOps_ArgoCD] Lauf 9 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:39:00,276 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:39:09,849 [INFO]   rc=0
+2026-11-01 13:39:09,849 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:39:09,906 [INFO]   rc=0
+2026-11-01 13:39:09,955 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:39:56,923 [INFO]   rc=0
+2026-11-01 13:39:56,923 [INFO]   -> Phase 1: 46.97 s
+2026-11-01 13:39:56,923 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:41:24,697 [INFO]   rc=0
+2026-11-01 13:41:24,697 [INFO]   -> Phase 2: 87.77 s
+2026-11-01 13:41:24,698 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:41:24,914 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:41:24,914 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:41:54,483 [INFO]   -> Phase 3: 29.79 s | Gesamt: 164.53 s | Befehle: 3
+2026-11-01 13:41:54,483 [INFO] [Push_Pipeline] Lauf 9 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:41:54,483 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:42:02,336 [INFO]   rc=0
+2026-11-01 13:42:02,336 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:42:02,393 [INFO]   rc=0
+2026-11-01 13:42:02,445 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:42:42,897 [INFO]   rc=0
+2026-11-01 13:42:42,898 [INFO]   -> Phase 1: 40.45 s
+2026-11-01 13:42:42,898 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:42:43,245 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:42:43,594 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:43:10,584 [INFO]   -> Phase 3: 27.69 s | Gesamt: 68.14 s | Befehle: 3
+2026-11-01 13:43:10,584 [INFO] [Push_Pipeline] Lauf 10 (Position 1): simuliere Totalausfall ...
+2026-11-01 13:43:10,584 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:43:17,193 [INFO]   rc=0
+2026-11-01 13:43:17,193 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:43:17,252 [INFO]   rc=0
+2026-11-01 13:43:17,309 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:44:00,288 [INFO]   rc=0
+2026-11-01 13:44:00,288 [INFO]   -> Phase 1: 42.98 s
+2026-11-01 13:44:00,288 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 13:44:00,645 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 13:44:01,057 [INFO] STDOUT: deployment.apps/database created
+deployment.apps/backend-api created
+deployment.apps/frontend created
+service/frontend-service created
+2026-11-01 13:44:25,310 [INFO]   -> Phase 3: 25.02 s | Gesamt: 68.0 s | Befehle: 3
+2026-11-01 13:44:25,310 [INFO] [GitOps_ArgoCD] Lauf 10 (Position 2): simuliere Totalausfall ...
+2026-11-01 13:44:25,310 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure destroy -auto-approve
+2026-11-01 13:44:31,928 [INFO]   rc=0
+2026-11-01 13:44:31,928 [INFO] EXEC: kind delete cluster --name bachelor-demo
+2026-11-01 13:44:32,001 [INFO]   rc=0
+2026-11-01 13:44:32,052 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -target=kind_cluster.bachelor_cluster -auto-approve
+2026-11-01 13:45:11,961 [INFO]   rc=0
+2026-11-01 13:45:11,962 [INFO]   -> Phase 1: 39.91 s
+2026-11-01 13:45:11,962 [INFO] EXEC: terraform -chdir=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/infrastructure apply -auto-approve
+2026-11-01 13:46:37,421 [INFO]   rc=0
+2026-11-01 13:46:37,421 [INFO]   -> Phase 2: 85.46 s
+2026-11-01 13:46:37,421 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 13:46:37,625 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app created
+2026-11-01 13:46:37,626 [WARNING] STDERR: Warning: metadata.finalizers: "resources-finalizer.argocd.argoproj.io": prefer a domain-qualified finalizer name to avoid accidental conflicts with other finalizer writers
+2026-11-01 13:47:06,210 [INFO]   -> Phase 3: 28.79 s | Gesamt: 154.16 s | Befehle: 3
+2026-11-01 13:47:06,210 [INFO] FERTIG. Ergebnisse in '/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/results/disaster_recovery_measurements_v2.csv', Log in '/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/results/disaster_recovery_audit_v2.log'.

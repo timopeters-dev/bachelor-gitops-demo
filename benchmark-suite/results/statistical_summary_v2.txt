@@ -1,0 +1,215 @@
+
+==============================================================================
+AUSWERTUNGSBERICHT
+==============================================================================
+Erstellt: 2026-11-01T12:47:08+00:00 UTC
+Python 3.14.3, pandas 3.0.6, numpy 2.5.4, scipy 1.18.1
+Ergebnisverzeichnis: /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/results
+Signifikanzniveau 0.05; Mindestgröße je Gruppe für Tests: 3; Seed 42.
+
+==============================================================================
+UF1-B: DRIFT-BEHEBUNG (Zeit von Injektionsende bis Verifikation des Soll-Zustands)
+==============================================================================
+Gemessene Größe: Zeit bis zur Behebung (Erkennung + Heilung zusammen). Es gibt keine getrennte Erkennungszeit. Argo CD läuft ohne Eingriff im Messfenster; Push führt je Lauf genau einen 'kubectl apply' aus (Prozessstart in der Zeit enthalten).
+
+Gültigkeit der Läufe (UF1-B):
+                       gesamt  gueltig  ausgeschlossen
+model                                                 
+GitOps_ArgoCD_Natural     110      110               0
+Push_Pipeline             110      110               0
+
+Zähler-Reset zwischen Läufen (Spalte reset_counter): [0]
+Messreihenfolge blockweise (GitOps vollständig vor Push): True
+  [Test übersprungen] D8: Zeit bis Behebung: n_Argo=10, n_Push=0 (Minimum 3)
+  [Test übersprungen] D11: Zeit bis Behebung: n_Argo=0, n_Push=0 (Minimum 3)
+
+Auswertung je Drift-Muster (Zeiten nur über erfolgreich behobene Läufe; '-' = keine):
+Muster Argo_geheilt Argo_Mittel_s Argo_SD_s Argo_Median_s Push_geheilt Push_Mittel_s Push_SD_s Push_Median_s
+    D1        10/10         1.053     1.647         0.539        10/10          0.61     0.029         0.612
+    D2        10/10         0.476     0.063         0.494        10/10         0.639     0.043         0.637
+    D3        10/10         0.489     0.016         0.482        10/10         0.619     0.034         0.619
+    D4        10/10         0.474      0.01         0.474        10/10         0.714     0.044         0.722
+    D5        10/10         0.304     0.064         0.284        10/10         0.585      0.03         0.591
+    D6        10/10         0.447      0.08         0.482        10/10         0.606     0.031          0.61
+    D7        10/10         0.498     0.018         0.498        10/10         0.611     0.039         0.607
+    D8        10/10         0.095     0.008         0.094         0/10             -         -             -
+    D9        10/10         0.472     0.058         0.488        10/10         0.623     0.029         0.624
+   D10        10/10         0.469     0.006         0.467        10/10         0.711     0.037         0.705
+   D11         0/10             -         -             -         0/10             -         -             -
+
+Drift Recovery Rate (DRR) über alle gültigen Läufe:
+  alle Muster:              {'Argo CD': '100/110 = 90.9 %', 'Push': '90/110 = 81.8 %'}
+  ohne D8:                  {'Argo CD': '90/100 = 90.0 %', 'Push': '90/100 = 90.0 %'}
+  ohne D8 und D11:          {'Argo CD': '90/90 = 100.0 %', 'Push': '90/90 = 100.0 %'}
+  Hinweis: Der Unterschied in der Gesamtrate wird von einzelnen Mustern (D8; D11 bei beiden) getragen. D8 wird von Argo CD nur wegen des manuell gesetzten Tracking-Kontexts bereinigt.
+
+Nicht behobene Läufe: Argo-Sync-Status nach dem Messfenster (Push = N/A):
+post_window_sync_status         ?  Synced
+pattern model                            
+D11     GitOps_ArgoCD_Natural   0      10
+        Push_Pipeline          10       0
+D8      Push_Pipeline          10       0
+
+Gepoolte Zeiten aller erfolgreich behobenen Läufe (nur deskriptiv; Messpunkte sind nach Muster gruppiert und nicht unabhängig, daher kein p-Wert):
+ Gruppe   n  mean    sd  median   min   max
+Argo CD 100 0.478 0.548   0.481 0.084 5.741
+   Push  90 0.635 0.055   0.620 0.533 0.794
+  Cliff's Delta (gepoolt, deskriptiv): -0.977 (groß)
+
+Diagnose Backoff-Zähler: Spearman(heal_attempts_before, Zeit) = -0.454 (p = 2.13e-06, n = 100); Zählerbereich 4.0 bis 102.0. Ein Zusammenhang würde auf Restwirkung des Backoffs hindeuten.
+Diagnose Zeittrend Argo CD: Spearman(Laufreihenfolge, Abweichung vom Mustermedian) = 0.011 (p = 0.9101, n = 100)
+Diagnose Zeittrend Push: Spearman(Laufreihenfolge, Abweichung vom Mustermedian) = 0.013 (p = 0.9014, n = 90)
+
+==============================================================================
+H1a: MODELL DER PUSH-PIPELINE MIT PERIODISCHEM AUSFÜHRUNGSINTERVALL T (analytisch)
+==============================================================================
+Annahme: Ein Drift tritt zu einem zufälligen Zeitpunkt auf; die Wartezeit bis zum nächsten periodischen Pipeline-Lauf ist gleichverteilt U(0, T) mit E = T/2 und 95. Perzentil 0,95*T. Die Behebung selbst dauert so lange wie die gemessene Push-Apply-Zeit. Es handelt sich um ein Modell, nicht um Messdaten; es wird kein Signifikanztest gerechnet.
+Gemessen: Argo CD Mittel 0.478 s (Spanne 0.084 bis 5.741 s); Push-Apply Mittel 0.635 s (nur erfolgreich behobene Läufe, D8/D11 nicht behoben).
+ T_s  E_Wartezeit_s  P95_Wartezeit_s  E_Push_gesamt_s  Faktor_zu_Argo
+   5            2.5             4.75         3.135444             6.6
+  10            5.0             9.50         5.635444            11.8
+  15            7.5            14.25         8.135444            17.0
+  30           15.0            28.50        15.635444            32.7
+  60           30.0            57.00        30.635444            64.1
+ 120           60.0           114.00        60.635444           126.9
+ 300          150.0           285.00       150.635444           315.2
+Gültigkeitsbedingung für die Argo-Werte: unberührtes Self-Healing mit deaktiviertem exponentiellem Backoff; Pause zwischen Drifts oberhalb der konfigurierten Self-Heal-Mindestpause. Der ereignisgesteuerte Push erkennt Drift ohne Commit gar nicht (Erkennungsrate 0 %, architekturbedingt, nicht gemessen).
+
+==============================================================================
+UF2: RELEASE-ROLLBACK / MTTR
+==============================================================================
+Messung: Zeit vom ersten Rollback-Befehl bis Frontend wieder mit gutem Image und 2/2 Replikaten ready. Fehlrelease wird in beiden Modellen per Commit eingespielt; Reihenfolge der Modelle wechselt je Lauf.
+
+Gültigkeit der Läufe (UF2):
+               gesamt  gueltig  ausgeschlossen
+model                                         
+GitOps_ArgoCD      10       10               0
+Push_Pipeline      10       10               0
+
+MTTR in Sekunden (gültige Läufe):
+       Gruppe  n  mean    sd  median   min   max
+      Argo CD 10 4.639 0.653   4.508 3.933 5.580
+Push-Referenz 10 3.494 0.208   3.506 3.150 3.971
+
+Ausgeführte zustandsändernde Rollback-Befehle (n_commands, gezählt, keine Konstante):
+               count  min  50%  max
+model                              
+GitOps_ArgoCD   10.0  2.0  2.0  2.0
+Push_Pipeline   10.0  3.0  3.0  3.0
+
+Diagnose Reihenfolge: mittlere MTTR je Position im Lauf (1 = zuerst, 2 = danach):
+                mean        count   
+order_pos          1      2     1  2
+model                               
+GitOps_ArgoCD  4.842  4.436     5  5
+Push_Pipeline  3.522  3.465     5  5
+
+==============================================================================
+UF3: DISASTER RECOVERY / CLUSTER-RE-INITIALISIERUNG
+==============================================================================
+Phasen: 1 = Cluster-Provisioning (identischer Terraform-Befehl), 2 = Operator-Bootstrap (nur GitOps), 3 = Workload-Rollout. Reihenfolge der Modelle wechselt je Lauf.
+
+Gültigkeit der Läufe (UF3):
+               gesamt  gueltig  ausgeschlossen
+model                                         
+GitOps_ArgoCD      10       10               0
+Push_Pipeline      10       10               0
+
+Phase 1 Cluster (s):
+       Gruppe  n  mean   sd  median   min   max
+      Argo CD 10 43.35 3.11   42.12 39.86 47.66
+Push-Referenz 10 42.52 2.98   41.65 39.54 47.88
+
+Phase 3 Workloads (s):
+       Gruppe  n  mean   sd  median   min   max
+      Argo CD 10 28.36 1.35   27.88 27.12 31.19
+Push-Referenz 10 28.71 3.23   27.84 25.02 33.59
+
+Phase 1 + 3 (ohne Operator) (s):
+       Gruppe  n  mean   sd  median   min   max
+      Argo CD 10 71.71 3.25   71.47 67.24 76.76
+Push-Referenz 10 71.23 4.72   70.84 64.90 80.23
+
+Gesamtdauer (s):
+       Gruppe  n   mean   sd  median    min    max
+      Argo CD 10 162.43 5.61  161.28 154.16 171.58
+Push-Referenz 10  71.23 4.72   70.84  64.90  80.23
+
+Phase 2 Operator-Bootstrap (nur GitOps; beim Push-Modell nicht vorhanden):
+ Gruppe  n  mean   sd  median   min   max
+Argo CD 10 90.72 4.32   90.94 85.34 98.08
+
+Mittlere Differenz Gesamtdauer (Argo - Push): 91.20 s; davon ohne Operator-Phase (Phase 1 + 3): 0.48 s; Operator-Phase im Mittel: 90.72 s.
+
+n_commands (gezählt; Zählregel: zustandsändernde Befehle bzw. Export von Admin-Zugangsdaten außerhalb des Clusters):
+               count  min  50%  max
+model                              
+GitOps_ArgoCD   10.0  3.0  3.0  3.0
+Push_Pipeline   10.0  3.0  3.0  3.0
+
+n_credential_transfers (gezählt; Zählregel: zustandsändernde Befehle bzw. Export von Admin-Zugangsdaten außerhalb des Clusters):
+               count  min  50%  max
+model                              
+GitOps_ArgoCD   10.0  0.0  0.0  0.0
+Push_Pipeline   10.0  1.0  1.0  1.0
+Hinweis: Die Befehlszahlen werden beschreibend berichtet (keine Streuung, kein Test).
+
+Diagnose Reihenfolge: mittlere Gesamtdauer je Position im Lauf:
+                 mean         count   
+order_pos           1       2     1  2
+model                                 
+GitOps_ArgoCD  164.93  159.93     5  5
+Push_Pipeline   71.47   70.99     5  5
+Diagnose Zeittrend Argo CD: Spearman(Lauf, Gesamtdauer) = -0.248 (p = 0.4888, n = 10)
+Diagnose Zeittrend Push-Referenz: Spearman(Lauf, Gesamtdauer) = 0.188 (p = 0.6032, n = 10)
+
+==============================================================================
+HYPOTHESENTESTS MIT HOLM-KORREKTUR (je Testfamilie)
+==============================================================================
+
+Familie: UF1 Zeit bis Behebung je Muster (nur erfolgreiche Läufe)  (m = 9 Tests, alpha = 0.05)
+ rank                   test           kind  n_gitops  n_push       method    p_raw   p_holm  significant_holm  effect effect_label  median_diff_s  ci_lo  ci_hi
+    1  D7: Zeit bis Behebung Mann-Whitney-U        10      10        exakt 1.08e-05 9.74e-05              True   -1.00         groß         -0.110 -0.145 -0.088
+    2  D4: Zeit bis Behebung Mann-Whitney-U        10      10 asymptotisch 1.80e-04   0.0014              True   -1.00         groß         -0.248 -0.278 -0.197
+    3  D3: Zeit bis Behebung Mann-Whitney-U        10      10 asymptotisch 1.81e-04   0.0014              True   -1.00         groß         -0.137 -0.167 -0.103
+    4  D6: Zeit bis Behebung Mann-Whitney-U        10      10 asymptotisch 1.81e-04   0.0014              True   -1.00         groß         -0.128 -0.204 -0.100
+    5  D2: Zeit bis Behebung Mann-Whitney-U        10      10 asymptotisch 1.82e-04   0.0014              True   -1.00         groß         -0.143 -0.182 -0.108
+    6  D5: Zeit bis Behebung Mann-Whitney-U        10      10 asymptotisch 1.82e-04   0.0014              True   -1.00         groß         -0.308 -0.325 -0.273
+    7  D9: Zeit bis Behebung Mann-Whitney-U        10      10 asymptotisch 1.82e-04   0.0014              True   -1.00         groß         -0.136 -0.164 -0.110
+    8 D10: Zeit bis Behebung Mann-Whitney-U        10      10 asymptotisch 1.82e-04   0.0014              True   -1.00         groß         -0.238 -0.266 -0.219
+    9  D1: Zeit bis Behebung Mann-Whitney-U        10      10 asymptotisch   0.0036   0.0036              True   -0.78         groß         -0.073 -0.097 -0.055
+
+Familie: UF1 Behebungsrate je Muster (Fisher)  (m = 11 Tests, alpha = 0.05)
+ rank               test         kind  n_gitops  n_push method    p_raw   p_holm  significant_holm  effect        effect_label  median_diff_s  ci_lo  ci_hi
+    1  D8: Behebungsrate Fisher exakt        10      10  exakt 1.08e-05 1.19e-04              True     1.0 Differenz der Raten            NaN    NaN    NaN
+    2  D1: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+    3  D2: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+    4  D3: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+    5  D4: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+    6  D5: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+    7  D6: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+    8  D7: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+    9  D9: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+   10 D10: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+   11 D11: Behebungsrate Fisher exakt        10      10  exakt   1.0000   1.0000             False     0.0 Differenz der Raten            NaN    NaN    NaN
+
+Familie: UF2/UF3 Hypothesentests (H2, H3b)  (m = 5 Tests, alpha = 0.05)
+ rank                             test           kind  n_gitops  n_push method    p_raw   p_holm  significant_holm  effect     effect_label  median_diff_s  ci_lo  ci_hi
+    1                 UF3: Gesamtdauer Mann-Whitney-U        10      10  exakt 1.08e-05 5.41e-05              True    1.00             groß         90.435 85.550 96.715
+    2                   UF2: MTTR (H2) Mann-Whitney-U        10      10  exakt 4.33e-05 1.73e-04              True    0.96             groß          1.002  0.509  1.970
+    3 UF3: Phase 1 + 3 (ohne Operator) Mann-Whitney-U        10      10  exakt   0.5787   1.0000             False    0.16            klein          0.630 -4.300  5.680
+    4             UF3: Phase 1 Cluster Mann-Whitney-U        10      10  exakt   0.8534   1.0000             False    0.06 vernachlässigbar          0.475 -2.101  5.570
+    5           UF3: Phase 3 Workloads Mann-Whitney-U        10      10  exakt   1.0000   1.0000             False    0.00 vernachlässigbar          0.040 -4.070  2.750
+
+Lesehinweise: Cliff's Delta = P(GitOps > Push) - P(GitOps < Push); positiv = GitOps-Werte größer. Median-Differenz = Median(GitOps) - Median(Push) in Sekunden mit Bootstrap-95%-KI (5000 Ziehungen, Seed 42). Bei Fisher-Tests ist 'effect' die Differenz der Erfolgsraten. Ein nicht signifikanter Test belegt keine Gleichheit.
+
+==============================================================================
+INTERPRETATIONSHINWEISE
+==============================================================================
+1. UF1 misst die Zeit bis zur Behebung (Erkennung + Heilung); die Push-Zeit enthält den Start von 'kubectl apply'.
+2. H1a wird modellbasiert dargestellt (Push-Wartezeit ~ U(0,T)), nicht als Test auf simulierte Daten.
+3. Zeiten gelten nur für erfolgreiche Läufe; Raten werden getrennt berichtet (kein Strafwert).
+4. Pro Muster liegen n Wiederholungen vor; gepoolte UF1-Werte sind gruppiert und nur deskriptiv.
+5. Nicht signifikant bedeutet nicht gleich; Aussagen über Gleichheit würden einen Äquivalenztest erfordern.
+6. Befehlszahlen (n_commands, n_credential_transfers) folgen einer festgelegten Zählregel und sind keine Messwerte mit Streuung.
+7. Alle Messungen stammen aus einer lokalen Kind-Umgebung; Reihenfolgeeffekte siehe Diagnoseabschnitte.

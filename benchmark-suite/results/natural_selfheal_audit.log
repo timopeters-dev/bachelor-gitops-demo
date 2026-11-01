@@ -1,0 +1,1486 @@
+2026-11-01 12:16:57,224 [INFO] === UF1-B: GITOPS (ArgoCD, selfHeal/prune einmalig aktiviert) ===
+2026-11-01 12:16:57,224 [INFO] EXEC: kubectl apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml
+2026-11-01 12:16:57,679 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app unchanged
+2026-11-01 12:16:57,680 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"spec":{"syncPolicy":{"automated":{"prune":true,"selfHeal":true}}}}'
+2026-11-01 12:16:57,780 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched (no change)
+2026-11-01 12:16:57,869 [INFO] ArgoCD Parameter (argocd-cmd-params-cm): {"application.namespaces":"","applicationsetcontroller.enable.leader.election":"false","applicationsetcontroller.enable.progressive.syncs":"false","applicationsetcontroller.log.format":"text","applicationsetcontroller.log.level":"info","applicationsetcontroller.namespaces":"","applicationsetcontroller.policy":"sync","controller.ignore.normalizer.jq.timeout":"1s","controller.log.format":"text","controller.log.level":"info","controller.operation.processors":"10","controller.repo.server.timeout.seconds":"60","controller.self.heal.backoff.timeout.seconds":"0","controller.self.heal.timeout.seconds":"5","controller.status.processors":"20","otlp.address":"","redis.server":"argocd-redis:6379","repo.server":"argocd-repo-server:8081","reposerver.log.format":"text","reposerver.log.level":"info","reposerver.parallelism.limit":"0","server.basehref":"/","server.dex.server":"https://argocd-dex-server:5556","server.dex.server.strict.tls":"false","server.disable.auth":"false","server.enable.gzip":"true","server.enable.proxy.extension":"false","server.insecure":"false","server.log.format":"text","server.log.level":"info","server.repo.server.strict.tls":"false","server.rootpath":"","server.staticassets":"/shared/app","server.x.frame.options":"sameorigin"}
+2026-11-01 12:16:57,964 [INFO] Startzeit Application-Controller-Pod: 2026-11-01T09:53:16Z
+2026-11-01 12:16:57,965 [INFO] Zähler-Reset zwischen Läufen aktiv: False
+2026-11-01 12:17:04,725 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 1
+2026-11-01 12:17:05,611 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:17:05,731 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:17:11,698 [INFO]   -> geheilt: True | Dauer: 5.741 s | Sync nach Fenster: Synced | Heal-Zähler: 4 -> 4
+2026-11-01 12:17:17,699 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 2
+2026-11-01 12:17:18,574 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:17:18,691 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:17:19,418 [INFO]   -> geheilt: True | Dauer: 0.539 s | Sync nach Fenster: Synced | Heal-Zähler: 4 -> 5
+2026-11-01 12:17:25,419 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 3
+2026-11-01 12:17:26,278 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:17:26,388 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:17:27,138 [INFO]   -> geheilt: True | Dauer: 0.544 s | Sync nach Fenster: Synced | Heal-Zähler: 5 -> 6
+2026-11-01 12:17:33,138 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 4
+2026-11-01 12:17:34,003 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:17:34,106 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:17:34,869 [INFO]   -> geheilt: True | Dauer: 0.567 s | Sync nach Fenster: Synced | Heal-Zähler: 6 -> 7
+2026-11-01 12:17:40,869 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 5
+2026-11-01 12:17:41,681 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:17:41,789 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:17:42,489 [INFO]   -> geheilt: True | Dauer: 0.5 s | Sync nach Fenster: Synced | Heal-Zähler: 7 -> 8
+2026-11-01 12:17:48,489 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 6
+2026-11-01 12:17:49,349 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:17:49,461 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:17:50,165 [INFO]   -> geheilt: True | Dauer: 0.522 s | Sync nach Fenster: Synced | Heal-Zähler: 8 -> 9
+2026-11-01 12:17:56,165 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 7
+2026-11-01 12:17:57,006 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:17:57,115 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:17:57,852 [INFO]   -> geheilt: True | Dauer: 0.542 s | Sync nach Fenster: Synced | Heal-Zähler: 9 -> 10
+2026-11-01 12:18:03,852 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 8
+2026-11-01 12:18:04,710 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:18:04,817 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:18:05,610 [INFO]   -> geheilt: True | Dauer: 0.539 s | Sync nach Fenster: Synced | Heal-Zähler: 10 -> 11
+2026-11-01 12:18:11,611 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 9
+2026-11-01 12:18:12,442 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:18:12,549 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:18:13,265 [INFO]   -> geheilt: True | Dauer: 0.522 s | Sync nach Fenster: Synced | Heal-Zähler: 11 -> 12
+2026-11-01 12:18:19,266 [INFO] [GitOps_ArgoCD_Natural] D1 (Replica-Drift (2 -> 5)) - Lauf 10
+2026-11-01 12:18:20,106 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:18:20,214 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:18:20,927 [INFO]   -> geheilt: True | Dauer: 0.518 s | Sync nach Fenster: Synced | Heal-Zähler: 12 -> 13
+2026-11-01 12:18:26,927 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 1
+2026-11-01 12:18:27,803 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:18:27,917 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:18:28,604 [INFO]   -> geheilt: True | Dauer: 0.496 s | Sync nach Fenster: Synced | Heal-Zähler: 13 -> 14
+2026-11-01 12:18:34,605 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 2
+2026-11-01 12:18:35,435 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:18:35,539 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:18:36,208 [INFO]   -> geheilt: True | Dauer: 0.499 s | Sync nach Fenster: Synced | Heal-Zähler: 14 -> 15
+2026-11-01 12:18:42,208 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 3
+2026-11-01 12:18:43,026 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:18:43,121 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:18:43,813 [INFO]   -> geheilt: True | Dauer: 0.503 s | Sync nach Fenster: Synced | Heal-Zähler: 15 -> 16
+2026-11-01 12:18:49,813 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 4
+2026-11-01 12:18:50,630 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:18:50,746 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:18:51,406 [INFO]   -> geheilt: True | Dauer: 0.488 s | Sync nach Fenster: Synced | Heal-Zähler: 16 -> 17
+2026-11-01 12:18:57,406 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 5
+2026-11-01 12:18:58,258 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:18:58,368 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:18:59,045 [INFO]   -> geheilt: True | Dauer: 0.503 s | Sync nach Fenster: Synced | Heal-Zähler: 17 -> 18
+2026-11-01 12:19:05,045 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 6
+2026-11-01 12:19:05,879 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:19:06,003 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:19:06,658 [INFO]   -> geheilt: True | Dauer: 0.483 s | Sync nach Fenster: Synced | Heal-Zähler: 18 -> 19
+2026-11-01 12:19:12,658 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 7
+2026-11-01 12:19:13,544 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:19:13,661 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:19:14,350 [INFO]   -> geheilt: True | Dauer: 0.512 s | Sync nach Fenster: Synced | Heal-Zähler: 19 -> 20
+2026-11-01 12:19:20,350 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 8
+2026-11-01 12:19:21,179 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:19:21,298 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:19:21,803 [INFO]   -> geheilt: True | Dauer: 0.3 s | Sync nach Fenster: Synced | Heal-Zähler: 20 -> 21
+2026-11-01 12:19:27,803 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 9
+2026-11-01 12:19:28,655 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:19:28,753 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:19:29,445 [INFO]   -> geheilt: True | Dauer: 0.492 s | Sync nach Fenster: Synced | Heal-Zähler: 21 -> 22
+2026-11-01 12:19:35,445 [INFO] [GitOps_ArgoCD_Natural] D2 (Image-Version-Drift) - Lauf 10
+2026-11-01 12:19:36,296 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:19:36,408 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:19:37,062 [INFO]   -> geheilt: True | Dauer: 0.484 s | Sync nach Fenster: Synced | Heal-Zähler: 22 -> 23
+2026-11-01 12:19:43,063 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 1
+2026-11-01 12:19:43,904 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:19:44,008 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:19:44,673 [INFO]   -> geheilt: True | Dauer: 0.493 s | Sync nach Fenster: Synced | Heal-Zähler: 23 -> 24
+2026-11-01 12:19:50,674 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 2
+2026-11-01 12:19:51,536 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:19:51,646 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:19:52,313 [INFO]   -> geheilt: True | Dauer: 0.482 s | Sync nach Fenster: Synced | Heal-Zähler: 24 -> 25
+2026-11-01 12:19:58,314 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 3
+2026-11-01 12:19:59,153 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:19:59,272 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:19:59,925 [INFO]   -> geheilt: True | Dauer: 0.473 s | Sync nach Fenster: Synced | Heal-Zähler: 25 -> 26
+2026-11-01 12:20:05,925 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 4
+2026-11-01 12:20:06,762 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:20:06,865 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:20:07,550 [INFO]   -> geheilt: True | Dauer: 0.481 s | Sync nach Fenster: Synced | Heal-Zähler: 26 -> 27
+2026-11-01 12:20:13,551 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 5
+2026-11-01 12:20:14,402 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:20:14,512 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:20:15,210 [INFO]   -> geheilt: True | Dauer: 0.52 s | Sync nach Fenster: Synced | Heal-Zähler: 27 -> 28
+2026-11-01 12:20:21,211 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 6
+2026-11-01 12:20:22,076 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:20:22,197 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:20:22,852 [INFO]   -> geheilt: True | Dauer: 0.482 s | Sync nach Fenster: Synced | Heal-Zähler: 28 -> 29
+2026-11-01 12:20:28,852 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 7
+2026-11-01 12:20:29,711 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:20:29,818 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:20:30,462 [INFO]   -> geheilt: True | Dauer: 0.475 s | Sync nach Fenster: Synced | Heal-Zähler: 29 -> 30
+2026-11-01 12:20:36,462 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 8
+2026-11-01 12:20:37,338 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:20:37,463 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:20:38,115 [INFO]   -> geheilt: True | Dauer: 0.478 s | Sync nach Fenster: Synced | Heal-Zähler: 30 -> 31
+2026-11-01 12:20:44,116 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 9
+2026-11-01 12:20:44,970 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:20:45,071 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:20:45,764 [INFO]   -> geheilt: True | Dauer: 0.516 s | Sync nach Fenster: Synced | Heal-Zähler: 31 -> 32
+2026-11-01 12:20:51,764 [INFO] [GitOps_ArgoCD_Natural] D3 (Start-Parameter-Manipulation) - Lauf 10
+2026-11-01 12:20:52,588 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:20:52,695 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:20:53,366 [INFO]   -> geheilt: True | Dauer: 0.492 s | Sync nach Fenster: Synced | Heal-Zähler: 32 -> 33
+2026-11-01 12:20:59,366 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 1
+2026-11-01 12:21:00,211 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:21:00,299 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:21:00,956 [INFO]   -> geheilt: True | Dauer: 0.477 s | Sync nach Fenster: Synced | Heal-Zähler: 33 -> 34
+2026-11-01 12:21:06,956 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 2
+2026-11-01 12:21:07,811 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:21:07,924 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:21:08,566 [INFO]   -> geheilt: True | Dauer: 0.467 s | Sync nach Fenster: Synced | Heal-Zähler: 34 -> 35
+2026-11-01 12:21:14,566 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 3
+2026-11-01 12:21:15,422 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:21:15,528 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:21:16,180 [INFO]   -> geheilt: True | Dauer: 0.474 s | Sync nach Fenster: Synced | Heal-Zähler: 35 -> 36
+2026-11-01 12:21:22,180 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 4
+2026-11-01 12:21:23,030 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:21:23,140 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:21:23,785 [INFO]   -> geheilt: True | Dauer: 0.465 s | Sync nach Fenster: Synced | Heal-Zähler: 36 -> 37
+2026-11-01 12:21:29,786 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 5
+2026-11-01 12:21:30,607 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:21:30,718 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:21:31,390 [INFO]   -> geheilt: True | Dauer: 0.486 s | Sync nach Fenster: Synced | Heal-Zähler: 37 -> 38
+2026-11-01 12:21:37,391 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 6
+2026-11-01 12:21:38,222 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:21:38,324 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:21:38,977 [INFO]   -> geheilt: True | Dauer: 0.48 s | Sync nach Fenster: Synced | Heal-Zähler: 38 -> 39
+2026-11-01 12:21:44,978 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 7
+2026-11-01 12:21:45,817 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:21:45,912 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:21:46,559 [INFO]   -> geheilt: True | Dauer: 0.474 s | Sync nach Fenster: Synced | Heal-Zähler: 39 -> 40
+2026-11-01 12:21:52,560 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 8
+2026-11-01 12:21:53,403 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:21:53,494 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:21:54,130 [INFO]   -> geheilt: True | Dauer: 0.461 s | Sync nach Fenster: Synced | Heal-Zähler: 40 -> 41
+2026-11-01 12:22:00,130 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 9
+2026-11-01 12:22:00,986 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:22:01,094 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:22:01,741 [INFO]   -> geheilt: True | Dauer: 0.465 s | Sync nach Fenster: Synced | Heal-Zähler: 41 -> 42
+2026-11-01 12:22:07,742 [INFO] [GitOps_ArgoCD_Natural] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 10
+2026-11-01 12:22:08,600 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:22:08,714 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:22:09,374 [INFO]   -> geheilt: True | Dauer: 0.492 s | Sync nach Fenster: Synced | Heal-Zähler: 42 -> 43
+2026-11-01 12:22:15,374 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 1
+2026-11-01 12:22:16,204 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:22:16,331 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:22:16,787 [INFO]   -> geheilt: True | Dauer: 0.286 s | Sync nach Fenster: Synced | Heal-Zähler: 43 -> 44
+2026-11-01 12:22:22,788 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 2
+2026-11-01 12:22:23,589 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:22:23,708 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:22:24,173 [INFO]   -> geheilt: True | Dauer: 0.283 s | Sync nach Fenster: Synced | Heal-Zähler: 44 -> 45
+2026-11-01 12:22:30,173 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 3
+2026-11-01 12:22:31,016 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:22:31,138 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:22:31,599 [INFO]   -> geheilt: True | Dauer: 0.291 s | Sync nach Fenster: Synced | Heal-Zähler: 45 -> 46
+2026-11-01 12:22:37,600 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 4
+2026-11-01 12:22:38,426 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:22:38,563 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:22:39,023 [INFO]   -> geheilt: True | Dauer: 0.284 s | Sync nach Fenster: Synced | Heal-Zähler: 46 -> 47
+2026-11-01 12:22:45,024 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 5
+2026-11-01 12:22:45,839 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:22:45,944 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:22:46,444 [INFO]   -> geheilt: True | Dauer: 0.311 s | Sync nach Fenster: Synced | Heal-Zähler: 47 -> 48
+2026-11-01 12:22:52,444 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 6
+2026-11-01 12:22:53,273 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:22:53,385 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:22:54,041 [INFO]   -> geheilt: True | Dauer: 0.484 s | Sync nach Fenster: Synced | Heal-Zähler: 48 -> 49
+2026-11-01 12:23:00,041 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 7
+2026-11-01 12:23:00,956 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:23:01,065 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:23:01,501 [INFO]   -> geheilt: True | Dauer: 0.268 s | Sync nach Fenster: Synced | Heal-Zähler: 49 -> 50
+2026-11-01 12:23:07,502 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 8
+2026-11-01 12:23:08,380 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:23:08,497 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:23:08,942 [INFO]   -> geheilt: True | Dauer: 0.279 s | Sync nach Fenster: Synced | Heal-Zähler: 50 -> 51
+2026-11-01 12:23:14,943 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 9
+2026-11-01 12:23:15,778 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:23:15,899 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:23:16,357 [INFO]   -> geheilt: True | Dauer: 0.283 s | Sync nach Fenster: Synced | Heal-Zähler: 51 -> 52
+2026-11-01 12:23:22,358 [INFO] [GitOps_ArgoCD_Natural] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 10
+2026-11-01 12:23:23,188 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:23:23,317 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:23:23,764 [INFO]   -> geheilt: True | Dauer: 0.275 s | Sync nach Fenster: Synced | Heal-Zähler: 52 -> 53
+2026-11-01 12:23:29,764 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 1
+2026-11-01 12:23:30,621 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:23:30,730 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:23:31,375 [INFO]   -> geheilt: True | Dauer: 0.479 s | Sync nach Fenster: Synced | Heal-Zähler: 53 -> 54
+2026-11-01 12:23:37,376 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 2
+2026-11-01 12:23:38,233 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:23:38,334 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:23:38,988 [INFO]   -> geheilt: True | Dauer: 0.482 s | Sync nach Fenster: Synced | Heal-Zähler: 54 -> 55
+2026-11-01 12:23:44,988 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 3
+2026-11-01 12:23:45,872 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:23:46,009 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:23:46,685 [INFO]   -> geheilt: True | Dauer: 0.494 s | Sync nach Fenster: Synced | Heal-Zähler: 55 -> 56
+2026-11-01 12:23:52,685 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 4
+2026-11-01 12:23:53,511 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:23:53,617 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:23:54,284 [INFO]   -> geheilt: True | Dauer: 0.49 s | Sync nach Fenster: Synced | Heal-Zähler: 56 -> 57
+2026-11-01 12:24:00,285 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 5
+2026-11-01 12:24:01,188 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:24:01,300 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:24:01,951 [INFO]   -> geheilt: True | Dauer: 0.479 s | Sync nach Fenster: Synced | Heal-Zähler: 57 -> 58
+2026-11-01 12:24:07,952 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 6
+2026-11-01 12:24:08,841 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:24:08,986 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:24:09,647 [INFO]   -> geheilt: True | Dauer: 0.483 s | Sync nach Fenster: Synced | Heal-Zähler: 58 -> 59
+2026-11-01 12:24:15,648 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 7
+2026-11-01 12:24:16,531 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:24:16,643 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:24:17,134 [INFO]   -> geheilt: True | Dauer: 0.304 s | Sync nach Fenster: Synced | Heal-Zähler: 59 -> 60
+2026-11-01 12:24:23,134 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 8
+2026-11-01 12:24:23,935 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:24:24,054 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:24:24,711 [INFO]   -> geheilt: True | Dauer: 0.486 s | Sync nach Fenster: Synced | Heal-Zähler: 60 -> 61
+2026-11-01 12:24:30,711 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 9
+2026-11-01 12:24:31,551 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:24:31,664 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:24:32,324 [INFO]   -> geheilt: True | Dauer: 0.488 s | Sync nach Fenster: Synced | Heal-Zähler: 61 -> 62
+2026-11-01 12:24:38,325 [INFO] [GitOps_ArgoCD_Natural] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 10
+2026-11-01 12:24:39,186 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:24:39,307 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:24:39,785 [INFO]   -> geheilt: True | Dauer: 0.289 s | Sync nach Fenster: Synced | Heal-Zähler: 62 -> 63
+2026-11-01 12:24:45,785 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 1
+2026-11-01 12:24:46,634 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:24:46,743 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:24:47,460 [INFO]   -> geheilt: True | Dauer: 0.538 s | Sync nach Fenster: Synced | Heal-Zähler: 63 -> 64
+2026-11-01 12:24:53,460 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 2
+2026-11-01 12:24:54,255 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:24:54,357 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:24:55,017 [INFO]   -> geheilt: True | Dauer: 0.499 s | Sync nach Fenster: Synced | Heal-Zähler: 64 -> 65
+2026-11-01 12:25:01,017 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 3
+2026-11-01 12:25:01,836 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:25:01,965 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:25:02,653 [INFO]   -> geheilt: True | Dauer: 0.497 s | Sync nach Fenster: Synced | Heal-Zähler: 65 -> 66
+2026-11-01 12:25:08,654 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 4
+2026-11-01 12:25:09,484 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:25:09,576 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:25:10,241 [INFO]   -> geheilt: True | Dauer: 0.48 s | Sync nach Fenster: Synced | Heal-Zähler: 66 -> 67
+2026-11-01 12:25:16,241 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 5
+2026-11-01 12:25:17,086 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:25:17,195 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:25:17,856 [INFO]   -> geheilt: True | Dauer: 0.482 s | Sync nach Fenster: Synced | Heal-Zähler: 67 -> 68
+2026-11-01 12:25:23,857 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 6
+2026-11-01 12:25:24,698 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:25:24,822 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:25:25,506 [INFO]   -> geheilt: True | Dauer: 0.51 s | Sync nach Fenster: Synced | Heal-Zähler: 68 -> 69
+2026-11-01 12:25:31,506 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 7
+2026-11-01 12:25:32,323 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:25:32,458 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:25:33,100 [INFO]   -> geheilt: True | Dauer: 0.477 s | Sync nach Fenster: Synced | Heal-Zähler: 69 -> 70
+2026-11-01 12:25:39,100 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 8
+2026-11-01 12:25:39,937 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:25:40,037 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:25:40,698 [INFO]   -> geheilt: True | Dauer: 0.491 s | Sync nach Fenster: Synced | Heal-Zähler: 70 -> 71
+2026-11-01 12:25:46,699 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 9
+2026-11-01 12:25:47,540 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:25:47,656 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:25:48,352 [INFO]   -> geheilt: True | Dauer: 0.512 s | Sync nach Fenster: Synced | Heal-Zähler: 71 -> 72
+2026-11-01 12:25:54,353 [INFO] [GitOps_ArgoCD_Natural] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 10
+2026-11-01 12:25:55,226 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:25:55,345 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:25:56,023 [INFO]   -> geheilt: True | Dauer: 0.498 s | Sync nach Fenster: Synced | Heal-Zähler: 72 -> 73
+2026-11-01 12:26:02,023 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 1
+2026-11-01 12:26:02,879 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:26:03,203 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:26:03,469 [INFO]   -> geheilt: True | Dauer: 0.097 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 73 -> 74
+2026-11-01 12:26:09,469 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 2
+2026-11-01 12:26:10,315 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:26:10,594 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:26:10,894 [INFO]   -> geheilt: True | Dauer: 0.114 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 74 -> 75
+2026-11-01 12:26:16,895 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 3
+2026-11-01 12:26:17,753 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:26:18,061 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:26:18,314 [INFO]   -> geheilt: True | Dauer: 0.095 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 75 -> 76
+2026-11-01 12:26:24,315 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 4
+2026-11-01 12:26:25,139 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:26:25,438 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:26:25,701 [INFO]   -> geheilt: True | Dauer: 0.09 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 76 -> 77
+2026-11-01 12:26:31,701 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 5
+2026-11-01 12:26:32,553 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:26:32,842 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:26:33,108 [INFO]   -> geheilt: True | Dauer: 0.084 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 77 -> 78
+2026-11-01 12:26:39,108 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 6
+2026-11-01 12:26:39,963 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:26:40,266 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:26:40,521 [INFO]   -> geheilt: True | Dauer: 0.088 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 78 -> 79
+2026-11-01 12:26:46,521 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 7
+2026-11-01 12:26:47,371 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:26:47,683 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:26:47,946 [INFO]   -> geheilt: True | Dauer: 0.094 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 79 -> 80
+2026-11-01 12:26:53,946 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 8
+2026-11-01 12:26:54,793 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:26:55,091 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:26:55,359 [INFO]   -> geheilt: True | Dauer: 0.092 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 80 -> 81
+2026-11-01 12:27:01,360 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 9
+2026-11-01 12:27:02,229 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:27:02,526 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:27:02,790 [INFO]   -> geheilt: True | Dauer: 0.1 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 81 -> 82
+2026-11-01 12:27:08,791 [INFO] [GitOps_ArgoCD_Natural] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 10
+2026-11-01 12:27:09,659 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:27:09,955 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:27:10,232 [INFO]   -> geheilt: True | Dauer: 0.1 s | Sync nach Fenster: OutOfSync | Heal-Zähler: 82 -> 83
+2026-11-01 12:27:16,232 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 1
+2026-11-01 12:27:17,093 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:27:17,225 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:27:17,881 [INFO]   -> geheilt: True | Dauer: 0.485 s | Sync nach Fenster: Synced | Heal-Zähler: 83 -> 84
+2026-11-01 12:27:23,882 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 2
+2026-11-01 12:27:24,703 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:27:24,811 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:27:25,460 [INFO]   -> geheilt: True | Dauer: 0.481 s | Sync nach Fenster: Synced | Heal-Zähler: 84 -> 85
+2026-11-01 12:27:31,461 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 3
+2026-11-01 12:27:32,329 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:27:32,436 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:27:33,113 [INFO]   -> geheilt: True | Dauer: 0.502 s | Sync nach Fenster: Synced | Heal-Zähler: 85 -> 86
+2026-11-01 12:27:39,113 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 4
+2026-11-01 12:27:39,930 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:27:40,042 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:27:40,688 [INFO]   -> geheilt: True | Dauer: 0.48 s | Sync nach Fenster: Synced | Heal-Zähler: 86 -> 87
+2026-11-01 12:27:46,689 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 5
+2026-11-01 12:27:47,534 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:27:47,644 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:27:48,148 [INFO]   -> geheilt: True | Dauer: 0.31 s | Sync nach Fenster: Synced | Heal-Zähler: 87 -> 88
+2026-11-01 12:27:54,149 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 6
+2026-11-01 12:27:54,960 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:27:55,072 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:27:55,736 [INFO]   -> geheilt: True | Dauer: 0.492 s | Sync nach Fenster: Synced | Heal-Zähler: 88 -> 89
+2026-11-01 12:28:01,737 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 7
+2026-11-01 12:28:02,598 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:28:02,717 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:28:03,368 [INFO]   -> geheilt: True | Dauer: 0.473 s | Sync nach Fenster: Synced | Heal-Zähler: 89 -> 90
+2026-11-01 12:28:09,369 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 8
+2026-11-01 12:28:10,193 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:28:10,296 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:28:10,980 [INFO]   -> geheilt: True | Dauer: 0.492 s | Sync nach Fenster: Synced | Heal-Zähler: 90 -> 91
+2026-11-01 12:28:16,980 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 9
+2026-11-01 12:28:17,803 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:28:17,915 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:28:18,579 [INFO]   -> geheilt: True | Dauer: 0.499 s | Sync nach Fenster: Synced | Heal-Zähler: 91 -> 92
+2026-11-01 12:28:24,579 [INFO] [GitOps_ArgoCD_Natural] D9 (SecurityContext-Eskalation) - Lauf 10
+2026-11-01 12:28:25,389 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:28:25,518 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:28:26,198 [INFO]   -> geheilt: True | Dauer: 0.508 s | Sync nach Fenster: Synced | Heal-Zähler: 92 -> 93
+2026-11-01 12:28:32,198 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 1
+2026-11-01 12:28:33,035 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:28:33,131 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:28:33,792 [INFO]   -> geheilt: True | Dauer: 0.481 s | Sync nach Fenster: Synced | Heal-Zähler: 93 -> 94
+2026-11-01 12:28:39,793 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 2
+2026-11-01 12:28:40,628 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:28:40,734 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:28:41,360 [INFO]   -> geheilt: True | Dauer: 0.466 s | Sync nach Fenster: Synced | Heal-Zähler: 94 -> 95
+2026-11-01 12:28:47,360 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 3
+2026-11-01 12:28:48,203 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:28:48,316 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:28:48,958 [INFO]   -> geheilt: True | Dauer: 0.468 s | Sync nach Fenster: Synced | Heal-Zähler: 95 -> 96
+2026-11-01 12:28:54,958 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 4
+2026-11-01 12:28:55,807 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:28:55,910 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:28:56,548 [INFO]   -> geheilt: True | Dauer: 0.464 s | Sync nach Fenster: Synced | Heal-Zähler: 96 -> 97
+2026-11-01 12:29:02,549 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 5
+2026-11-01 12:29:03,390 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:29:03,479 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:29:04,120 [INFO]   -> geheilt: True | Dauer: 0.47 s | Sync nach Fenster: Synced | Heal-Zähler: 97 -> 98
+2026-11-01 12:29:10,121 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 6
+2026-11-01 12:29:10,964 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:29:11,072 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:29:11,740 [INFO]   -> geheilt: True | Dauer: 0.478 s | Sync nach Fenster: Synced | Heal-Zähler: 98 -> 99
+2026-11-01 12:29:17,740 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 7
+2026-11-01 12:29:18,582 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:29:18,690 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:29:19,319 [INFO]   -> geheilt: True | Dauer: 0.465 s | Sync nach Fenster: Synced | Heal-Zähler: 99 -> 100
+2026-11-01 12:29:25,320 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 8
+2026-11-01 12:29:26,168 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:29:26,269 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:29:26,933 [INFO]   -> geheilt: True | Dauer: 0.463 s | Sync nach Fenster: Synced | Heal-Zähler: 100 -> 101
+2026-11-01 12:29:32,934 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 9
+2026-11-01 12:29:33,737 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:29:33,843 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:29:34,495 [INFO]   -> geheilt: True | Dauer: 0.466 s | Sync nach Fenster: Synced | Heal-Zähler: 101 -> 102
+2026-11-01 12:29:40,495 [INFO] [GitOps_ArgoCD_Natural] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 10
+2026-11-01 12:29:41,351 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:29:41,474 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:29:42,127 [INFO]   -> geheilt: True | Dauer: 0.471 s | Sync nach Fenster: Synced | Heal-Zähler: 102 -> 103
+2026-11-01 12:29:48,127 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 1
+2026-11-01 12:29:48,975 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:29:49,076 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:30:09,307 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:30:15,308 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 2
+2026-11-01 12:30:17,075 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:30:17,189 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:30:37,517 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:30:43,518 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 3
+2026-11-01 12:30:46,227 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:30:46,344 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:31:06,580 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:31:12,581 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 4
+2026-11-01 12:31:14,312 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:31:14,416 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:31:34,688 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:31:40,689 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 5
+2026-11-01 12:31:42,450 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:31:42,564 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:32:02,873 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:32:08,874 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 6
+2026-11-01 12:32:10,596 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:32:10,703 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:32:30,930 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:32:36,930 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 7
+2026-11-01 12:32:38,707 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:32:38,826 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:32:59,148 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:33:05,149 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 8
+2026-11-01 12:33:07,872 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:33:08,012 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:33:28,274 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:33:34,274 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 9
+2026-11-01 12:33:35,964 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:33:36,105 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:33:56,391 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:34:02,391 [INFO] [GitOps_ArgoCD_Natural] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 10
+2026-11-01 12:34:04,088 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:34:04,196 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:34:24,393 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: Synced | Heal-Zähler: 103 -> 103
+2026-11-01 12:34:30,394 [INFO] === UF1-B: PUSH-REFERENZ (Admin-Kubeconfig, ein Apply je Lauf) ===
+2026-11-01 12:34:30,394 [INFO] EXEC: kubectl patch application bachelor-3tier-app -n argocd --type merge -p '{"metadata":{"finalizers":null}}'
+2026-11-01 12:34:30,506 [INFO] STDOUT: application.argoproj.io/bachelor-3tier-app patched
+2026-11-01 12:34:30,506 [INFO] EXEC: kubectl delete -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/argocd-app.yaml --ignore-not-found
+2026-11-01 12:34:30,609 [INFO] STDOUT: application.argoproj.io "bachelor-3tier-app" deleted from argocd namespace
+2026-11-01 12:34:30,698 [INFO] Verifiziert: Application 'bachelor-3tier-app' existiert nicht mehr.
+2026-11-01 12:34:30,699 [INFO] EXEC: kind get kubeconfig --name bachelor-demo > /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml
+2026-11-01 12:34:38,860 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 1
+2026-11-01 12:34:39,855 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:34:39,963 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:34:39,963 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:34:40,464 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:34:40,555 [INFO]   -> geheilt: True | Dauer: 0.592 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:34:46,556 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 2
+2026-11-01 12:34:47,588 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:34:47,709 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:34:47,709 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:34:48,216 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:34:48,306 [INFO]   -> geheilt: True | Dauer: 0.597 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:34:54,307 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 3
+2026-11-01 12:34:55,346 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:34:55,434 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:34:55,434 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:34:55,954 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:34:56,044 [INFO]   -> geheilt: True | Dauer: 0.61 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:35:02,045 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 4
+2026-11-01 12:35:03,090 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:35:03,192 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:35:03,192 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:35:03,641 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:35:03,739 [INFO]   -> geheilt: True | Dauer: 0.546 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:35:09,739 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 5
+2026-11-01 12:35:10,821 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:35:10,927 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:35:10,927 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:35:11,474 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:35:11,560 [INFO]   -> geheilt: True | Dauer: 0.633 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:35:17,560 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 6
+2026-11-01 12:35:18,575 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:35:18,679 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:35:18,679 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:35:19,204 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:35:19,292 [INFO]   -> geheilt: True | Dauer: 0.613 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:35:25,293 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 7
+2026-11-01 12:35:26,368 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:35:26,466 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:35:26,466 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:35:26,973 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:35:27,087 [INFO]   -> geheilt: True | Dauer: 0.621 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:35:33,087 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 8
+2026-11-01 12:35:34,022 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:35:34,114 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:35:34,115 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:35:34,633 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:35:34,726 [INFO]   -> geheilt: True | Dauer: 0.611 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:35:40,727 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 9
+2026-11-01 12:35:41,758 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:35:41,874 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:35:41,874 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:35:42,447 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:35:42,534 [INFO]   -> geheilt: True | Dauer: 0.659 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:35:48,534 [INFO] [Push_Pipeline] D1 (Replica-Drift (2 -> 5)) - Lauf 10
+2026-11-01 12:35:49,593 [INFO] EXEC: kubectl scale deployment frontend --replicas=5
+2026-11-01 12:35:49,693 [INFO] STDOUT: deployment.apps/frontend scaled
+2026-11-01 12:35:49,693 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:35:50,191 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:35:50,312 [INFO]   -> geheilt: True | Dauer: 0.619 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:35:56,312 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 1
+2026-11-01 12:35:57,408 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:35:57,529 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:35:57,529 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:35:58,142 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:35:58,233 [INFO]   -> geheilt: True | Dauer: 0.704 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:36:04,233 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 2
+2026-11-01 12:36:05,246 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:36:05,363 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:36:05,363 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:36:05,909 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:36:05,991 [INFO]   -> geheilt: True | Dauer: 0.627 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:36:11,991 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 3
+2026-11-01 12:36:13,049 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:36:13,156 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:36:13,157 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:36:13,670 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:36:13,755 [INFO]   -> geheilt: True | Dauer: 0.598 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:36:19,756 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 4
+2026-11-01 12:36:20,848 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:36:20,967 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:36:20,967 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:36:21,548 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:36:21,663 [INFO]   -> geheilt: True | Dauer: 0.696 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:36:27,664 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 5
+2026-11-01 12:36:28,757 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:36:28,870 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:36:28,871 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:36:29,386 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:36:29,477 [INFO]   -> geheilt: True | Dauer: 0.606 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:36:35,478 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 6
+2026-11-01 12:36:36,576 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:36:36,680 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:36:36,680 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:36:37,255 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:36:37,337 [INFO]   -> geheilt: True | Dauer: 0.657 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:36:43,337 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 7
+2026-11-01 12:36:44,391 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:36:44,488 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:36:44,488 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:36:45,017 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:36:45,099 [INFO]   -> geheilt: True | Dauer: 0.611 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:36:51,099 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 8
+2026-11-01 12:36:52,180 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:36:52,289 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:36:52,289 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:36:52,777 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:36:52,866 [INFO]   -> geheilt: True | Dauer: 0.577 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:36:58,867 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 9
+2026-11-01 12:36:59,922 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:37:00,049 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:37:00,049 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:37:00,625 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:37:00,718 [INFO]   -> geheilt: True | Dauer: 0.67 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:37:06,719 [INFO] [Push_Pipeline] D2 (Image-Version-Drift) - Lauf 10
+2026-11-01 12:37:07,779 [INFO] EXEC: kubectl set image deployment/backend-api api=hashicorp/http-echo:0.2.3
+2026-11-01 12:37:07,875 [INFO] STDOUT: deployment.apps/backend-api image updated
+2026-11-01 12:37:07,875 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:37:08,437 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:37:08,522 [INFO]   -> geheilt: True | Dauer: 0.647 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:37:14,522 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 1
+2026-11-01 12:37:15,654 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:37:15,751 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:37:15,752 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:37:16,296 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:37:16,379 [INFO]   -> geheilt: True | Dauer: 0.627 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:37:22,379 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 2
+2026-11-01 12:37:23,340 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:37:23,467 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:37:23,467 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:37:23,964 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:37:24,045 [INFO]   -> geheilt: True | Dauer: 0.578 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:37:30,046 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 3
+2026-11-01 12:37:31,109 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:37:31,243 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:37:31,244 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:37:31,795 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:37:31,893 [INFO]   -> geheilt: True | Dauer: 0.649 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:37:37,893 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 4
+2026-11-01 12:37:38,984 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:37:39,085 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:37:39,086 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:37:39,597 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:37:39,680 [INFO]   -> geheilt: True | Dauer: 0.595 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:37:45,681 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 5
+2026-11-01 12:37:46,786 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:37:46,887 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:37:46,887 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:37:47,410 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:37:47,499 [INFO]   -> geheilt: True | Dauer: 0.612 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:37:53,499 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 6
+2026-11-01 12:37:54,562 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:37:54,653 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:37:54,654 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:37:55,239 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:37:55,330 [INFO]   -> geheilt: True | Dauer: 0.676 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:38:01,330 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 7
+2026-11-01 12:38:02,404 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:38:02,528 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:38:02,528 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:38:03,007 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:38:03,099 [INFO]   -> geheilt: True | Dauer: 0.571 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:38:09,100 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 8
+2026-11-01 12:38:10,269 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:38:10,367 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:38:10,367 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:38:10,906 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:38:10,998 [INFO]   -> geheilt: True | Dauer: 0.631 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:38:16,999 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 9
+2026-11-01 12:38:18,087 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:38:18,204 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:38:18,204 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:38:18,770 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:38:18,854 [INFO]   -> geheilt: True | Dauer: 0.649 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:38:24,854 [INFO] [Push_Pipeline] D3 (Start-Parameter-Manipulation) - Lauf 10
+2026-11-01 12:38:25,905 [INFO] EXEC: kubectl patch deployment backend-api --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/args/0","value":"-text=MANIPULIERT"}]'
+2026-11-01 12:38:26,024 [INFO] STDOUT: deployment.apps/backend-api patched
+2026-11-01 12:38:26,024 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:38:26,539 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api configured
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:38:26,623 [INFO]   -> geheilt: True | Dauer: 0.599 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:38:32,624 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 1
+2026-11-01 12:38:33,770 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:38:33,875 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:38:33,876 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:38:34,494 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:38:34,579 [INFO]   -> geheilt: True | Dauer: 0.703 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:38:40,579 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 2
+2026-11-01 12:38:41,643 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:38:41,743 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:38:41,744 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:38:42,399 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:38:42,484 [INFO]   -> geheilt: True | Dauer: 0.74 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:38:48,484 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 3
+2026-11-01 12:38:49,590 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:38:49,686 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:38:49,686 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:38:50,269 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:38:50,357 [INFO]   -> geheilt: True | Dauer: 0.671 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:38:56,358 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 4
+2026-11-01 12:38:57,418 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:38:57,527 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:38:57,527 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:38:58,200 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:38:58,294 [INFO]   -> geheilt: True | Dauer: 0.767 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:39:04,294 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 5
+2026-11-01 12:39:05,329 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:39:05,442 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:39:05,442 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:39:06,061 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:39:06,139 [INFO]   -> geheilt: True | Dauer: 0.697 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:39:12,139 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 6
+2026-11-01 12:39:13,264 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:39:13,368 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:39:13,368 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:39:13,950 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:39:14,030 [INFO]   -> geheilt: True | Dauer: 0.662 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:39:20,030 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 7
+2026-11-01 12:39:21,088 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:39:21,190 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:39:21,190 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:39:21,848 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:39:21,932 [INFO]   -> geheilt: True | Dauer: 0.741 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:39:27,932 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 8
+2026-11-01 12:39:29,023 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:39:29,133 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:39:29,133 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:39:29,808 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:39:29,903 [INFO]   -> geheilt: True | Dauer: 0.77 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:39:35,904 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 9
+2026-11-01 12:39:36,991 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:39:37,092 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:39:37,093 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:39:37,744 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:39:37,833 [INFO]   -> geheilt: True | Dauer: 0.741 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:39:43,834 [INFO] [Push_Pipeline] D4 (Service-Port-Drift (targetPort 80 -> 8080)) - Lauf 10
+2026-11-01 12:39:44,933 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/ports/0/targetPort","value":8080}]'
+2026-11-01 12:39:45,048 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:39:45,048 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:39:45,609 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:39:45,697 [INFO]   -> geheilt: True | Dauer: 0.649 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:39:51,697 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 1
+2026-11-01 12:39:52,701 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:39:52,820 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:39:52,820 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:39:53,332 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:39:53,413 [INFO]   -> geheilt: True | Dauer: 0.593 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:39:59,413 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 2
+2026-11-01 12:40:00,474 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:40:00,605 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:40:00,606 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:40:01,136 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:40:01,236 [INFO]   -> geheilt: True | Dauer: 0.631 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:40:07,237 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 3
+2026-11-01 12:40:08,350 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:40:08,469 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:40:08,469 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:40:08,943 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:40:09,030 [INFO]   -> geheilt: True | Dauer: 0.561 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:40:15,031 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 4
+2026-11-01 12:40:16,118 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:40:16,234 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:40:16,234 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:40:16,750 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:40:16,842 [INFO]   -> geheilt: True | Dauer: 0.608 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:40:22,842 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 5
+2026-11-01 12:40:23,998 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:40:24,109 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:40:24,110 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:40:24,576 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:40:24,659 [INFO]   -> geheilt: True | Dauer: 0.55 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:40:30,660 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 6
+2026-11-01 12:40:31,830 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:40:31,940 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:40:31,941 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:40:32,434 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:40:32,518 [INFO]   -> geheilt: True | Dauer: 0.577 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:40:38,519 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 7
+2026-11-01 12:40:39,665 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:40:39,782 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:40:39,783 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:40:40,217 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:40:40,315 [INFO]   -> geheilt: True | Dauer: 0.533 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:40:46,316 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 8
+2026-11-01 12:40:47,337 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:40:47,457 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:40:47,457 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:40:47,964 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:40:48,047 [INFO]   -> geheilt: True | Dauer: 0.59 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:40:54,048 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 9
+2026-11-01 12:40:55,185 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:40:55,308 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:40:55,308 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:40:55,822 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:40:55,905 [INFO]   -> geheilt: True | Dauer: 0.597 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:41:01,905 [INFO] [Push_Pipeline] D5 (Komponenten-Löschung (Service entfernt)) - Lauf 10
+2026-11-01 12:41:02,957 [INFO] EXEC: kubectl delete svc frontend-service
+2026-11-01 12:41:03,074 [INFO] STDOUT: service "frontend-service" deleted from default namespace
+2026-11-01 12:41:03,074 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:41:03,602 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service created
+2026-11-01 12:41:03,688 [INFO]   -> geheilt: True | Dauer: 0.613 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:41:09,688 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 1
+2026-11-01 12:41:10,752 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:41:10,856 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:41:10,857 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:41:11,355 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:41:11,444 [INFO]   -> geheilt: True | Dauer: 0.587 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:41:17,444 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 2
+2026-11-01 12:41:18,539 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:41:18,657 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:41:18,658 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:41:19,150 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:41:19,238 [INFO]   -> geheilt: True | Dauer: 0.581 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:41:25,239 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 3
+2026-11-01 12:41:26,278 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:41:26,391 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:41:26,391 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:41:26,966 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:41:27,059 [INFO]   -> geheilt: True | Dauer: 0.668 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:41:33,060 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 4
+2026-11-01 12:41:34,111 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:41:34,236 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:41:34,236 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:41:34,765 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:41:34,854 [INFO]   -> geheilt: True | Dauer: 0.618 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:41:40,855 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 5
+2026-11-01 12:41:41,953 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:41:42,077 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:41:42,077 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:41:42,608 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:41:42,696 [INFO]   -> geheilt: True | Dauer: 0.619 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:41:48,697 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 6
+2026-11-01 12:41:49,814 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:41:49,928 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:41:49,928 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:41:50,456 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:41:50,548 [INFO]   -> geheilt: True | Dauer: 0.62 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:41:56,548 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 7
+2026-11-01 12:41:57,675 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:41:57,797 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:41:57,798 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:41:58,335 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:41:58,422 [INFO]   -> geheilt: True | Dauer: 0.624 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:42:04,422 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 8
+2026-11-01 12:42:05,509 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:42:05,632 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:42:05,632 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:42:06,104 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:42:06,189 [INFO]   -> geheilt: True | Dauer: 0.556 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:42:12,189 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 9
+2026-11-01 12:42:13,194 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:42:13,311 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:42:13,312 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:42:13,826 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:42:13,915 [INFO]   -> geheilt: True | Dauer: 0.603 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:42:19,917 [INFO] [Push_Pipeline] D6 (Datenbank-Env-Modifikation (REDIS_AOF_ENABLED -> yes)) - Lauf 10
+2026-11-01 12:42:20,964 [INFO] EXEC: kubectl set env deployment/database REDIS_AOF_ENABLED=yes
+2026-11-01 12:42:21,083 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:42:21,083 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:42:21,591 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:42:21,670 [INFO]   -> geheilt: True | Dauer: 0.587 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:42:27,670 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 1
+2026-11-01 12:42:28,811 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:42:28,922 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:42:28,922 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:42:29,438 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:42:29,521 [INFO]   -> geheilt: True | Dauer: 0.599 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:42:35,522 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 2
+2026-11-01 12:42:36,632 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:42:36,736 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:42:36,736 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:42:37,274 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:42:37,354 [INFO]   -> geheilt: True | Dauer: 0.618 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:42:43,355 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 3
+2026-11-01 12:42:44,472 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:42:44,593 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:42:44,593 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:42:45,180 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:42:45,266 [INFO]   -> geheilt: True | Dauer: 0.673 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:42:51,267 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 4
+2026-11-01 12:42:52,431 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:42:52,544 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:42:52,544 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:42:53,125 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:42:53,208 [INFO]   -> geheilt: True | Dauer: 0.664 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:42:59,208 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 5
+2026-11-01 12:43:00,310 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:43:00,419 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:43:00,419 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:43:00,933 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:43:01,018 [INFO]   -> geheilt: True | Dauer: 0.598 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:43:07,018 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 6
+2026-11-01 12:43:08,112 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:43:08,222 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:43:08,223 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:43:08,776 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:43:08,856 [INFO]   -> geheilt: True | Dauer: 0.634 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:43:14,857 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 7
+2026-11-01 12:43:15,941 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:43:16,062 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:43:16,063 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:43:16,594 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:43:16,679 [INFO]   -> geheilt: True | Dauer: 0.616 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:43:22,680 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 8
+2026-11-01 12:43:23,767 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:43:23,880 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:43:23,880 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:43:24,365 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:43:24,454 [INFO]   -> geheilt: True | Dauer: 0.574 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:43:30,455 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 9
+2026-11-01 12:43:31,552 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:43:31,661 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:43:31,661 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:43:32,169 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:43:32,254 [INFO]   -> geheilt: True | Dauer: 0.593 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:43:38,255 [INFO] [Push_Pipeline] D7 (Ressourcen-Limit-Drift (128Mi -> 512Mi)) - Lauf 10
+2026-11-01 12:43:39,334 [INFO] EXEC: kubectl set resources deployment/frontend -c=web --limits=memory=512Mi
+2026-11-01 12:43:39,442 [INFO] STDOUT: deployment.apps/frontend resource requirements updated
+2026-11-01 12:43:39,442 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:43:39,894 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:43:39,987 [INFO]   -> geheilt: True | Dauer: 0.544 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:43:45,987 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 1
+2026-11-01 12:43:47,145 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:43:47,461 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:43:47,461 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:43:47,950 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:44:07,535 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:44:13,535 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 2
+2026-11-01 12:44:14,644 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:44:14,953 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:44:14,953 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:44:15,538 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:44:35,106 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:44:41,106 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 3
+2026-11-01 12:44:42,188 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:44:42,489 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:44:42,489 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:44:43,075 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:45:02,525 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:45:08,526 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 4
+2026-11-01 12:45:09,536 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:45:09,853 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:45:09,854 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:45:10,405 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:45:29,867 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:45:35,868 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 5
+2026-11-01 12:45:36,861 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:45:37,148 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:45:37,148 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:45:37,702 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:45:57,217 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:46:03,217 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 6
+2026-11-01 12:46:04,320 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:46:04,603 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:46:04,604 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:46:05,203 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:46:24,766 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:46:30,767 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 7
+2026-11-01 12:46:31,914 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:46:32,229 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:46:32,229 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:46:32,838 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:46:52,281 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:46:58,282 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 8
+2026-11-01 12:46:59,425 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:46:59,731 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:46:59,731 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:47:00,327 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:47:19,733 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:47:25,734 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 9
+2026-11-01 12:47:26,818 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:47:27,105 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:47:27,105 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:47:27,661 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:47:47,151 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:47:53,151 [INFO] [Push_Pipeline] D8 (Schatten-Ressource (Rogue ConfigMap mit App-Tracking)) - Lauf 10
+2026-11-01 12:47:54,356 [INFO] EXEC: kubectl create configmap rogue-config --from-literal=hack=true && kubectl label configmap rogue-config argocd.argoproj.io/instance=bachelor-3tier-app app.kubernetes.io/instance=bachelor-3tier-app --overwrite && kubectl annotate configmap rogue-config argocd.argoproj.io/tracking-id="bachelor-3tier-app:/ConfigMap:default/rogue-config" --overwrite
+2026-11-01 12:47:54,638 [INFO] STDOUT: configmap/rogue-config created
+configmap/rogue-config labeled
+configmap/rogue-config annotated
+2026-11-01 12:47:54,639 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:47:55,196 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:48:14,756 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:48:20,756 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 1
+2026-11-01 12:48:21,861 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:48:21,968 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:48:21,968 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:48:22,484 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:48:22,570 [INFO]   -> geheilt: True | Dauer: 0.602 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:48:28,570 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 2
+2026-11-01 12:48:29,614 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:48:29,723 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:48:29,723 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:48:30,276 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:48:30,353 [INFO]   -> geheilt: True | Dauer: 0.63 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:48:36,353 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 3
+2026-11-01 12:48:37,485 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:48:37,592 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:48:37,592 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:48:38,153 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:48:38,235 [INFO]   -> geheilt: True | Dauer: 0.643 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:48:44,236 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 4
+2026-11-01 12:48:45,369 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:48:45,486 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:48:45,487 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:48:46,059 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:48:46,142 [INFO]   -> geheilt: True | Dauer: 0.656 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:48:52,143 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 5
+2026-11-01 12:48:53,217 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:48:53,333 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:48:53,333 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:48:53,874 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:48:53,952 [INFO]   -> geheilt: True | Dauer: 0.619 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:48:59,952 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 6
+2026-11-01 12:49:01,065 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:49:01,177 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:49:01,177 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:49:01,754 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:49:01,840 [INFO]   -> geheilt: True | Dauer: 0.663 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:49:07,840 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 7
+2026-11-01 12:49:08,899 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:49:09,006 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:49:09,006 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:49:09,493 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:49:09,583 [INFO]   -> geheilt: True | Dauer: 0.576 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:49:15,583 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 8
+2026-11-01 12:49:16,683 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:49:16,801 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:49:16,801 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:49:17,302 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:49:17,391 [INFO]   -> geheilt: True | Dauer: 0.59 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:49:23,392 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 9
+2026-11-01 12:49:24,491 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:49:24,601 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:49:24,601 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:49:25,125 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:49:25,211 [INFO]   -> geheilt: True | Dauer: 0.609 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:49:31,211 [INFO] [Push_Pipeline] D9 (SecurityContext-Eskalation) - Lauf 10
+2026-11-01 12:49:32,332 [INFO] EXEC: kubectl patch deployment frontend --type=json -p '[{"op":"replace","path":"/spec/template/spec/containers/0/securityContext/allowPrivilegeEscalation","value":true}]'
+2026-11-01 12:49:32,438 [INFO] STDOUT: deployment.apps/frontend patched
+2026-11-01 12:49:32,439 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:49:32,996 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend configured
+service/frontend-service unchanged
+2026-11-01 12:49:33,085 [INFO]   -> geheilt: True | Dauer: 0.645 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:49:39,085 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 1
+2026-11-01 12:49:40,152 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:49:40,262 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:49:40,263 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:49:40,889 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:49:40,975 [INFO]   -> geheilt: True | Dauer: 0.712 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:49:46,975 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 2
+2026-11-01 12:49:48,151 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:49:48,250 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:49:48,250 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:49:48,865 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:49:48,954 [INFO]   -> geheilt: True | Dauer: 0.704 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:49:54,954 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 3
+2026-11-01 12:49:56,070 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:49:56,166 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:49:56,166 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:49:56,806 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:49:56,899 [INFO]   -> geheilt: True | Dauer: 0.733 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:50:02,899 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 4
+2026-11-01 12:50:03,989 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:50:04,095 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:50:04,096 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:50:04,707 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:50:04,791 [INFO]   -> geheilt: True | Dauer: 0.696 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:50:10,792 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 5
+2026-11-01 12:50:11,900 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:50:12,004 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:50:12,004 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:50:12,656 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:50:12,738 [INFO]   -> geheilt: True | Dauer: 0.734 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:50:18,739 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 6
+2026-11-01 12:50:19,838 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:50:19,940 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:50:19,940 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:50:20,523 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:50:20,614 [INFO]   -> geheilt: True | Dauer: 0.674 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:50:26,615 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 7
+2026-11-01 12:50:27,707 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:50:27,802 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:50:27,802 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:50:28,375 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:50:28,462 [INFO]   -> geheilt: True | Dauer: 0.66 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:50:34,462 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 8
+2026-11-01 12:50:35,565 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:50:35,666 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:50:35,666 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:50:36,274 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:50:36,359 [INFO]   -> geheilt: True | Dauer: 0.693 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:50:42,360 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 9
+2026-11-01 12:50:43,469 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:50:43,576 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:50:43,576 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:50:44,283 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:50:44,370 [INFO]   -> geheilt: True | Dauer: 0.794 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:50:50,370 [INFO] [Push_Pipeline] D10 (Service-Selector-Hijacking (tier=frontend -> tier=backend)) - Lauf 10
+2026-11-01 12:50:51,512 [INFO] EXEC: kubectl patch svc frontend-service --type=json -p '[{"op":"replace","path":"/spec/selector/tier","value":"backend"}]'
+2026-11-01 12:50:51,633 [INFO] STDOUT: service/frontend-service patched
+2026-11-01 12:50:51,633 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:50:52,253 [INFO] STDOUT: deployment.apps/database unchanged
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service configured
+2026-11-01 12:50:52,339 [INFO]   -> geheilt: True | Dauer: 0.706 s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:50:58,340 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 1
+2026-11-01 12:50:59,446 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:50:59,568 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:50:59,568 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:51:00,087 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:51:19,695 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:51:25,696 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 2
+2026-11-01 12:51:27,047 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:51:27,157 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:51:27,157 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:51:27,700 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:51:47,206 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:51:53,207 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 3
+2026-11-01 12:51:55,228 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:51:55,337 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:51:55,338 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:51:55,900 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:52:15,463 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:52:21,464 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 4
+2026-11-01 12:52:23,368 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:52:23,473 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:52:23,473 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:52:24,006 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:52:43,525 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:52:49,526 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 5
+2026-11-01 12:52:51,499 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:52:51,601 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:52:51,601 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:52:52,154 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:53:11,628 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:53:17,629 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 6
+2026-11-01 12:53:19,652 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:53:19,758 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:53:19,758 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:53:20,286 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:53:39,783 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:53:45,784 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 7
+2026-11-01 12:53:47,851 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:53:47,972 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:53:47,972 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:53:48,575 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:54:08,047 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:54:14,048 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 8
+2026-11-01 12:54:15,913 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:54:16,027 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:54:16,027 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:54:16,591 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:54:36,083 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:54:42,084 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 9
+2026-11-01 12:54:44,054 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:54:44,175 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:54:44,175 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:54:44,774 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:55:04,311 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:55:10,312 [INFO] [Push_Pipeline] D11 (Additive Env-Injection (UNBEFUGTER_ZUGRIFF=true, nicht im Manifest deklariert)) - Lauf 10
+2026-11-01 12:55:12,173 [INFO] EXEC: kubectl set env deployment/database UNBEFUGTER_ZUGRIFF=true
+2026-11-01 12:55:12,287 [INFO] STDOUT: deployment.apps/database env updated
+2026-11-01 12:55:12,287 [INFO] EXEC: kubectl --kubeconfig=/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/admin-kubeconfig.yaml apply -f /projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/workloads/base/manifest.yaml
+2026-11-01 12:55:12,796 [INFO] STDOUT: deployment.apps/database configured
+deployment.apps/backend-api unchanged
+deployment.apps/frontend unchanged
+service/frontend-service unchanged
+2026-11-01 12:55:32,451 [INFO]   -> geheilt: False | Dauer:  s | Sync nach Fenster: N/A | Heal-Zähler: N/A -> N/A
+2026-11-01 12:55:38,451 [INFO] FERTIG. Ergebnisse in '/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/results/natural_selfheal_measurements.csv', Log in '/projects/Studium/Bachelor/bachelor-setup/bachelor-gitops-demo/benchmark-suite/results/natural_selfheal_audit.log'.

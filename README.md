@@ -1,14 +1,14 @@
-# Empirical Benchmark: GitOps (Terraform & ArgoCD) vs. Push-Based CI/CD Pipelines in Kubernetes
+# Empirical Benchmark: GitOps (Terraform & Argo CD) vs. Push-Based CI/CD Pipelines in Kubernetes
 
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-Kind%20v1.37-326CE5?logo=kubernetes&logoColor=white)
-![Terraform](https://img.shields.io/badge/IaC-Terraform-7B42BC?logo=terraform&logoColor=white)
-![ArgoCD](https://img.shields.io/badge/GitOps-ArgoCD%20v2.13-EF7B4D?logo=argo&logoColor=white)
-![Python](https://img.shields.io/badge/Benchmark-Python%203-3776AB?logo=python&logoColor=white)
+![Terraform](https://img.shields.io/badge/IaC-Terraform%20v1.16-7B42BC?logo=terraform&logoColor=white)
+![ArgoCD](https://img.shields.io/badge/GitOps-Argo%20CD%20v2.13.2-EF7B4D?logo=argo&logoColor=white)
+![Python](https://img.shields.io/badge/Benchmark-Python%203.14-3776AB?logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/Research-Design%20Science%20(DSR)-success)
 
 Dieses Repository enthält das technische Artefakt (Demonstrator & automatisierte Benchmark-Suite) zur Bachelorarbeit:
 
-> **„Konfigurationsdrift und Systemresilienz im Vergleich: Ein empirischer Vergleich Push-basierter Deployment-Pipelines und eines GitOps-Ansatzes mit Terraform und ArgoCD in Kubernetes-Umgebungen“**  
+> **„Konfigurationsdrift und Systemresilienz im Vergleich: Ein empirischer Vergleich Push-basierter Deployment-Pipelines und eines GitOps-Ansatzes mit Terraform und Argo CD in Kubernetes-Umgebungen“**  
 > *Autor: Timo Peters | Studiengang: Informatik (B.Sc.) | Internationale Hochschule (IU)*
 
 ---
@@ -17,10 +17,10 @@ Dieses Repository enthält das technische Artefakt (Demonstrator & automatisiert
 
 In Cloud-nativen Kubernetes-Umgebungen stoßen klassische, **Push-basierte CI/CD-Pipelines** im laufenden Betrieb (*Day-2-Operations*) auf drei strukturelle Schwachstellen:
 1. **Configuration Drift:** Manuelle Eingriffe, Hotfixes (`kubectl edit/scale/patch`) oder eingeschleuste Schatten-Ressourcen führen zu einer Abweichung zwischen dem realen Laufzeitzustand (*Ist-Zustand*) und dem im Git-Repository definierten *Soll-Zustand*. Ereignisgesteuerte Push-Pipelines sind im Laufzeitbetrieb blind für solche Drifts.
-2. **Sicherheits- & Berechtigungsrisiken („God-Mode“):** Externe CI/CD-Runner benötigen weitreichende administrative Cluster-Zugangsdaten (`kubeconfig` / Cluster-Admin-Tokens), was die Angriffsfläche bei einer Kompromittierung des CI-Systems drastisch erhöht.
-3. **Wiederherstellungsaufwand (MTTR & Disaster Recovery):** Rollbacks nach fehlerhaften Releases und die vollständige Re-Initialisierung nach einem Totalausfall erfordern im Push-Modell mehrstufige, imperative Prozessketten.
+2. **Sicherheits- & Berechtigungsrisiken („God-Mode“):** Externe CI/CD-Runner benötigen weitreichende administrative Cluster-Zugangsdaten (`admin-kubeconfig` / Cluster-Admin-Tokens), was die Angriffsfläche bei einer Kompromittierung des CI-Systems drastisch erhöht.
+3. **Wiederherstellungsaufwand (MTTR & Disaster Recovery):** Rollbacks nach fehlerhaften Releases und die vollständige Re-Initialisierung nach einem Totalausfall erfordern im Push-Modell mehrstufige, imperative Prozessketten und einen erneuten Export von Cluster-Zertifikaten.
 
-Dieses Projekt untersucht empirisch, inwiefern eine deklarative **2-Ebenen-GitOps-Architektur** (**Ebene 1:** Basis-Provisioning via *Terraform*, **Ebene 2:** kontinuierliches In-Cluster-Workload-Management via *ArgoCD*) diese Schwachstellen überwindet.
+Dieses Projekt untersucht empirisch, inwiefern eine deklarative **2-Ebenen-GitOps-Architektur** (**Ebene 1:** Basis-Provisioning via *Terraform*, **Ebene 2:** kontinuierliches In-Cluster-Workload-Management via *Argo CD*) diese Schwachstellen überwindet und wo die architektonischen Grenzen beider Modelle liegen.
 
 ---
 
@@ -33,7 +33,7 @@ flowchart TB
     end
 
     subgraph PushModel["Referenzsystem: Klassische Push-Pipeline"]
-        CIRunner["Externer CI/CD-Runner<br/>(besitzt Admin-Kubeconfig 'God-Mode')"]
+        CIRunner["Externer CI/CD-Prozess<br/>(besitzt Admin-Kubeconfig 'God-Mode')"]
         K8sPush["Kubernetes Cluster<br/>(3-Tier-Referenz-App)"]
         Repo -->|"1. Trigger bei Commit"| CIRunner
         CIRunner -->|"2. Imperativer Push von außen<br/>(kubectl apply)"| K8sPush
@@ -42,7 +42,7 @@ flowchart TB
     subgraph GitOpsModel["GitOps-System: 2-Ebenen Pull-Architektur"]
         TF["Ebene 1: Terraform IaC<br/>(Initial Bootstrap & DR)"]
         subgraph K8sGitOps["Kubernetes Cluster (Gekapseltes RBAC)"]
-            Argo["Ebene 2: ArgoCD Operator<br/>(Reconciliation Loop & Self-Heal)"]
+            Argo["Ebene 2: Argo CD Operator<br/>(Reconciliation Loop & Self-Heal)"]
             App["3-Tier-Referenz-App<br/>(Frontend, API, Redis DB)"]
             Argo -->|"Kontinuierlicher Soll/Ist-Abgleich"| App
         end
@@ -54,68 +54,87 @@ flowchart TB
 
 ---
 
-## 3. Untersuchungsdesign & Die 10 Drift-Muster (D1–D10)
+## 3. Untersuchungsdesign & Methodik
 
-Beide Deployment-Modelle werden auf identischer Infrastruktur anhand einer **3-Tier-Referenzapplikation** (*Nginx-Frontend*, *HTTP-Echo Backend-API*, *Redis-Datenbank*) in drei experimentellen Szenarien mit statistisch belastbaren Stichprobengrößen verglichen:
+Beide Deployment-Modelle werden auf identischer Infrastruktur (`Kind v0.33.0`, Node-Image `v1.37.0`) anhand einer **3-Tier-Referenzapplikation** (*Nginx-Frontend*, *HTTP-Echo Backend-API*, *Redis-Datenbank*) in drei experimentellen Szenarien verglichen:
 
-* **UF1 (Drift & Konsistenz, N = 200):** Automatisierte Injektion von 10 definierten Konfigurationsdrifts (`D1`–`D10`) über jeweils 10 vollständige Zyklen ($N = 100$ je Modell) zur Messung der *Drift Detection Time (s)* und *Drift Recovery Rate (%)*.
-* **UF2 (Resilienz & Rollback, N = 20):** Messung der *Mean Time to Recovery (MTTR in s)* nach dem Ausrollen eines fehlerhaften Container-Releases über 10 Durchläufe (`git revert` vs. Pipeline-Redeployment der Vorversion).
-* **UF3 (Disaster Recovery & Betriebsaufwand, N = 20):** Messung der *Disaster Recovery Duration (s)* und der *Anzahl manueller Prozessschritte* bei einem kompletten Cluster-Totalausfall über 10 Zyklen (`terraform destroy` gefolgt von automatisiertem Wiederaufbau).
+* **UF1-B (Natural Self-Healing & Konsistenz, N = 220):** Automatisierte Injektion von 11 definierten Konfigurationsdrifts (`D1`–`D11`) über jeweils 10 vollständige Zyklen ($N = 110$ je Modell). Argo CD operiert dabei im unberührten Regelkreis (`selfHeal: true`, `prune: true`) ohne externen Skript-Eingriff während des 20-sekündigen Messfensters. Um künstliche Verzerrungen durch den bekannten Backoff-Zähler-Bug in Argo CD `v2.13.2` ([GitHub-Issue #21599](https://github.com/argoproj/argo-cd/issues/21599), behoben ab [Pull Request #22095](https://github.com/argoproj/argo-cd/pull/22095)) auszuschließen, wird der exponentielle Backoff vorab über `controller.self.heal.backoff.timeout.seconds: "0"` deaktiviert (`make patch-argocd`).
+* **UF2 (Resilienz & Release-Rollback, N = 20):** Messung der *Mean Time to Recovery (MTTR in s)* nach dem Ausrollen eines fehlerhaften Container-Releases (`nginx:broken-release-999`), das in beiden Modellen symmetrisch per Git-Commit eingespielt wird. Zur Eliminierung von Host- und Cache-Sequenzeffekten erfolgt die Messung im alternierenden **ABBA-Counterbalancing-Design** nach einem vorgeschalteten Warm-up-Zyklus.
+* **UF3 (Disaster Recovery & 3-Phasen-Zerlegung, N = 20):** Messung der *Disaster Recovery Duration (s)* in drei isolierten Phasen (**Phase 1:** Cluster-Provisioning via identischem Terraform-Befehl, **Phase 2:** Operator-Bootstrap via Helm, **Phase 3:** Workload-Rollout) sowie Erfassung der zustandsändernden Befehle (`n_commands`) und externen Credential-Transfers (`n_credential_transfers`) im ABBA-Design.
 
-### Katalog der injizierten Drift-Muster (`benchmark-suite/run_experiment.py`)
+### Katalog der 11 Drift-Muster (`benchmark-suite/run_natural_selfheal.py`)
 
 | ID | Drift-Kategorie | Injektions-Vektor (Live-Cluster Sabotage) | Geprüfte Sicherheits-/Betriebsdimension |
 | :--- | :--- | :--- | :--- |
 | **D1** | Horizontale Skalierung | `kubectl scale deploy frontend --replicas=5` (Soll: 2) | Kapazitäts- & Replikations-Konsistenz |
-| **D2** | Unautorisiertes Image-Tag | `kubectl set image deploy/backend-api ...` | Versions- & Supply-Chain-Integrität |
-| **D3** | Start-Parameter-Manipulation | `kubectl patch deploy backend-api` (Container-Args) | Konfigurations-Integrität zur Laufzeit |
-| **D4** | Service-Port-Verstellung | `kubectl patch svc frontend-service` (Port 80 $\rightarrow$ 8080) | Netzwerk-Verfügbarkeit (Service-Routing) |
+| **D2** | Unautorisiertes Image-Tag | `kubectl set image deploy/backend-api api=hashicorp/http-echo:0.2.3` | Versions- & Supply-Chain-Integrität |
+| **D3** | Start-Parameter-Manipulation | `kubectl patch deploy backend-api` (`args[0] = "-text=MANIPULIERT"`) | Konfigurations-Integrität zur Laufzeit |
+| **D4** | Service-Port-Verstellung | `kubectl patch svc frontend-service` (`targetPort`: 80 $\rightarrow$ 8080) | Netzwerk-Verfügbarkeit (Service-Routing) |
 | **D5** | Komponenten-Löschung | `kubectl delete svc frontend-service` | Selbstheilung gelöschter Teil-Objekte |
-| **D6** | Datenbank-Env-Manipulation | `kubectl set env deploy/database REDIS_AOF_ENABLED=yes` | Schutz kritischer Umgebungsvariablen |
-| **D7** | Ressourcen-Limit-Drift | `kubectl set resources deploy/frontend --limits=memory=512Mi` | Quality-of-Service (QoS) & Noisy-Neighbor-Schutz |
-| **D8** | Schatten-Ressource (*Shadow-IT*) | Einschleusen einer unautorisierten `ConfigMap` (`rogue-config`) | Bereinigung fremder Objekte (*Pruning*) |
+| **D6** | Datenbank-Env-Modifikation | `kubectl set env deploy/database REDIS_AOF_ENABLED=yes` (Soll: `no`) | Schutz deklarierter Umgebungsvariablen |
+| **D7** | Ressourcen-Limit-Drift | `kubectl set resources deploy/frontend -c=web --limits=memory=512Mi` | Quality-of-Service (QoS) & Limit-Durchsetzung |
+| **D8** | Schatten-Ressource (*Shadow-IT*) | `kubectl create cm rogue-config` (mit App-Tracking-Kontext) | Bereinigung fremder Objekte (*Declarative Pruning*) |
 | **D9** | SecurityContext-Eskalation | `allowPrivilegeEscalation: false` $\rightarrow$ `true` | DevSecOps-Compliance & Privilegien-Schutz |
-| **D10** | Service-Selector-Drift (*Routing-Hijacking*) | `kubectl patch svc frontend-service ...` (tier: frontend $\rightarrow$ backend) | Netzwerk- & Routing-Integrität (Traffic-Umleitung) |
+| **D10** | Service-Selector-Hijacking | `kubectl patch svc frontend-service` (`selector.tier`: frontend $\rightarrow$ backend) | Schutz vor interner Traffic-Umleitung |
+| **D11** | Additive Env-Injection | `kubectl set env deploy/database UNBEFUGTER_ZUGRIFF=true` (nicht im Manifest) | Grenze deklarativer Patch-Semantik (*Strategic Merge Patch*) |
 
 ---
 
 ## 4. Zentrale Ergebnisse & Visualisierungen
 
-Die Auswertung erfolgt deskriptiv (Mittelwert, Median, Standardabweichung) sowie inferenzstatistisch mittels **Mann-Whitney-U-Test** ($\alpha = 0,05$) und der nicht-parametrischen Effektstärke **Cliff's Delta** (`benchmark-suite/evaluate_stats.py`). Alle Messreihen wurden in einer isolierten Laborumgebung (dedizierte Ubuntu 24.04 VM, 4 vCPUs, 8 GB RAM) durchgeführt ($N = 100$ je Modell für UF1, $N = 10$ für UF2, $N = 10$ für UF3).
+Die statistische Auswertung (`benchmark-suite/evaluate_stats.py`) trennt strikt zwischen **Behebungsraten** (geprüft mittels **exaktem Fisher-Test**) und **Behebungszeiten** (berechnet ausschließlich über erfolgreich behobene Läufe `recovered == 1` ohne künstliche Timeout-Strafwerte, geprüft mittels **Mann-Whitney-U-Test**). Zur Kontrolle der Family-Wise Error Rate ($\alpha = 0,05$) werden alle $p$-Werte je Testfamilie nach **Holm-Bonferroni** korrigiert und um **Cliff's Delta ($\delta$)** sowie **95-%-Bootstrap-Konfidenzintervalle** der Median-Differenz ergänzt.
 
-### 4.1 Drift Detection & Automated Self-Healing (UF1, N = 200)
-Während eine klassische, ereignisgesteuerte Push-Pipeline im Laufzeitbetrieb architektonisch keine eigenständige Drift-Erkennung besitzt (**0 % Detection Rate**, `NaN`), erkennt der In-Cluster-Operator ArgoCD alle 10 Drift-Muster im Sub-Sekundenbereich (**Mittelwert: 0,26 s**, Median: 0,25 s, Std: 0,05 s, $p < 0,001$, Cliff's Delta = $-1,00$). Gegenüber einer periodischen Push-Pipeline mit festem Ausführungsintervall ($T = 60\text{ s}$, Mittelwert: **29,03 s**, Erwartungswert $\mathbb{E} \approx T/2$) belegt GitOps einen hochsignifikanten Zeitvorteil (**H1a bestätigt**).
+### 4.1 Drift-Behebung im natürlichen Regelkreis (UF1-B, N = 220)
 
-Zudem behebt ArgoCD dank aktivem `prune: true` und `selfHeal: true` autonom **100 % aller Drifts** (Mittelwert: **1,25 s**, Median: 1,18 s, Std: 0,18 s), während ein klassisches `kubectl apply` im Push-Modell an unautorisiert eingeschleusten Schatten-Ressourcen (**D8**) bauartbedingt scheitert (**90 % Recovery Rate**, $p < 0,001$, **H1b bestätigt**). Bei den 9 standardmäßig beherrschten Manifesten weist Push mit **0,71 s** ($\pm 0,10\text{ s}$) eine minimal geringere Latenz als ArgoCD (**1,25 s**) auf, da ArgoCDs Reconciliation-Loop zusätzliche Sicherheits- und Konsistenzprüfungen durchführt.
+* **Drift Recovery Rate (H1b):** Über alle 11 Muster hinweg behebt Argo CD **90,9 % (100/110)** aller Drifts, während die Push-Referenz (`kubectl apply`) **81,8 % (90/110)** erreicht. Ohne die Sondermuster `D8` und `D11` erreichen beide Systeme **100 % (90/90)**.
+  * **Überlegenheit von GitOps bei Schatten-Ressourcen (`D8`):** Eingeschleuste Objekte im Applikationskontext (`rogue-config`) werden von Argo CD dank `prune: true` zu **100 % (10/10)** in durchschnittlich **0,095 s** entfernt, während ein imperatives `kubectl apply` ohne `--prune` diese vollständig ignoriert (**0/10**, Fisher-Exakt-Test: $p_{\text{Holm}} = 1,19 \times 10^{-4}$).
+  * **Architekturgrenze bei additiven Array-Einträgen (`D11`):** Beim Hinzufügen einer im Manifest nicht deklarierten Umgebungsvariable (`UNBEFUGTER_ZUGRIFF=true`) scheitern **beide** Modelle (**0/10**). Da Kubernetes Listenfelder (`env:`) per *Strategic Merge Patch* zusammenführt, bleibt die Variable bestehen; Argo CD meldet hierbei in 10/10 Fällen `Synced` (*State-Inference-Defizit*).
+* **Zeit bis zur Behebung (`recovered == 1`):** Im unberührten Regelkreis ist Argo CD (gepoolter Median: **0,481 s**, Mittelwert: **0,478 s** bzw. **0,425 s** ohne den initialen 5-s-Cooldown in `D1 Lauf 1`) bei allen 9 beidseitig geheilten Mustern signifikant schneller als die Ausführung von `kubectl apply` im Push-Modell (gepoolter Median: **0,620 s**, Mittelwert: **0,635 s**, gepooltes Cliff's Delta $\delta = -0,977$, alle 9 Einzelvergleiche signifikant mit $p_{\text{Holm}} \le 0,0036$).
 
-![UF1 Übersicht](results/plots/fig1_uf1_drift_overview.png)
-![UF1 Verteilungen und ECDF](results/plots/fig2_uf1_distributions_ecdf.png)
-![UF1 Heatmap Matrix](results/plots/fig3_uf1_pattern_heatmap.png)
+| Muster | Argo CD geheilt | Argo Median (Mittel ± SD) | Push geheilt | Push Median (Mittel ± SD) | Median-Diff. (95-%-KI) | $p_{\text{Holm}}$ (MWU / Fisher) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **D1** (Replica) | 10/10 | **0,539 s** (1,053 ± 1,647 s) | 10/10 | **0,612 s** (0,610 ± 0,029 s) | $-0,073\text{ s}$ ($[-0,097; -0,055]$) | **0,0036** ($\delta = -0,78$) |
+| **D2** (Image) | 10/10 | **0,494 s** (0,476 ± 0,063 s) | 10/10 | **0,637 s** (0,639 ± 0,043 s) | $-0,143\text{ s}$ ($[-0,182; -0,108]$) | **0,0014** ($\delta = -1,00$) |
+| **D3** (Args) | 10/10 | **0,482 s** (0,489 ± 0,016 s) | 10/10 | **0,619 s** (0,619 ± 0,034 s) | $-0,137\text{ s}$ ($[-0,167; -0,103]$) | **0,0014** ($\delta = -1,00$) |
+| **D4** (Port) | 10/10 | **0,474 s** (0,474 ± 0,010 s) | 10/10 | **0,722 s** (0,714 ± 0,044 s) | $-0,248\text{ s}$ ($[-0,278; -0,197]$) | **0,0014** ($\delta = -1,00$) |
+| **D5** (Delete Svc) | 10/10 | **0,284 s** (0,304 ± 0,064 s) | 10/10 | **0,591 s** (0,585 ± 0,030 s) | $-0,308\text{ s}$ ($[-0,325; -0,273]$) | **0,0014** ($\delta = -1,00$) |
+| **D6** (Env Mod) | 10/10 | **0,482 s** (0,447 ± 0,080 s) | 10/10 | **0,610 s** (0,606 ± 0,031 s) | $-0,128\text{ s}$ ($[-0,204; -0,100]$) | **0,0014** ($\delta = -1,00$) |
+| **D7** (Resources) | 10/10 | **0,498 s** (0,498 ± 0,018 s) | 10/10 | **0,607 s** (0,611 ± 0,039 s) | $-0,110\text{ s}$ ($[-0,145; -0,088]$) | **9,74e-05** ($\delta = -1,00$) |
+| **D8** (Rogue CM) | **10/10** | **0,094 s** (0,095 ± 0,008 s) | **0/10** | — (*nicht behoben*) | Rate: $+100\text{ \%}$ | **1,19e-04** *(Fisher)* |
+| **D9** (SecContext) | 10/10 | **0,488 s** (0,472 ± 0,058 s) | 10/10 | **0,624 s** (0,623 ± 0,029 s) | $-0,136\text{ s}$ ($[-0,164; -0,110]$) | **0,0014** ($\delta = -1,00$) |
+| **D10** (Selector) | 10/10 | **0,467 s** (0,469 ± 0,006 s) | 10/10 | **0,705 s** (0,711 ± 0,037 s) | $-0,238\text{ s}$ ($[-0,266; -0,219]$) | **0,0014** ($\delta = -1,00$) |
+| **D11** (Add Env) | **0/10** | — (*nicht behoben, Synced*) | **0/10** | — (*nicht behoben*) | Rate: $0\text{ \%}$ | **1,0000** *(Fisher)* |
 
-### 4.2 Sensitivitätsanalyse: Event-Driven Pull vs. Zeitgesteuerte Push-Intervalle (H1a)
-Selbst gegenüber einer periodisch per Cron-Timer ausgeführten Push-Pipeline ($E[T_{\text{wait}}] = T/2$) zeigt das GitOps-Modell über alle untersuchten Intervalle ($T = 5\text{ s}$ bis $300\text{ s}$) einen signifikanten Erkennungsvorteil:
+![UF1 Zeit bis zur Behebung je Drift-Muster](benchmark-suite/results/plots/fig1_uf1_remediation_by_pattern.png)
 
-![H1a Sensitivitätsanalyse](results/plots/fig4_h1a_sensitivity_analysis.png)
+### 4.2 Analytisches Modell & Sensitivitätsanalyse zu H1a
 
-### 4.3 Release-Rollback (UF2) & Disaster Recovery Phasen-Zerlegung (UF3)
+Da eine ereignisgesteuerte Push-Pipeline ohne Commit keinen Drift erkennt (**Erkennungsrate 0 %**), wird für eine periodisch im Intervall $T$ ausgeführte Push-Pipeline die Wartezeit über $\mathcal{U}(0, T)$ mit $\mathbb{E}[\text{Push-Gesamt}] = T/2 + \bar{t}_{\text{apply}}$ ($\bar{t}_{\text{apply}} = 0,635\text{ s}$) modelliert. Gegenüber dem gemessenen Argo-CD-Mittelwert (**0,478 s**) ergibt sich bereits bei $T = 5\text{ s}$ ein Geschwindigkeitsvorteil um den **Faktor 6,6** ($3,14\text{ s}$), bei $T = 60\text{ s}$ um den **Faktor 64,1** ($30,64\text{ s}$) und bei $T = 300\text{ s}$ um den **Faktor 315,2** ($150,64\text{ s}$):
 
-* **UF2 (Release-Rollback & MTTR, N = 20):** Beim Rollback eines fehlerhaften Releases ist die Push-Pipeline mit **2,85 s** ($\pm 0,16\text{ s}$) schneller als GitOps mit **4,14 s** ($\pm 0,39\text{ s}$, $p < 0,001$, Cliff's Delta = $1,0$). Allerdings erfordert Push hierfür **2 imperative Schritte** (CI-Job manuell anstoßen & Rollout überwachen), während GitOps mit **einem einzigen deklarativen Schritt** (`git revert && git push`) auskommt und einen lückenlosen Git-Audit-Trail wahrt.
-* **UF3 (Disaster Recovery & Tooling-Fairness, N = 20):** Der Totalausfall-Neuaufbau via Terraform offenbart die exakte architektonische Zerlegung beider Ansätze:
+![H1a Sensitivitätsanalyse](benchmark-suite/results/plots/fig2_h1a_model_sensitivity.png)
 
-| Phase | GitOps (ArgoCD) | Push-Pipeline (Referenz) | Differenz $\Delta$ / Wissenschaftlicher Befund |
-| :--- | :---: | :---: | :--- |
-| **1. Cluster-Provisioning (Terraform)** | **37,90 s** ($\pm 1,15$) | **37,87 s** ($\pm 1,08$) | **$\Delta = 0,03\text{ s}$ (100 % Tooling-Fairness)** |
-| **2. Operator-Bootstrapping (ArgoCD Helm)** | **54,98 s** ($\pm 2,05$) | **0,00 s** | Initialer Operator-Overhead von ArgoCD |
-| **3. Workload-Sync (3-Tier-App)** | **18,18 s** ($\pm 0,96$) | **16,46 s** ($\pm 1,25$) | **$\Delta = 1,72\text{ s}$ (nahezu identische Sync-Dauer)** |
-| **Gesamtdauer ($t_\text{total}$)** | **111,08 s** ($\pm 2,36$) | **54,33 s** ($\pm 1,78$) | $p < 0,001$, Cliff's Delta = $1,0$ |
-| **Manuelle Prozessschritte** | **1 Schritt** | **4 Schritte** | **75 % weniger manuelle Eingriffe (H3a bestätigt)** |
+### 4.3 Release-Rollback / MTTR (UF2, N = 20)
 
-Die Daten beweisen empirisch: Clusterbau und Workload-Rollout sind in beiden Systemen identisch schnell. Der Mehraufwand von GitOps bei DR resultiert ausschließlich aus dem Bootstrapping des In-Cluster-Operators (~55 s), welcher im Gegenzug vollständige funktionale Autonomie und minimale manuelle Eingriffe (1 vs. 4 Schritte) ermöglicht.
+Beim Rollback eines per Git-Commit ausgerollten Fehlreleases benötigt die Push-Referenz (`git fetch` + `git checkout` + `kubectl apply`) im Median **3,506 s** (Mittelwert: **3,494 ± 0,208 s**, **3 Befehle**, nutzt externe Admin-Kubeconfig), während Argo CD (`git revert` + `git push` + Webhook-Refresh) im Median **4,508 s** (Mittelwert: **4,639 ± 0,653 s**, **2 Befehle**, keine externe Kubeconfig) benötigt ($p_{\text{Holm}} = 1,73 \times 10^{-4}$, $\delta = +0,96$, Median-Differenz: **$+1,002\text{ s}$**). Die zusätzliche Sekunde im GitOps-Modell resultiert aus dem schreibenden `git push` des Revert-Commits zu GitHub, garantiert im Gegenzug jedoch eine lückenlose, revisionssichere Git-Historie ohne neuen Konfigurationsdrift (**H2 differenziert widerlegt**).
 
-![UF2 und UF3 Analyse](results/plots/fig5_uf2_uf3_mttr_dr_steps.png)
+![UF2 MTTR Boxplot](benchmark-suite/results/plots/fig3_uf2_mttr.png)
 
-### 4.4 Ganzheitlicher Architekturvergleich
-![Ganzheitliches Radar-Chart](results/plots/fig6_holistic_radar_comparison.png)
+### 4.4 Disaster Recovery & 3-Phasen-Zerlegung (UF3, N = 20)
+
+Die Re-Initialisierung nach einem kompletten Cluster-Abriss (`destroy_all`) im ABBA-Design isoliert den Einfluss des Operator-Bootstrappings präzise:
+
+| Phase / Metrik | Argo CD (Median; Mittel ± SD) | Push-Referenz (Median; Mittel ± SD) | Median-Diff. (95-%-KI) | $p_{\text{Holm}}$ (MWU) / Befund |
+| :--- | :---: | :---: | :---: | :--- |
+| **Phase 1: Cluster-Provisioning (Terraform)** | **42,12 s** (43,35 ± 3,11 s) | **41,65 s** (42,52 ± 2,98 s) | $+0,475\text{ s}$ ($[-2,10; +5,57]$) | **$p_{\text{Holm}} = 1,0000$ ($\delta = +0,06$, identisches Tooling)** |
+| **Phase 2: Operator-Bootstrap (Helm)** | **90,94 s** (90,72 ± 4,32 s) | *(entfällt: 0,00 s)* | — | Image-Pull (~240 MB) & Start der 7 Argo-CD-Pods |
+| **Phase 3: Workload-Rollout (3-Tier-App)** | **27,88 s** (28,36 ± 1,35 s) | **27,84 s** (28,71 ± 3,23 s) | $+0,040\text{ s}$ ($[-4,07; +2,75]$) | **$p_{\text{Holm}} = 1,0000$ ($\delta = 0,00$, kein Unterschied)** |
+| **Summe Phase 1 + 3 (Ohne Operator)** | **71,47 s** (71,71 ± 3,25 s) | **70,84 s** (71,23 ± 4,72 s) | $+0,630\text{ s}$ ($[-4,30; +5,68]$) | **$p_{\text{Holm}} = 1,0000$ ($\delta = +0,16$, Differenz Mittel 0,48 s)** |
+| **Gesamtdauer ($t_{\text{total}}$, H3b)** | **161,28 s** (162,43 ± 5,61 s) | **70,84 s** (71,23 ± 4,72 s) | **$+90,435\text{ s}$** ($[+85,55; +96,72]$) | **$p_{\text{Holm}} = 5,41\text{e-}5$ ($\delta = +1,00$, H3b widerlegt)** |
+| **Externe Credential-Transfers (H3a)** | **0 Transfers** | **1 Transfer** (`admin-kubeconfig`) | — | **Kein Export privilegierter Cluster-Keys bei GitOps** |
+
+Von der mittleren Gesamtdifferenz (**91,20 s**) entfallen **90,72 s (99,5 %)** isoliert auf Phase 2 (Operator-Bootstrap); die reine Infrastruktur- und Anwendungsbereitstellung (**Phase 1 + 3: 71,71 s vs. 71,23 s**) unterscheidet sich um lediglich **0,48 s** ($p_{\text{Holm}} = 1,0000$).
+
+![UF3 Disaster Recovery Phasen und Verteilung](benchmark-suite/results/plots/fig4_uf3_disaster_recovery.png)
 
 ---
 
@@ -124,24 +143,27 @@ Die Daten beweisen empirisch: Clusterbau und Workload-Rollout sind in beiden Sys
 ```text
 bachelor-gitops-demo/
 ├── infrastructure/
-│   └── main.tf                        # Ebene 1: Terraform IaC (Kind-Cluster & ArgoCD Helm-Release)
+│   └── main.tf                                   # Ebene 1: Terraform IaC (Kind-Cluster & Argo CD Helm-Release)
 ├── workloads/
-│   ├── argocd-app.yaml                # Ebene 2: Deklarative ArgoCD Application (inkl. Finalizer & Self-Heal)
+│   ├── argocd-app.yaml                           # Ebene 2: Deklarative Argo CD Application (inkl. Finalizer & Self-Heal)
 │   └── base/
-│       └── manifest.yaml              # 3-Tier-Referenzarchitektur (Frontend, Backend-API, Redis-DB)
+│       └── manifest.yaml                         # 3-Tier-Referenzarchitektur (Frontend, Backend-API, Redis-DB)
 ├── benchmark-suite/
-│   ├── drift_catalog.py               # CLI-Tool zum isolierten Auslösen einzelner Drift-Muster (D1-D10)
-│   ├── run_experiment.py              # Automatisierter Benchmark für UF1 (Drift Detection & Recovery)
-│   ├── run_rollback_mttr.py           # Automatisierter Benchmark für UF2 (Release-Rollback & MTTR)
-│   ├── run_disaster_recovery.py       # Automatisierter Benchmark für UF3 (Totalausfall & Re-Initialisierung)
-│   └── evaluate_stats.py              # Berechnet Mann-Whitney-U, Cliff's Delta & generiert alle 6 Grafiken
-├── results/
-│   ├── *.csv                          # Erhobene Rohdaten der Messreihen
-│   ├── *.log                          # Zeitgestempelte Audit-Logs aller Experimentläufe
-│   ├── statistical_summary.txt        # Automatisch generierter Statistik-Bericht
-│   └── plots/                         # Hochauflösende Diagramme (300 DPI)
-├── Makefile                           # Komfort-Befehle für Setup, Benchmarks und Auswertung
-└── README.md                          # Projektdokumentation
+│   ├── run_natural_selfheal.py                   # Benchmark UF1-B: Unberührtes Self-Healing vs. Push (D1-D11)
+│   ├── run_rollback_mttr.py                      # Benchmark UF2: Symmetrisches Release-Rollback & MTTR (ABBA-Design)
+│   ├── run_disaster_recovery.py                  # Benchmark UF3: 3-Phasen-Disaster-Recovery & Zählregeln (ABBA-Design)
+│   ├── evaluate_stats.py                         # Berechnet MWU, Fisher, Holm-Korrektur, Bootstrap-KI & Plots
+│   └── results/
+│       ├── natural_selfheal_measurements.csv     # Rohdaten UF1-B (N = 220)
+│       ├── mttr_measurements_v2.csv              # Rohdaten UF2 (N = 20)
+│       ├── disaster_recovery_measurements_v2.csv # Rohdaten UF3 (N = 20)
+│       ├── *.log                                 # Zeitgestempelte Audit-Logs aller Läufe
+│       ├── statistical_summary_v2.txt            # Vollständiger statistischer Auswertungsbericht
+│       ├── tables/                               # Exportierte Ergebnistabellen (uf1_pattern_table.csv, hypothesis_tests.csv)
+│       └── plots/                                # Generierte Publikationsgrafiken (300 DPI)
+├── requirements.txt                              # Python-Abhängigkeiten für reproduzierbare Auswertung
+├── Makefile                                      # Automatisierte Orchestrierung, Pre-Flight-Checks & Patching
+└── README.md                                     # Projektdokumentation
 ```
 
 ---
@@ -153,20 +175,24 @@ bachelor-gitops-demo/
 
 ### 1. Umgebung initialisieren & Cluster starten
 ```bash
-# Lädt Terraform-Provider und Python-Abhängigkeiten (pandas, scipy, seaborn)
+# Erstellt das Python-venv (.venv), installiert Pakete und initialisiert Terraform
 make init
 
-# Baut den Kubernetes-Cluster via Terraform auf und aktiviert ArgoCD GitOps
+# Baut den Cluster via Terraform auf, wendet den Patch für Bug #21599 an und aktiviert Argo CD
 make up
 ```
 
 ### 2. Experimente & Statistische Auswertung ausführen
 ```bash
-# Einzelne Benchmarks starten:
-make test-drift      # UF1: Drift Detection & Self-Healing (D1-D10)
-make test-mttr       # UF2: Fehlerhaftes Release & Rollback (MTTR)
-make test-dr         # UF3: Disaster Recovery (Terraform Destroy & Apply)
+# Einzelne Benchmarks starten (Standard: RUNS=10; anpassbar via z. B. RUNS=2 für Pilotläufe):
+make test-drift      # UF1-B: Natural Self-Healing & Pruning (D1-D11)
+make reset-state     # Bereinigt eventuelle Rückstände aus D8/D11
+make test-mttr       # UF2: Symmetrisches Release-Rollback & MTTR (ABBA-Design)
+make test-dr         # UF3: 3-Phasen-Disaster-Recovery (Terraform Destroy & Apply)
 
-# Statistische Tests (Mann-Whitney-U / Cliff's Delta) & Grafiken generieren:
+# Statistische Tests (MWU, Fisher, Holm-Bonferroni, Cliff's Delta) & Grafiken generieren:
 make stats
+
+# Oder den gesamten Benchmark-Zyklus am Stück ausführen:
+make benchmark-all
 ```

@@ -180,7 +180,8 @@ bachelor-gitops-demo/
 │       ├── *.log                                 # Zeitgestempelte Audit-Logs aller Läufe
 │       ├── statistical_summary_v2.txt            # Vollständiger statistischer Auswertungsbericht
 │       ├── tables/                               # Exportierte Ergebnistabellen (uf1_pattern_table.csv, hypothesis_tests.csv)
-│       └── plots/                                # Generierte Publikationsgrafiken (300 DPI)
+│       ├── plots/                                # Generierte Publikationsgrafiken (300 DPI)
+│       └── pilot_backoff_investigation/          # Pilotdaten zur Diagnose des Backoff-Bugs #21599
 ├── requirements.txt                              # Python-Abhängigkeiten für reproduzierbare Auswertung
 ├── Makefile                                      # Automatisierte Orchestrierung, Pre-Flight-Checks & Patching
 └── README.md                                     # Projektdokumentation
